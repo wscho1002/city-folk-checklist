@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <meta name="theme-color" content="#eee8d6" />
+  <title>타동숲 컬렉션</title>
+
+  <style>
+    :root {
+      --bg: #eee8d6;
+      --surface: #fffdf7;
+      --surface-2: #f7f3e8;
+      --text: #35332d;
+      --muted: #7d786b;
+      --line: #ddd5c2;
+      --green: #4f9660;
+      --green-dark: #357346;
+      --green-soft: #d5ecd6;
+      --yellow: #f2ca66;
+      --shadow: 0 7px 22px rgba(61, 54, 41, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255,255,255,.72), transparent 28%),
+        var(--bg);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 760px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding-bottom: calc(42px + env(safe-area-inset-bottom));
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .hero {
+      padding:
+        calc(21px + env(safe-area-inset-top))
+        14px
+        13px;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 25px;
+      line-height: 1.2;
+      letter-spacing: -.045em;
+    }
+
+    .hero-description {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .summary-panel {
+      margin: 0 10px 13px;
+      padding: 14px;
+      border: 1px solid rgba(221,213,194,.9);
+      border-radius: 18px;
+      background: rgba(255,253,247,.95);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .summary-label {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .summary-count {
+      margin-top: 3px;
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing: -.045em;
+    }
+
+    .summary-percent {
+      color: var(--green-dark);
+      font-size: 19px;
+      font-weight: 950;
+    }
+
+    .progress-track {
+      height: 10px;
+      margin-top: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e6dfcf;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+      transition: width 180ms ease;
+    }
+
+    .section-title {
+      margin: 0;
+      padding: 3px 12px 9px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 0 9px 24px;
+    }
+
+    .category-card {
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: 0 3px 10px rgba(60,53,39,.08);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .category-card:active {
+      transform: scale(.98);
+    }
+
+    .category-heading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .category-icon {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      flex: none;
+      border-radius: 12px;
+      background: var(--surface-2);
+      place-items: center;
+      font-size: 22px;
+    }
+
+    .category-name {
+      min-width: 0;
+      font-size: 14px;
+      font-weight: 900;
+      word-break: keep-all;
+    }
+
+    .category-count {
+      margin-top: 11px;
+      font-size: 17px;
+      font-weight: 950;
+      letter-spacing: -.035em;
+    }
+
+    .category-percent {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .category-card .progress-track {
+      height: 7px;
+      margin-top: 8px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding:
+        calc(13px + env(safe-area-inset-top))
+        10px
+        10px;
+    }
+
+    .back-button {
+      width: 40px;
+      height: 40px;
+      flex: none;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .category-title-wrap {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .category-title {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 950;
+      letter-spacing: -.04em;
+    }
+
+    .category-subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .category-progress {
+      margin: 0 9px 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+    }
+
+    .category-progress-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .sticky-area {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding:
+        calc(7px + env(safe-area-inset-top))
+        7px
+        8px;
+      border-bottom: 1px solid rgba(221,213,194,.9);
+      background: rgba(238,232,214,.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 84px 78px;
+      gap: 5px;
+    }
+
+    .search-wrap {
+      position: relative;
+      min-width: 0;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-size: 13px;
+    }
+
+    .search-input,
+    .filter-select,
+    .edit-button,
+    .secondary-select {
+      width: 100%;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: rgba(255,253,247,.98);
+    }
+
+    .search-input,
+    .filter-select,
+    .edit-button {
+      height: 41px;
+      border-radius: 12px;
+    }
+
+    .search-input {
+      min-width: 0;
+      padding: 0 8px 0 31px;
+      outline: none;
+      font-size: 11px;
+    }
+
+    .filter-select {
+      padding: 0 4px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .edit-button {
+      border-color: var(--green);
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .edit-button.active {
+      color: white;
+      border-color: var(--green-dark);
+      background: var(--green-dark);
+    }
+
+    .secondary-toolbar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+      margin-top: 5px;
+    }
+
+    .secondary-select {
+      height: 35px;
+      min-width: 0;
+      padding: 0 5px;
+      border-radius: 10px;
+      outline: none;
+      font-size: 9.5px;
+      font-weight: 750;
+    }
+
+    .edit-guide {
+      display: none;
+      margin-top: 6px;
+      padding: 7px 8px;
+      border-radius: 9px;
+      color: #315d3b;
+      background: var(--green-soft);
+      font-size: 10px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .edit-guide.visible {
+      display: block;
+    }
+
+    .result-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 9px 7px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .reset-button {
+      flex: none;
+      padding: 5px 6px;
+      border: 0;
+      color: var(--green-dark);
+      background: transparent;
+      font-size: 10px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+      padding: 0 6px 22px;
+    }
+
+    .item-card {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      padding: 4px 3px 6px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+      box-shadow: 0 2px 6px rgba(60,53,39,.07);
+      cursor: pointer;
+      content-visibility: auto;
+      contain-intrinsic-size: 92px 116px;
+    }
+
+    .item-card:active {
+      transform: scale(.96);
+    }
+
+    .item-card.owned {
+      border-color: #68ae73;
+      background: var(--green-soft);
+    }
+
+    .item-image {
+      position: relative;
+      display: grid;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      place-items: center;
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 35% 27%, #fff, #ece5d4);
+    }
+
+    .item-card.owned .item-image {
+      background:
+        radial-gradient(circle at 35% 27%, #fbfffb, #c7e4c9);
+    }
+
+    .item-photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 3px;
+      object-fit: contain;
+    }
+
+    .item-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      color: var(--muted);
+      font-size: 25px;
+    }
+
+    .item-fallback.visible {
+      display: grid;
+    }
+
+    .item-name {
+      display: -webkit-box;
+      min-height: 26px;
+      margin-top: 4px;
+      overflow: hidden;
+      font-size: 9.5px;
+      font-weight: 850;
+      line-height: 13px;
+      text-align: center;
+      word-break: keep-all;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .check-mark {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      z-index: 3;
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid white;
+      border-radius: 50%;
+      color: white;
+      background: var(--green-dark);
+      box-shadow: 0 2px 5px rgba(0,0,0,.18);
+      place-items: center;
+      font-size: 11px;
+      font-weight: 950;
+    }
+
+    .item-card.owned .check-mark {
+      display: grid;
+    }
+
+    .badge {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      z-index: 3;
+      padding: 2px 4px;
+      border-radius: 6px;
+      color: #564100;
+      background: var(--yellow);
+      font-size: 7px;
+      font-weight: 950;
+    }
+
+    .empty-state,
+    .error-state {
+      display: none;
+      padding: 44px 18px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty-state.visible,
+    .error-state.visible {
+      display: block;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding-top: 35px;
+      background: rgba(36,34,29,.48);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    .overlay.visible {
+      display: flex;
+    }
+
+    .detail-sheet {
+      width: 100%;
+      max-width: 760px;
+      max-height: 91vh;
+      overflow-y: auto;
+      padding:
+        9px
+        14px
+        calc(20px + env(safe-area-inset-bottom));
+      border-radius: 24px 24px 0 0;
+      background: white;
+      box-shadow: 0 -12px 34px rgba(0,0,0,.2);
+    }
+
+    .sheet-handle {
+      width: 42px;
+      height: 5px;
+      margin: 0 auto 7px;
+      border-radius: 999px;
+      background: #d3cfc5;
+    }
+
+    .detail-close-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .close-button {
+      width: 35px;
+      height: 35px;
+      border: 0;
+      border-radius: 50%;
+      background: #efede7;
+      font-size: 18px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .detail-image {
+      display: grid;
+      width: 155px;
+      aspect-ratio: 1 / 1;
+      margin: -2px auto 0;
+      overflow: hidden;
+      place-items: center;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 35% 27%, #fff, #ece5d4);
+    }
+
+    .detail-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      object-fit: contain;
+    }
+
+    .detail-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      color: var(--muted);
+      font-size: 58px;
+    }
+
+    .detail-fallback.visible {
+      display: grid;
+    }
+
+    .detail-name {
+      margin: 12px 0 2px;
+      font-size: 22px;
+      font-weight: 950;
+      text-align: center;
+      letter-spacing: -.045em;
+    }
+
+    .detail-subname,
+    .detail-japanese {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .detail-japanese {
+      margin-top: 3px;
+      margin-bottom: 14px;
+    }
+
+    .detail-table {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 105px minmax(0, 1fr);
+      min-height: 42px;
+      border-bottom: 1px solid #eae5d9;
+    }
+
+    .detail-row:last-child {
+      border-bottom: 0;
+    }
+
+    .detail-label,
+    .detail-value {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .detail-label {
+      color: var(--muted);
+      background: var(--surface-2);
+      font-weight: 750;
+    }
+
+    .detail-value {
+      overflow-wrap: anywhere;
+      font-weight: 750;
+    }
+
+    .detail-owned-button {
+      width: 100%;
+      height: 48px;
+      margin-top: 12px;
+      border: 1px solid var(--green);
+      border-radius: 14px;
+      color: var(--green-dark);
+      background: white;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .detail-owned-button.active {
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      z-index: 130;
+      pointer-events: none;
+      transform: translate(-50%, 12px);
+      opacity: 0;
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(47,45,39,.94);
+      font-size: 11px;
+      font-weight: 800;
+      transition:
+        opacity 130ms ease,
+        transform 130ms ease;
+    }
+
+    .toast.visible {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    @media (min-width: 600px) {
+      .category-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .item-grid {
+        gap: 8px;
+        padding-right: 10px;
+        padding-left: 10px;
+      }
+
+      .item-card {
+        padding: 7px;
+      }
+
+      .item-name {
+        font-size: 12px;
+        line-height: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <section id="homeView">
+      <header class="hero">
+        <p class="eyebrow">CITY FOLK COLLECTION</p>
+        <h1>타동숲 컬렉션</h1>
+        <p class="hero-description">
+          타운으로 놀러가요 동물의 숲 모든 아이템 수집 기록
+        </p>
+      </header>
+
+      <section class="summary-panel">
+        <div class="summary-top">
+          <div>
+            <p class="summary-label">전체 아이템 진행률</p>
+            <div class="summary-count">
+              <span id="homeOwnedCount">0</span>
+              <span>/</span>
+              <span id="homeTotalCount">0</span>
+            </div>
+          </div>
+          <div id="homePercent" class="summary-percent">0%</div>
+        </div>
+
+        <div class="progress-track">
+          <div id="homeProgressBar" class="progress-bar"></div>
+        </div>
+      </section>
+
+      <h2 class="section-title">수집 카테고리</h2>
+      <section id="categoryGrid" class="category-grid"></section>
+    </section>
+
+    <section id="categoryView" class="hidden">
+      <header class="category-header">
+        <button id="backButton" class="back-button" type="button">‹</button>
+
+        <div class="category-title-wrap">
+          <h1 id="categoryTitle" class="category-title"></h1>
+          <p id="categorySubtitle" class="category-subtitle"></p>
+        </div>
+      </header>
+
+      <section class="category-progress">
+        <div class="category-progress-line">
+          <span id="categoryProgressCount">0 / 0</span>
+          <span id="categoryProgressPercent">0%</span>
+        </div>
+
+        <div class="progress-track">
+          <div id="categoryProgressBar" class="progress-bar"></div>
+        </div>
+      </section>
+
+      <section class="sticky-area">
+        <div class="toolbar">
+          <label class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input
+              id="searchInput"
+              class="search-input"
+              type="search"
+              placeholder="한글·영어·일본어 검색"
+              autocomplete="off"
+            />
+          </label>
+
+          <select id="statusFilter" class="filter-select" aria-label="상태 필터">
+            <option value="all">전체</option>
+            <option value="owned">보유</option>
+            <option value="unowned">미보유</option>
+          </select>
+
+          <button id="editButton" class="edit-button" type="button">
+            편집
+          </button>
+        </div>
+
+        <div class="secondary-toolbar">
+          <select id="sourceFilter" class="secondary-select" aria-label="입수처 필터">
+            <option value="all">모든 입수처</option>
+          </select>
+
+          <select id="groupFilter" class="secondary-select" aria-label="분류 필터">
+            <option value="all">모든 분류</option>
+          </select>
+
+          <select id="sortSelect" class="secondary-select" aria-label="정렬">
+            <option value="number">도감 순서</option>
+            <option value="ko">한글 이름순</option>
+            <option value="price-low">가격 낮은순</option>
+            <option value="price-high">가격 높은순</option>
+            <option value="unowned-first">미보유 우선</option>
+          </select>
+        </div>
+
+        <div id="editGuide" class="edit-guide">
+          편집 중 · 아이템을 눌러 보유 여부를 변경하세요
+        </div>
+      </section>
+
+      <div class="result-info">
+        <span id="resultCount">0개 표시</span>
+        <button id="resetButton" class="reset-button" type="button">
+          검색·필터 초기화
+        </button>
+      </div>
+
+      <section id="itemGrid" class="item-grid"></section>
+
+      <div id="emptyState" class="empty-state">
+        조건에 맞는 아이템이 없습니다.
+      </div>
+    </section>
+
+    <div id="errorState" class="error-state">
+      DB를 불러오지 못했습니다. data/catalog.js 파일을 확인하세요.
+    </div>
+  </main>
+
+  <div id="detailOverlay" class="overlay" aria-hidden="true">
+    <section class="detail-sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+
+      <div class="detail-close-row">
+        <button
+          id="closeDetailButton"
+          class="close-button"
+          type="button"
+          aria-label="상세정보 닫기"
+        >
+          ×
+        </button>
+      </div>
+
+      <div id="detailImage" class="detail-image"></div>
+
+      <h2 id="detailName" class="detail-name"></h2>
+      <p id="detailEnglishName" class="detail-subname"></p>
+      <p id="detailJapaneseName" class="detail-japanese"></p>
+
+      <div id="detailTable" class="detail-table"></div>
+
+      <button
+        id="detailOwnedButton"
+        class="detail-owned-button"
+        type="button"
+      >
+        보유로 체크
+      </button>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./data/catalog.js?v=2"></script>
+
+  <script>
+    const catalog = window.CITY_FOLK_CATALOG;
+    const categories = Array.isArray(catalog?.categories)
+      ? catalog.categories
+      : [];
+
+    const storageKey = "city-folk-collection-v1";
+    const oldFurnitureStorageKey = "city-folk-owned-items-v3";
+
+    let state = loadState();
+    let currentCategory = null;
+    let selectedItem = null;
+    let editMode = false;
+    let toastTimer = null;
+
+    const homeView = document.getElementById("homeView");
+    const categoryView = document.getElementById("categoryView");
+    const errorState = document.getElementById("errorState");
+
+    const homeOwnedCount = document.getElementById("homeOwnedCount");
+    const homeTotalCount = document.getElementById("homeTotalCount");
+    const homePercent = document.getElementById("homePercent");
+    const homeProgressBar = document.getElementById("homeProgressBar");
+    const categoryGrid = document.getElementById("categoryGrid");
+
+    const backButton = document.getElementById("backButton");
+    const categoryTitle = document.getElementById("categoryTitle");
+    const categorySubtitle = document.getElementById("categorySubtitle");
+    const categoryProgressCount = document.getElementById("categoryProgressCount");
+    const categoryProgressPercent = document.getElementById("categoryProgressPercent");
+    const categoryProgressBar = document.getElementById("categoryProgressBar");
+
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const sourceFilter = document.getElementById("sourceFilter");
+    const groupFilter = document.getElementById("groupFilter");
+    const sortSelect = document.getElementById("sortSelect");
+    const editButton = document.getElementById("editButton");
+    const editGuide = document.getElementById("editGuide");
+    const resetButton = document.getElementById("resetButton");
+    const resultCount = document.getElementById("resultCount");
+    const itemGrid = document.getElementById("itemGrid");
+    const emptyState = document.getElementById("emptyState");
+
+    const detailOverlay = document.getElementById("detailOverlay");
+    const closeDetailButton = document.getElementById("closeDetailButton");
+    const detailImage = document.getElementById("detailImage");
+    const detailName = document.getElementById("detailName");
+    const detailEnglishName = document.getElementById("detailEnglishName");
+    const detailJapaneseName = document.getElementById("detailJapaneseName");
+    const detailTable = document.getElementById("detailTable");
+    const detailOwnedButton = document.getElementById("detailOwnedButton");
+    const toast = document.getElementById("toast");
+
+    function loadState() {
+      let loaded = { owned: {} };
+
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        if (saved && typeof saved === "object") {
+          loaded = saved;
+        }
+      } catch {}
+
+      if (!loaded.owned || typeof loaded.owned !== "object") {
+        loaded.owned = {};
+      }
+
+      try {
+        const oldFurniture = JSON.parse(
+          localStorage.getItem(oldFurnitureStorageKey)
+        );
+
+        if (
+          Array.isArray(oldFurniture) &&
+          !Array.isArray(loaded.owned.furniture)
+        ) {
+          loaded.owned.furniture = oldFurniture;
+        }
+      } catch {}
+
+      return loaded;
+    }
+
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    }
+
+    function ownedSet(categoryId) {
+      if (!Array.isArray(state.owned[categoryId])) {
+        state.owned[categoryId] = [];
+      }
+
+      return new Set(state.owned[categoryId]);
+    }
+
+    function isOwned(categoryId, itemId) {
+      return Array.isArray(state.owned[categoryId]) &&
+        state.owned[categoryId].includes(itemId);
+    }
+
+    function setOwned(categoryId, itemId, owned) {
+      const set = ownedSet(categoryId);
+
+      if (owned) {
+        set.add(itemId);
+      } else {
+        set.delete(itemId);
+      }
+
+      state.owned[categoryId] = [...set];
+      saveState();
+    }
+
+    function safeText(value, fallback = "정보 없음") {
+      if (
+        value === null ||
+        value === undefined ||
+        value === "" ||
+        value === "-"
+      ) {
+        return fallback;
+      }
+      return String(value);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function percent(owned, total) {
+      return total === 0
+        ? 0
+        : Math.round((owned / total) * 1000) / 10;
+    }
+
+    function categoryOwnedCount(category) {
+      return category.items.reduce(
+        (count, item) =>
+          count + Number(isOwned(category.id, item.id)),
+        0
+      );
+    }
+
+    function totalCounts() {
+      let owned = 0;
+      let total = 0;
+
+      categories.forEach((category) => {
+        owned += categoryOwnedCount(category);
+        total += category.items.length;
+      });
+
+      return { owned, total };
+    }
+
+    function renderHome() {
+      const counts = totalCounts();
+      const completion = percent(counts.owned, counts.total);
+
+      homeOwnedCount.textContent = counts.owned.toLocaleString("ko-KR");
+      homeTotalCount.textContent = counts.total.toLocaleString("ko-KR");
+      homePercent.textContent = `${completion}%`;
+      homeProgressBar.style.width = `${completion}%`;
+
+      categoryGrid.innerHTML = "";
+      const fragment = document.createDocumentFragment();
+
+      categories.forEach((category) => {
+        const owned = categoryOwnedCount(category);
+        const total = category.items.length;
+        const completion = percent(owned, total);
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "category-card";
+
+        button.innerHTML = `
+          <div class="category-heading">
+            <div class="category-icon">${category.icon}</div>
+            <div class="category-name">${escapeHtml(category.nameKo)}</div>
+          </div>
+
+          <div class="category-count">
+            ${owned.toLocaleString("ko-KR")}
+            /
+            ${total.toLocaleString("ko-KR")}
+          </div>
+
+          <div class="category-percent">${completion}% 완료</div>
+
+          <div class="progress-track">
+            <div
+              class="progress-bar"
+              style="width:${completion}%"
+            ></div>
+          </div>
+        `;
+
+        button.addEventListener("click", () => {
+          location.hash = category.id;
+        });
+
+        fragment.appendChild(button);
+      });
+
+      categoryGrid.appendChild(fragment);
+    }
+
+    function route() {
+      if (categories.length === 0) {
+        homeView.classList.add("hidden");
+        categoryView.classList.add("hidden");
+        errorState.classList.add("visible");
+        return;
+      }
+
+      errorState.classList.remove("visible");
+
+      const categoryId = decodeURIComponent(
+        location.hash.replace(/^#/, "")
+      );
+
+      const category = categories.find(
+        (entry) => entry.id === categoryId
+      );
+
+      if (!category) {
+        currentCategory = null;
+        homeView.classList.remove("hidden");
+        categoryView.classList.add("hidden");
+        setEditMode(false);
+        renderHome();
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      currentCategory = category;
+      homeView.classList.add("hidden");
+      categoryView.classList.remove("hidden");
+      resetFilters(false);
+      prepareCategoryFilters();
+      renderCategory();
+      window.scrollTo(0, 0);
+    }
+
+    function prepareCategoryFilters() {
+      sourceFilter.innerHTML = '<option value="all">모든 입수처</option>';
+      groupFilter.innerHTML = `<option value="all">모든 ${escapeHtml(
+        currentCategory.groupLabel || "분류"
+      )}</option>`;
+
+      const sources = [...new Set(
+        currentCategory.items
+          .map((item) => item.source)
+          .filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b, "en"));
+
+      const groups = [...new Set(
+        currentCategory.items
+          .map((item) => item.group)
+          .filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b, "ko"));
+
+      sources.forEach((source) => {
+        const option = document.createElement("option");
+        option.value = source;
+        option.textContent = source;
+        sourceFilter.appendChild(option);
+      });
+
+      groups.forEach((group) => {
+        const option = document.createElement("option");
+        option.value = group;
+        option.textContent = group;
+        groupFilter.appendChild(option);
+      });
+    }
+
+    function matchesSearch(item, keyword) {
+      const text = [
+        item.nameKo,
+        item.nameEn,
+        item.nameJa,
+        item.source,
+        item.sourceGroup,
+        item.group,
+        ...Object.values(item.details || {})
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return text.includes(keyword);
+    }
+
+    function filteredItems() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const status = statusFilter.value;
+      const source = sourceFilter.value;
+      const group = groupFilter.value;
+
+      const items = currentCategory.items.filter((item) => {
+        if (keyword && !matchesSearch(item, keyword)) {
+          return false;
+        }
+
+        if (
+          status === "owned" &&
+          !isOwned(currentCategory.id, item.id)
+        ) {
+          return false;
+        }
+
+        if (
+          status === "unowned" &&
+          isOwned(currentCategory.id, item.id)
+        ) {
+          return false;
+        }
+
+        if (source !== "all" && item.source !== source) {
+          return false;
+        }
+
+        if (group !== "all" && item.group !== group) {
+          return false;
+        }
+
+        return true;
+      });
+
+      const sort = sortSelect.value;
+
+      items.sort((a, b) => {
+        if (sort === "ko") {
+          return safeText(a.nameKo, a.nameEn).localeCompare(
+            safeText(b.nameKo, b.nameEn),
+            "ko"
+          );
+        }
+
+        if (sort === "price-low") {
+          return (a.buyPrice ?? Number.MAX_SAFE_INTEGER) -
+            (b.buyPrice ?? Number.MAX_SAFE_INTEGER);
+        }
+
+        if (sort === "price-high") {
+          return (b.buyPrice ?? -1) - (a.buyPrice ?? -1);
+        }
+
+        if (sort === "unowned-first") {
+          const difference =
+            Number(isOwned(currentCategory.id, a.id)) -
+            Number(isOwned(currentCategory.id, b.id));
+
+          if (difference !== 0) {
+            return difference;
+          }
+        }
+
+        const aNumber = Number(a.number);
+        const bNumber = Number(b.number);
+
+        if (Number.isFinite(aNumber) && Number.isFinite(bNumber)) {
+          return aNumber - bNumber;
+        }
+
+        return safeText(a.nameEn).localeCompare(
+          safeText(b.nameEn),
+          "en"
+        );
+      });
+
+      return items;
+    }
+
+    function createItemCard(item) {
+      const button = document.createElement("button");
+      const owned = isOwned(currentCategory.id, item.id);
+
+      button.type = "button";
+      button.className = `item-card${owned ? " owned" : ""}`;
+      button.setAttribute(
+        "aria-label",
+        safeText(item.nameKo, item.nameEn)
+      );
+
+      const imageHtml = item.image
+        ? `
+          <img
+            class="item-photo"
+            src="${escapeHtml(item.image)}"
+            alt="${escapeHtml(safeText(item.nameKo, item.nameEn))}"
+            loading="lazy"
+          />
+          <span class="item-fallback">${currentCategory.icon}</span>
+        `
+        : `
+          <span class="item-fallback visible">
+            ${currentCategory.icon}
+          </span>
+        `;
+
+      button.innerHTML = `
+        ${item.dlc === true ? '<span class="badge">DLC</span>' : ""}
+        <span class="check-mark">✓</span>
+
+        <div class="item-image">
+          ${imageHtml}
+        </div>
+
+        <div class="item-name">
+          ${escapeHtml(safeText(item.nameKo, item.nameEn))}
+        </div>
+      `;
+
+      const image = button.querySelector(".item-photo");
+      if (image) {
+        image.addEventListener("error", () => {
+          image.style.display = "none";
+          const fallback = button.querySelector(".item-fallback");
+          if (fallback) fallback.classList.add("visible");
+        });
+      }
+
+      button.addEventListener("click", () => {
+        if (editMode) {
+          toggleOwned(item);
+          return;
+        }
+
+        openDetail(item);
+      });
+
+      return button;
+    }
+
+    function renderCategory() {
+      categoryTitle.textContent =
+        `${currentCategory.icon} ${currentCategory.nameKo}`;
+      categorySubtitle.textContent =
+        `${currentCategory.items.length.toLocaleString("ko-KR")}개 항목`;
+
+      const owned = categoryOwnedCount(currentCategory);
+      const total = currentCategory.items.length;
+      const completion = percent(owned, total);
+
+      categoryProgressCount.textContent =
+        `${owned.toLocaleString("ko-KR")} / ${total.toLocaleString("ko-KR")}`;
+      categoryProgressPercent.textContent = `${completion}%`;
+      categoryProgressBar.style.width = `${completion}%`;
+
+      const items = filteredItems();
+      itemGrid.innerHTML = "";
+
+      const fragment = document.createDocumentFragment();
+      items.forEach((item) => {
+        fragment.appendChild(createItemCard(item));
+      });
+      itemGrid.appendChild(fragment);
+
+      resultCount.textContent =
+        `전체 ${total.toLocaleString("ko-KR")}개 중 ` +
+        `${items.length.toLocaleString("ko-KR")}개 표시`;
+
+      emptyState.classList.toggle("visible", items.length === 0);
+    }
+
+    function toggleOwned(item) {
+      const willOwn = !isOwned(currentCategory.id, item.id);
+      setOwned(currentCategory.id, item.id, willOwn);
+      renderCategory();
+
+      if (selectedItem && selectedItem.id === item.id) {
+        updateDetailButton();
+      }
+
+      showToast(
+        willOwn
+          ? `${safeText(item.nameKo, item.nameEn)} 보유 체크`
+          : `${safeText(item.nameKo, item.nameEn)} 체크 해제`
+      );
+    }
+
+    function setEditMode(enabled) {
+      editMode = enabled;
+      editButton.classList.toggle("active", editMode);
+      editGuide.classList.toggle("visible", editMode);
+      editButton.textContent = editMode ? "✓ 편집 중" : "편집";
+    }
+
+    function createDetailRow(label, value) {
+      return `
+        <div class="detail-row">
+          <div class="detail-label">${escapeHtml(label)}</div>
+          <div class="detail-value">${escapeHtml(safeText(value))}</div>
+        </div>
+      `;
+    }
+
+    function openDetail(item) {
+      selectedItem = item;
+
+      detailImage.innerHTML = item.image
+        ? `
+          <img
+            id="detailPhoto"
+            src="${escapeHtml(item.image)}"
+            alt="${escapeHtml(safeText(item.nameKo, item.nameEn))}"
+          />
+          <span class="detail-fallback">${currentCategory.icon}</span>
+        `
+        : `
+          <span class="detail-fallback visible">
+            ${currentCategory.icon}
+          </span>
+        `;
+
+      const photo = document.getElementById("detailPhoto");
+      if (photo) {
+        photo.addEventListener("error", () => {
+          photo.style.display = "none";
+          const fallback = detailImage.querySelector(".detail-fallback");
+          if (fallback) fallback.classList.add("visible");
+        });
+      }
+
+      detailName.textContent = safeText(item.nameKo, item.nameEn);
+      detailEnglishName.textContent = safeText(item.nameEn, "");
+      detailJapaneseName.textContent = safeText(item.nameJa, "");
+
+      detailTable.innerHTML = Object.entries(item.details || {})
+        .map(([label, value]) => createDetailRow(label, value))
+        .join("");
+
+      updateDetailButton();
+
+      detailOverlay.classList.add("visible");
+      detailOverlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDetail() {
+      detailOverlay.classList.remove("visible");
+      detailOverlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      selectedItem = null;
+    }
+
+    function updateDetailButton() {
+      if (!selectedItem || !currentCategory) return;
+
+      const owned = isOwned(currentCategory.id, selectedItem.id);
+      detailOwnedButton.classList.toggle("active", owned);
+      detailOwnedButton.textContent = owned
+        ? "✓ 보유 중"
+        : "보유로 체크";
+    }
+
+    function resetFilters(render = true) {
+      searchInput.value = "";
+      statusFilter.value = "all";
+      sourceFilter.value = "all";
+      groupFilter.value = "all";
+      sortSelect.value = "number";
+
+      if (render && currentCategory) {
+        renderCategory();
+      }
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("visible");
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("visible");
+      }, 1200);
+    }
+
+    backButton.addEventListener("click", () => {
+      location.hash = "";
+    });
+
+    searchInput.addEventListener("input", renderCategory);
+    statusFilter.addEventListener("change", renderCategory);
+    sourceFilter.addEventListener("change", renderCategory);
+    groupFilter.addEventListener("change", renderCategory);
+    sortSelect.addEventListener("change", renderCategory);
+
+    editButton.addEventListener("click", () => {
+      setEditMode(!editMode);
+    });
+
+    resetButton.addEventListener("click", () => {
+      resetFilters(true);
+    });
+
+    closeDetailButton.addEventListener("click", closeDetail);
+
+    detailOverlay.addEventListener("click", (event) => {
+      if (event.target === detailOverlay) {
+        closeDetail();
+      }
+    });
+
+    detailOwnedButton.addEventListener("click", () => {
+      if (selectedItem) {
+        toggleOwned(selectedItem);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeDetail();
+      }
+    });
+
+    window.addEventListener("hashchange", route);
+    route();
+  </script>
+</body>
+</html>
