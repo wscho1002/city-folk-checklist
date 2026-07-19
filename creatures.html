@@ -795,6 +795,232 @@
       opacity: 1;
     }
 
+
+    .planner-panel {
+      margin: 0 9px 9px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .planner-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 9px;
+      margin-bottom: 9px;
+    }
+
+    .planner-title {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .planner-description {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.45;
+    }
+
+    .planner-count {
+      flex: none;
+      padding: 5px 7px;
+      border-radius: 999px;
+      color: var(--green-dark);
+      background: var(--green-soft);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .planner-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .planner-card {
+      display: grid;
+      grid-template-columns: 45px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      padding: 7px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface-2);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .planner-card:active {
+      transform: scale(.985);
+    }
+
+    .planner-image {
+      display: grid;
+      width: 45px;
+      height: 45px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: white;
+      place-items: center;
+      font-size: 22px;
+    }
+
+    .planner-image img {
+      width: 100%;
+      height: 100%;
+      padding: 3px;
+      object-fit: contain;
+    }
+
+    .planner-main {
+      min-width: 0;
+    }
+
+    .planner-name {
+      overflow: hidden;
+      font-size: 11px;
+      font-weight: 900;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .planner-meta {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 8px;
+      line-height: 1.35;
+    }
+
+    .planner-time {
+      max-width: 83px;
+      color: var(--orange);
+      font-size: 8px;
+      font-weight: 900;
+      line-height: 1.35;
+      text-align: right;
+    }
+
+    .planner-empty {
+      padding: 15px 8px;
+      color: var(--muted);
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .detail-visual-section {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface-2);
+    }
+
+    .detail-visual-title {
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .hour-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 3px;
+    }
+
+    .hour-cell {
+      position: relative;
+      min-width: 0;
+      height: 28px;
+      overflow: hidden;
+      border: 1px solid #d8d3c7;
+      border-radius: 5px;
+      color: var(--muted);
+      background: white;
+      font-size: 6px;
+      font-weight: 850;
+      text-align: center;
+      line-height: 27px;
+    }
+
+    .hour-cell.active {
+      color: white;
+      border-color: var(--green);
+      background: var(--green);
+    }
+
+    .hour-cell.current::after {
+      position: absolute;
+      right: 2px;
+      bottom: 2px;
+      width: 5px;
+      height: 5px;
+      border: 1px solid white;
+      border-radius: 50%;
+      background: var(--orange);
+      content: "";
+    }
+
+    .hour-label-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 8px;
+    }
+
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .month-cell {
+      min-width: 0;
+      min-height: 31px;
+      padding: 5px 2px;
+      border: 1px solid #d8d3c7;
+      border-radius: 7px;
+      color: var(--muted);
+      background: white;
+      font-size: 8px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .month-cell.active {
+      color: white;
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
+    .month-cell.current {
+      box-shadow: inset 0 0 0 2px var(--orange);
+    }
+
+    .detail-timing-summary {
+      display: grid;
+      gap: 6px;
+      margin-top: 9px;
+    }
+
+    .timing-summary-row {
+      padding: 8px 9px;
+      border-radius: 9px;
+      color: var(--text);
+      background: white;
+      font-size: 9px;
+      line-height: 1.45;
+    }
+
+    .timing-summary-row strong {
+      color: var(--green-dark);
+    }
+
     @media (min-width: 600px) {
       .item-grid {
         gap: 8px;
@@ -899,6 +1125,21 @@
       <div id="selectedTimeSummary" class="selected-time-summary"></div>
     </section>
 
+    <section class="planner-panel">
+      <div class="planner-heading">
+        <div>
+          <h2 class="planner-title">지금 노릴 미획득 생물</h2>
+          <p class="planner-description">
+            선택한 시각에 출현하며 아직 잡지 않은 생물을 종료가 가까운 순서로 보여줍니다.
+          </p>
+        </div>
+
+        <span id="plannerCount" class="planner-count">0종</span>
+      </div>
+
+      <div id="plannerList" class="planner-list"></div>
+    </section>
+
     <section class="sticky-area">
       <div class="toolbar">
         <label class="search-wrap">
@@ -985,6 +1226,22 @@
       <div id="detailAvailability" class="availability-status"></div>
       <div id="detailTable" class="detail-table"></div>
 
+      <section class="detail-visual-section">
+        <h3 class="detail-visual-title">선택한 날짜의 24시간 출현표</h3>
+        <div id="detailHourGrid" class="hour-grid"></div>
+
+        <div class="hour-label-row">
+          <span>0시부터 11시</span>
+          <span style="text-align:right">12시부터 23시</span>
+        </div>
+      </section>
+
+      <section class="detail-visual-section">
+        <h3 class="detail-visual-title">12개월 출현 달력</h3>
+        <div id="detailMonthGrid" class="month-grid"></div>
+        <div id="detailTimingSummary" class="detail-timing-summary"></div>
+      </section>
+
       <div class="detail-actions">
         <button id="detailCaughtButton" class="detail-action caught" type="button">
           잡아봄
@@ -999,7 +1256,7 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="./data/creatures.js?v=1"></script>
+  <script src="./data/creatures.js?v=2"></script>
 
   <script>
     const creatureCatalog = window.CITY_FOLK_CREATURES;
@@ -1031,6 +1288,8 @@
     const availabilityFilter = document.getElementById("availabilityFilter");
     const weatherSelect = document.getElementById("weatherSelect");
     const selectedTimeSummary = document.getElementById("selectedTimeSummary");
+    const plannerCount = document.getElementById("plannerCount");
+    const plannerList = document.getElementById("plannerList");
 
     const searchInput = document.getElementById("searchInput");
     const stateFilter = document.getElementById("stateFilter");
@@ -1054,6 +1313,9 @@
     const detailJapaneseName = document.getElementById("detailJapaneseName");
     const detailAvailability = document.getElementById("detailAvailability");
     const detailTable = document.getElementById("detailTable");
+    const detailHourGrid = document.getElementById("detailHourGrid");
+    const detailMonthGrid = document.getElementById("detailMonthGrid");
+    const detailTimingSummary = document.getElementById("detailTimingSummary");
     const detailCaughtButton = document.getElementById("detailCaughtButton");
     const detailDonatedButton = document.getElementById("detailDonatedButton");
     const toast = document.getElementById("toast");
@@ -1298,6 +1560,117 @@
       return Number.isFinite(value)
         ? `${value.toLocaleString("ko-KR")}벨`
         : "정보 없음";
+    }
+
+    function cloneDate(date) {
+      return new Date(date.getTime());
+    }
+
+    function findAvailabilityTransition(
+      item,
+      fromDate,
+      targetAvailable,
+      maxMinutes
+    ) {
+      const startState = isAvailable(item, fromDate);
+
+      if (startState === targetAvailable) {
+        return cloneDate(fromDate);
+      }
+
+      const stepMinutes = 15;
+      let previous = cloneDate(fromDate);
+
+      for (
+        let elapsed = stepMinutes;
+        elapsed <= maxMinutes;
+        elapsed += stepMinutes
+      ) {
+        const probe = new Date(
+          fromDate.getTime() + elapsed * 60000
+        );
+
+        if (isAvailable(item, probe) === targetAvailable) {
+          let low = previous.getTime();
+          let high = probe.getTime();
+
+          while (high - low > 60000) {
+            const middle = low + Math.floor((high - low) / 120000) * 60000;
+            const middleDate = new Date(middle);
+
+            if (isAvailable(item, middleDate) === targetAvailable) {
+              high = middle;
+            } else {
+              low = middle + 60000;
+            }
+          }
+
+          return new Date(high);
+        }
+
+        previous = probe;
+      }
+
+      return null;
+    }
+
+    function formatDuration(fromDate, toDate) {
+      if (!toDate) return "계산 범위 밖";
+
+      let minutes = Math.max(
+        0,
+        Math.round((toDate.getTime() - fromDate.getTime()) / 60000)
+      );
+
+      const days = Math.floor(minutes / 1440);
+      minutes %= 1440;
+
+      const hours = Math.floor(minutes / 60);
+      minutes %= 60;
+
+      const parts = [];
+
+      if (days > 0) parts.push(`${days}일`);
+      if (hours > 0) parts.push(`${hours}시간`);
+      if (minutes > 0 || parts.length === 0) {
+        parts.push(`${minutes}분`);
+      }
+
+      return parts.join(" ");
+    }
+
+    function formatDateTimeCompact(date) {
+      if (!date) return "다음 출현 시각을 찾지 못함";
+
+      return new Intl.DateTimeFormat("ko-KR", {
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }).format(date);
+    }
+
+    function endTimeForItem(item, date = selectedDate()) {
+      if (!isAvailable(item, date)) return null;
+
+      return findAvailabilityTransition(
+        item,
+        date,
+        false,
+        60 * 48
+      );
+    }
+
+    function nextStartForItem(item, date = selectedDate()) {
+      if (isAvailable(item, date)) return date;
+
+      return findAvailabilityTransition(
+        item,
+        date,
+        true,
+        60 * 24 * 370
+      );
     }
 
     function selectedDateText() {
@@ -1613,6 +1986,102 @@
       return button;
     }
 
+    function plannerItems() {
+      const date = selectedDate();
+
+      return currentCategory.items
+        .filter(
+          (item) =>
+            !hasState("caught", item.id) &&
+            isAvailable(item, date)
+        )
+        .map((item) => {
+          const endTime = endTimeForItem(item, date);
+
+          return {
+            item,
+            endTime,
+            remainingMinutes: endTime
+              ? Math.round(
+                  (endTime.getTime() - date.getTime()) / 60000
+                )
+              : Number.MAX_SAFE_INTEGER
+          };
+        })
+        .sort((a, b) => {
+          if (a.remainingMinutes !== b.remainingMinutes) {
+            return a.remainingMinutes - b.remainingMinutes;
+          }
+
+          return (b.item.sellPrice || 0) - (a.item.sellPrice || 0);
+        });
+    }
+
+    function renderPlanner() {
+      const date = selectedDate();
+      const entries = plannerItems();
+
+      plannerCount.textContent =
+        `${entries.length.toLocaleString("ko-KR")}종`;
+      plannerList.innerHTML = "";
+
+      if (entries.length === 0) {
+        plannerList.innerHTML = `
+          <div class="planner-empty">
+            선택한 시각에 출현하는 미획득 생물이 없습니다.
+          </div>
+        `;
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      entries.slice(0, 8).forEach(({ item, endTime }) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "planner-card";
+
+        const imageSource = item.icon || item.image;
+
+        button.innerHTML = `
+          <span class="planner-image">
+            ${
+              imageSource
+                ? `<img src="${escapeHtml(imageSource)}" alt="" loading="lazy" />`
+                : currentCategory.icon
+            }
+          </span>
+
+          <span class="planner-main">
+            <span class="planner-name">
+              ${escapeHtml(item.nameKo)}
+            </span>
+
+            <span class="planner-meta">
+              ${escapeHtml(item.locationKo)} ·
+              ${escapeHtml(formatPrice(item.sellPrice))}
+            </span>
+          </span>
+
+          <span class="planner-time">
+            ${
+              endTime
+                ? `${escapeHtml(formatDuration(date, endTime))} 후 종료`
+                : "48시간 이상 출현"
+            }
+          </span>
+        `;
+
+        button.addEventListener("click", () => {
+          openDetail(item);
+        });
+
+        fragment.appendChild(button);
+      });
+
+      plannerList.appendChild(fragment);
+    }
+
     function render() {
       if (!currentCategory) return;
 
@@ -1632,6 +2101,8 @@
       selectedTimeSummary.textContent =
         `${selectedDateText()} · 출현 가능 ${currentCounts.available}종`;
 
+      renderPlanner();
+
       const items = filteredItems();
       itemGrid.innerHTML = "";
 
@@ -1648,6 +2119,9 @@
       emptyState.classList.toggle("visible", items.length === 0);
 
       if (selectedItem) {
+        renderHourGrid(selectedItem);
+        renderMonthGrid(selectedItem);
+        renderTimingSummary(selectedItem);
         updateDetailAvailability(selectedItem);
         updateDetailButtons();
       }
@@ -1698,6 +2172,114 @@
           <div class="detail-value">${escapeHtml(safeText(value))}</div>
         </div>
       `;
+    }
+
+    function renderHourGrid(item) {
+      detailHourGrid.innerHTML = "";
+
+      const date = selectedDate();
+      const selectedHour = date.getHours();
+      const fragment = document.createDocumentFragment();
+
+      for (let hour = 0; hour < 24; hour += 1) {
+        const probe = new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          hour,
+          30,
+          0,
+          0
+        );
+
+        const cell = document.createElement("div");
+        cell.className =
+          `hour-cell${isAvailable(item, probe) ? " active" : ""}` +
+          `${hour === selectedHour ? " current" : ""}`;
+        cell.textContent = hour;
+        fragment.appendChild(cell);
+      }
+
+      detailHourGrid.appendChild(fragment);
+    }
+
+    function renderMonthGrid(item) {
+      detailMonthGrid.innerHTML = "";
+
+      const date = selectedDate();
+      const selectedMonth = date.getMonth() + 1;
+      const fragment = document.createDocumentFragment();
+
+      for (let month = 1; month <= 12; month += 1) {
+        const active = availableInMonth(item, month, 15);
+        const cell = document.createElement("div");
+        cell.className =
+          `month-cell${active ? " active" : ""}` +
+          `${month === selectedMonth ? " current" : ""}`;
+        cell.textContent = `${month}월`;
+        fragment.appendChild(cell);
+      }
+
+      detailMonthGrid.appendChild(fragment);
+    }
+
+    function renderTimingSummary(item) {
+      const date = selectedDate();
+      const available = isAvailable(item, date);
+      const endTime = available
+        ? endTimeForItem(item, date)
+        : null;
+      const nextTime = available
+        ? null
+        : nextStartForItem(item, date);
+
+      const lines = [];
+
+      if (available) {
+        lines.push(`
+          <div class="timing-summary-row">
+            <strong>출현 종료:</strong>
+            ${
+              endTime
+                ? `${escapeHtml(formatDateTimeCompact(endTime))} · ` +
+                  `${escapeHtml(formatDuration(date, endTime))} 남음`
+                : "48시간 이상 계속 출현"
+            }
+          </div>
+        `);
+      } else {
+        lines.push(`
+          <div class="timing-summary-row">
+            <strong>다음 출현:</strong>
+            ${
+              nextTime
+                ? `${escapeHtml(formatDateTimeCompact(nextTime))} · ` +
+                  `${escapeHtml(formatDuration(date, nextTime))} 후`
+                : "앞으로 1년 안에 출현 시각을 찾지 못함"
+            }
+          </div>
+        `);
+      }
+
+      if (isLeavingThisMonth(item, date)) {
+        lines.push(`
+          <div class="timing-summary-row">
+            <strong>주의:</strong>
+            이번 달이 지나면 당분간 출현하지 않습니다.
+          </div>
+        `);
+      }
+
+      if (isNewNextMonth(item, date)) {
+        lines.push(`
+          <div class="timing-summary-row">
+            <strong>다음 달:</strong>
+            다음 달부터 새로 출현합니다.
+          </div>
+        `);
+      }
+
+      detailTimingSummary.innerHTML = lines.join("");
     }
 
     function openDetail(item) {
@@ -1753,6 +2335,9 @@
         .map(([label, value]) => createDetailRow(label, value))
         .join("");
 
+      renderHourGrid(item);
+      renderMonthGrid(item);
+      renderTimingSummary(item);
       updateDetailAvailability(item);
       updateDetailButtons();
 

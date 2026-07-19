@@ -215,6 +215,14 @@
       font-size: 10px;
     }
 
+    .category-secondary-progress {
+      min-height: 14px;
+      margin-top: 4px;
+      color: #3e6c88;
+      font-size: 9px;
+      font-weight: 850;
+    }
+
     .category-card .progress-track {
       height: 7px;
       margin-top: 8px;
@@ -293,8 +301,12 @@
 
     .toolbar {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 84px 78px;
+      grid-template-columns: minmax(0, 1fr) 76px 67px 67px;
       gap: 5px;
+    }
+
+    .toolbar.no-secondary {
+      grid-template-columns: minmax(0, 1fr) 84px 78px;
     }
 
     .search-wrap {
@@ -353,6 +365,18 @@
       color: white;
       border-color: var(--green-dark);
       background: var(--green-dark);
+    }
+
+    .secondary-edit-button {
+      border-color: #4e7f9e;
+      color: #3e6c88;
+      font-size: 9px;
+    }
+
+    .secondary-edit-button.active {
+      color: white;
+      border-color: #4e7f9e;
+      background: #4e7f9e;
     }
 
     .secondary-toolbar {
@@ -684,21 +708,46 @@
       font-weight: 750;
     }
 
-    .detail-owned-button {
+    .detail-progress-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .detail-progress-actions.single {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .detail-owned-button,
+    .detail-secondary-button {
       width: 100%;
       height: 48px;
-      margin-top: 12px;
-      border: 1px solid var(--green);
+      margin: 0;
       border-radius: 14px;
-      color: var(--green-dark);
       background: white;
       font-weight: 950;
       cursor: pointer;
     }
 
+    .detail-owned-button {
+      border: 1px solid var(--green);
+      color: var(--green-dark);
+    }
+
     .detail-owned-button.active {
       color: white;
       background: var(--green-dark);
+    }
+
+    .detail-secondary-button {
+      border: 1px solid #4e7f9e;
+      color: #3e6c88;
+    }
+
+    .detail-secondary-button.active {
+      color: white;
+      background: #4e7f9e;
     }
 
     .toast {
@@ -810,6 +859,25 @@
       border-color: #cfaaa4;
     }
 
+    .secondary-progress-badge {
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      z-index: 3;
+      display: grid;
+      min-width: 25px;
+      height: 17px;
+      padding: 0 4px;
+      border: 1px solid white;
+      border-radius: 999px;
+      color: white;
+      background: #4e7f9e;
+      box-shadow: 0 1px 4px rgba(0,0,0,.16);
+      place-items: center;
+      font-size: 6.5px;
+      font-weight: 950;
+    }
+
     .verified-badge {
       position: absolute;
       left: 4px;
@@ -829,6 +897,73 @@
       font-weight: 950;
     }
 
+
+
+    .life-home-panel {
+      margin: 0 10px 15px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: rgba(255,253,247,.95);
+    }
+
+    .life-home-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 9px;
+      margin-bottom: 10px;
+    }
+
+    .life-home-title {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .life-home-description {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .life-home-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .life-home-card {
+      min-width: 0;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .life-home-card:active {
+      transform: scale(.98);
+    }
+
+    .life-home-name {
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .life-home-count {
+      margin-top: 7px;
+      font-size: 10px;
+      font-weight: 850;
+    }
+
+    .life-home-subcount {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 8.5px;
+    }
 
     .creature-home-panel {
       margin: 0 10px 15px;
@@ -1147,6 +1282,93 @@
         />
       </section>
 
+      <section class="life-home-panel">
+        <div class="life-home-heading">
+          <div>
+            <h2 class="life-home-title">생활도감</h2>
+            <p class="life-home-description">
+              주민 거주 이력, 특수 캐릭터, 행사, 계절과 꽃 교배를 기록합니다.
+            </p>
+          </div>
+
+          <span id="lifeProgressCount" class="verified-count">
+            생활 기록 0
+          </span>
+        </div>
+
+        <div class="life-home-grid">
+          <button
+            class="life-home-card"
+            type="button"
+            data-life-category="villagers"
+          >
+            <div class="life-home-name">🏡 주민 210명</div>
+            <div id="homeVillagerMet" class="life-home-count">
+              만나봄 0 / 210
+            </div>
+            <div id="homeVillagerCurrent" class="life-home-subcount">
+              현재 거주 0명
+            </div>
+          </button>
+
+          <button
+            class="life-home-card"
+            type="button"
+            data-life-category="characters"
+          >
+            <div class="life-home-name">🎪 특수 캐릭터 52명</div>
+            <div id="homeCharacterMet" class="life-home-count">
+              만나봄 0 / 52
+            </div>
+            <div class="life-home-subcount">
+              즐겨찾기와 메모 지원
+            </div>
+          </button>
+
+          <button
+            class="life-home-card"
+            type="button"
+            data-life-category="events"
+          >
+            <div class="life-home-name">🎉 이벤트 32개</div>
+            <div id="homeEventDone" class="life-home-count">
+              참가 0 / 32
+            </div>
+            <div class="life-home-subcount">
+              지역·날짜별 조회
+            </div>
+          </button>
+
+          <button
+            class="life-home-card"
+            type="button"
+            data-life-category="flowers"
+          >
+            <div class="life-home-name">🌷 꽃 교배 89조합</div>
+            <div id="homeFlowerDone" class="life-home-count">
+              완성 0 / 89
+            </div>
+            <div class="life-home-subcount">
+              결과 색상과 확률
+            </div>
+          </button>
+
+          <button
+            class="life-home-card"
+            type="button"
+            data-life-category="seasons"
+          >
+            <div class="life-home-name">🍂 계절 변화 23구간</div>
+            <div class="life-home-count">
+              날짜별 계절 조회
+            </div>
+            <div class="life-home-subcount">
+              풀·나무 팔레트 정보
+            </div>
+          </button>
+        </div>
+      </section>
+
       <section class="creature-home-panel">
         <div class="creature-home-heading">
           <div>
@@ -1220,27 +1442,27 @@
       <section class="category-stats-grid">
         <div class="category-stat">
           <div id="statOwned" class="category-stat-value">0</div>
-          <div class="category-stat-label">보유</div>
+          <div id="statOwnedLabel" class="category-stat-label">획득</div>
         </div>
 
         <div class="category-stat">
           <div id="statRemaining" class="category-stat-value">0</div>
-          <div class="category-stat-label">남음</div>
+          <div id="statRemainingLabel" class="category-stat-label">미획득</div>
         </div>
 
         <div class="category-stat">
           <div id="statOrderable" class="category-stat-value">-</div>
-          <div class="category-stat-label">주문 가능</div>
+          <div id="statSecondaryLabel" class="category-stat-label">추가 상태</div>
         </div>
 
         <div class="category-stat">
-          <div id="statDlc" class="category-stat-value">-</div>
-          <div class="category-stat-label">DLC</div>
+          <div id="statDlc" class="category-stat-value">0</div>
+          <div id="statVerifiedLabel" class="category-stat-label">명칭 검수</div>
         </div>
       </section>
 
       <section class="sticky-area">
-        <div class="toolbar">
+        <div id="mainToolbar" class="toolbar">
           <label class="search-wrap">
             <span class="search-icon">🔍</span>
             <input
@@ -1257,7 +1479,15 @@
           </select>
 
           <button id="editButton" class="edit-button" type="button">
-            편집
+            획득 편집
+          </button>
+
+          <button
+            id="secondaryEditButton"
+            class="edit-button secondary-edit-button"
+            type="button"
+          >
+            추가 편집
           </button>
         </div>
 
@@ -1391,19 +1621,29 @@
         <div id="nameStatus" class="name-status"></div>
       </section>
 
-      <button
-        id="detailOwnedButton"
-        class="detail-owned-button"
-        type="button"
-      >
-        보유로 체크
-      </button>
+      <div id="detailProgressActions" class="detail-progress-actions">
+        <button
+          id="detailOwnedButton"
+          class="detail-owned-button"
+          type="button"
+        >
+          획득으로 체크
+        </button>
+
+        <button
+          id="detailSecondaryButton"
+          class="detail-secondary-button"
+          type="button"
+        >
+          추가 상태 체크
+        </button>
+      </div>
     </section>
   </div>
 
   <div id="toast" class="toast"></div>
 
-  <script src="./data/catalog.js?v=5"></script>
+  <script src="./data/catalog.js?v=7"></script>
 
   <script>
     const catalog = window.CITY_FOLK_CATALOG;
@@ -1414,10 +1654,104 @@
     const storageKey = "city-folk-collection-v1";
     const oldFurnitureStorageKey = "city-folk-owned-items-v3";
 
+    const secondaryStatusConfig = {
+      furniture: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      wallpaper: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      flooring: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      clothes: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      headgear: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      umbrellas: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      stationery: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      gyroids: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      music: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "음악 카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      tools: {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      "other-items": {
+        key: "cataloged",
+        label: "카탈로그",
+        doneLabel: "카탈로그 등록",
+        editLabel: "목록 편집",
+        badge: "목록"
+      },
+      fossils: {
+        key: "donated",
+        label: "박물관 기증",
+        doneLabel: "박물관 기증",
+        editLabel: "기증 편집",
+        badge: "기증"
+      },
+      paintings: {
+        key: "donated",
+        label: "박물관 기증",
+        doneLabel: "박물관 기증",
+        editLabel: "기증 편집",
+        badge: "기증"
+      }
+    };
+
     let state = loadState();
     let currentCategory = null;
     let selectedItem = null;
-    let editMode = false;
+    let editMode = "none";
     let toastTimer = null;
 
     const homeView = document.getElementById("homeView");
@@ -1429,6 +1763,12 @@
     const homePercent = document.getElementById("homePercent");
     const homeProgressBar = document.getElementById("homeProgressBar");
     const categoryGrid = document.getElementById("categoryGrid");
+    const lifeProgressCount = document.getElementById("lifeProgressCount");
+    const homeVillagerMet = document.getElementById("homeVillagerMet");
+    const homeVillagerCurrent = document.getElementById("homeVillagerCurrent");
+    const homeCharacterMet = document.getElementById("homeCharacterMet");
+    const homeEventDone = document.getElementById("homeEventDone");
+    const homeFlowerDone = document.getElementById("homeFlowerDone");
     const creatureDonationCount = document.getElementById("creatureDonationCount");
     const homeBugCaught = document.getElementById("homeBugCaught");
     const homeBugDonated = document.getElementById("homeBugDonated");
@@ -1451,6 +1791,10 @@
     const statRemaining = document.getElementById("statRemaining");
     const statOrderable = document.getElementById("statOrderable");
     const statDlc = document.getElementById("statDlc");
+    const statOwnedLabel = document.getElementById("statOwnedLabel");
+    const statRemainingLabel = document.getElementById("statRemainingLabel");
+    const statSecondaryLabel = document.getElementById("statSecondaryLabel");
+    const statVerifiedLabel = document.getElementById("statVerifiedLabel");
 
     const searchInput = document.getElementById("searchInput");
     const statusFilter = document.getElementById("statusFilter");
@@ -1459,7 +1803,9 @@
     const sortSelect = document.getElementById("sortSelect");
     const priceFilter = document.getElementById("priceFilter");
     const categoryJumpSelect = document.getElementById("categoryJumpSelect");
+    const mainToolbar = document.getElementById("mainToolbar");
     const editButton = document.getElementById("editButton");
+    const secondaryEditButton = document.getElementById("secondaryEditButton");
     const editGuide = document.getElementById("editGuide");
     const bulkEditBar = document.getElementById("bulkEditBar");
     const bulkResultText = document.getElementById("bulkResultText");
@@ -1477,7 +1823,9 @@
     const detailEnglishName = document.getElementById("detailEnglishName");
     const detailJapaneseName = document.getElementById("detailJapaneseName");
     const detailTable = document.getElementById("detailTable");
+    const detailProgressActions = document.getElementById("detailProgressActions");
     const detailOwnedButton = document.getElementById("detailOwnedButton");
+    const detailSecondaryButton = document.getElementById("detailSecondaryButton");
     const nameOverrideInput = document.getElementById("nameOverrideInput");
     const nameVerifiedInput = document.getElementById("nameVerifiedInput");
     const saveNameButton = document.getElementById("saveNameButton");
@@ -1488,10 +1836,38 @@
     function loadState() {
       let loaded = {
         owned: {},
+        itemProgress: {
+          cataloged: {},
+          donated: {}
+        },
         nameOverrides: {},
         creatures: {
           caught: {},
           donated: {}
+        },
+        life: {
+          villagers: {
+            met: [],
+            current: [],
+            former: [],
+            favorite: [],
+            notes: {}
+          },
+          characters: {
+            met: [],
+            favorite: [],
+            notes: {}
+          },
+          events: {
+            participated: [],
+            favorite: [],
+            notes: {}
+          },
+          flowers: {
+            completed: [],
+            favorite: [],
+            notes: {}
+          }
         }
       };
 
@@ -1504,6 +1880,27 @@
 
       if (!loaded.owned || typeof loaded.owned !== "object") {
         loaded.owned = {};
+      }
+
+      if (
+        !loaded.itemProgress ||
+        typeof loaded.itemProgress !== "object"
+      ) {
+        loaded.itemProgress = {};
+      }
+
+      if (
+        !loaded.itemProgress.cataloged ||
+        typeof loaded.itemProgress.cataloged !== "object"
+      ) {
+        loaded.itemProgress.cataloged = {};
+      }
+
+      if (
+        !loaded.itemProgress.donated ||
+        typeof loaded.itemProgress.donated !== "object"
+      ) {
+        loaded.itemProgress.donated = {};
       }
 
       if (
@@ -1534,6 +1931,66 @@
       ) {
         loaded.creatures.donated = {};
       }
+
+      const lifeDefaults = {
+        villagers: {
+          met: [],
+          current: [],
+          former: [],
+          favorite: [],
+          notes: {}
+        },
+        characters: {
+          met: [],
+          favorite: [],
+          notes: {}
+        },
+        events: {
+          participated: [],
+          favorite: [],
+          notes: {}
+        },
+        flowers: {
+          completed: [],
+          favorite: [],
+          notes: {}
+        }
+      };
+
+      if (!loaded.life || typeof loaded.life !== "object") {
+        loaded.life = {};
+      }
+
+      Object.entries(lifeDefaults).forEach(
+        ([categoryId, categoryDefaults]) => {
+          if (
+            !loaded.life[categoryId] ||
+            typeof loaded.life[categoryId] !== "object"
+          ) {
+            loaded.life[categoryId] = categoryDefaults;
+            return;
+          }
+
+          Object.entries(categoryDefaults).forEach(
+            ([key, defaultValue]) => {
+              if (Array.isArray(defaultValue)) {
+                if (
+                  !Array.isArray(
+                    loaded.life[categoryId][key]
+                  )
+                ) {
+                  loaded.life[categoryId][key] = [];
+                }
+              } else if (
+                !loaded.life[categoryId][key] ||
+                typeof loaded.life[categoryId][key] !== "object"
+              ) {
+                loaded.life[categoryId][key] = {};
+              }
+            }
+          );
+        }
+      );
 
       try {
         const oldFurniture = JSON.parse(
@@ -1568,6 +2025,68 @@
         state.owned[categoryId].includes(itemId);
     }
 
+    function secondaryConfig(categoryId = currentCategory?.id) {
+      return secondaryStatusConfig[categoryId] || null;
+    }
+
+    function secondarySet(categoryId, key) {
+      if (!state.itemProgress[key]) {
+        state.itemProgress[key] = {};
+      }
+
+      if (!Array.isArray(state.itemProgress[key][categoryId])) {
+        state.itemProgress[key][categoryId] = [];
+      }
+
+      return new Set(state.itemProgress[key][categoryId]);
+    }
+
+    function isSecondaryComplete(categoryId, itemId) {
+      const config = secondaryConfig(categoryId);
+      if (!config) return false;
+
+      return Array.isArray(
+        state.itemProgress?.[config.key]?.[categoryId]
+      ) && state.itemProgress[config.key][categoryId].includes(itemId);
+    }
+
+    function setSecondaryComplete(
+      categoryId,
+      itemId,
+      completed
+    ) {
+      const config = secondaryConfig(categoryId);
+      if (!config) return;
+
+      const set = secondarySet(categoryId, config.key);
+
+      if (completed) {
+        set.add(itemId);
+
+        const owned = ownedSet(categoryId);
+        owned.add(itemId);
+        state.owned[categoryId] = [...owned];
+      } else {
+        set.delete(itemId);
+      }
+
+      state.itemProgress[config.key][categoryId] = [...set];
+      saveState();
+    }
+
+    function secondaryCompletedCount(category) {
+      const config = secondaryConfig(category.id);
+      if (!config) return 0;
+
+      return category.items.reduce(
+        (count, item) =>
+          count + Number(
+            isSecondaryComplete(category.id, item.id)
+          ),
+        0
+      );
+    }
+
     function setOwned(categoryId, itemId, owned) {
       const set = ownedSet(categoryId);
 
@@ -1575,6 +2094,15 @@
         set.add(itemId);
       } else {
         set.delete(itemId);
+
+        const config = secondaryConfig(categoryId);
+        if (config) {
+          const secondary = secondarySet(categoryId, config.key);
+          secondary.delete(itemId);
+          state.itemProgress[config.key][categoryId] = [
+            ...secondary
+          ];
+        }
       }
 
       state.owned[categoryId] = [...set];
@@ -1643,7 +2171,7 @@
         `city-folk-backup-${new Date().toISOString().slice(0, 10)}.json`,
         {
           app: "city-folk-checklist",
-          formatVersion: 2,
+          formatVersion: 3,
           catalogVersion: catalog?.version || "",
           exportedAt: new Date().toISOString(),
           state
@@ -1714,10 +2242,38 @@
 
         state = {
           owned: imported.owned || {},
+          itemProgress: imported.itemProgress || {
+            cataloged: {},
+            donated: {}
+          },
           nameOverrides: imported.nameOverrides || {},
           creatures: imported.creatures || {
             caught: {},
             donated: {}
+          },
+          life: imported.life || {
+            villagers: {
+              met: [],
+              current: [],
+              former: [],
+              favorite: [],
+              notes: {}
+            },
+            characters: {
+              met: [],
+              favorite: [],
+              notes: {}
+            },
+            events: {
+              participated: [],
+              favorite: [],
+              notes: {}
+            },
+            flowers: {
+              completed: [],
+              favorite: [],
+              notes: {}
+            }
           }
         };
 
@@ -1739,17 +2295,45 @@
 
     function resetAllData() {
       const accepted = confirm(
-        "모든 보유 체크와 한국어명 수정 내역을 삭제할까요? 이 작업은 되돌릴 수 없습니다."
+        "모든 아이템·생물 진행 상태와 한국어명 수정 내역을 삭제할까요? 이 작업은 되돌릴 수 없습니다."
       );
 
       if (!accepted) return;
 
       state = {
         owned: {},
+        itemProgress: {
+          cataloged: {},
+          donated: {}
+        },
         nameOverrides: {},
         creatures: {
           caught: {},
           donated: {}
+        },
+        life: {
+          villagers: {
+            met: [],
+            current: [],
+            former: [],
+            favorite: [],
+            notes: {}
+          },
+          characters: {
+            met: [],
+            favorite: [],
+            notes: {}
+          },
+          events: {
+            participated: [],
+            favorite: [],
+            notes: {}
+          },
+          flowers: {
+            completed: [],
+            favorite: [],
+            notes: {}
+          }
         }
       };
 
@@ -1795,6 +2379,54 @@
       return Array.isArray(values) ? new Set(values).size : 0;
     }
 
+    function lifeCount(categoryId, key) {
+      const values = state.life?.[categoryId]?.[key];
+      return Array.isArray(values)
+        ? new Set(values).size
+        : 0;
+    }
+
+    function renderLifeHome() {
+      const villagerMet = lifeCount(
+        "villagers",
+        "met"
+      );
+      const villagerCurrent = lifeCount(
+        "villagers",
+        "current"
+      );
+      const characterMet = lifeCount(
+        "characters",
+        "met"
+      );
+      const eventDone = lifeCount(
+        "events",
+        "participated"
+      );
+      const flowerDone = lifeCount(
+        "flowers",
+        "completed"
+      );
+
+      homeVillagerMet.textContent =
+        `만나봄 ${villagerMet} / 210`;
+      homeVillagerCurrent.textContent =
+        `현재 거주 ${villagerCurrent}명`;
+      homeCharacterMet.textContent =
+        `만나봄 ${characterMet} / 52`;
+      homeEventDone.textContent =
+        `참가 ${eventDone} / 32`;
+      homeFlowerDone.textContent =
+        `완성 ${flowerDone} / 89`;
+      lifeProgressCount.textContent =
+        `생활 기록 ${
+          villagerMet +
+          characterMet +
+          eventDone +
+          flowerDone
+        }`;
+    }
+
     function renderCreatureHome() {
       const bugCaught = creatureStateCount("caught", "bugs");
       const bugDonated = creatureStateCount("donated", "bugs");
@@ -1810,6 +2442,7 @@
     }
 
     function renderHome() {
+      renderLifeHome();
       renderCreatureHome();
       const counts = totalCounts();
       const completion = percent(counts.owned, counts.total);
@@ -1828,6 +2461,9 @@
         const owned = categoryOwnedCount(category);
         const total = category.items.length;
         const completion = percent(owned, total);
+        const config = secondaryConfig(category.id);
+        const secondaryCompleted =
+          secondaryCompletedCount(category);
 
         const button = document.createElement("button");
         button.type = "button";
@@ -1845,7 +2481,17 @@
             ${total.toLocaleString("ko-KR")}
           </div>
 
-          <div class="category-percent">${completion}% 완료</div>
+          <div class="category-percent">${completion}% 획득</div>
+
+          <div class="category-secondary-progress">
+            ${
+              config
+                ? `${escapeHtml(config.label)} ` +
+                  `${secondaryCompleted.toLocaleString("ko-KR")} / ` +
+                  `${total.toLocaleString("ko-KR")}`
+                : "획득 상태만 기록"
+            }
+          </div>
 
           <div class="progress-track">
             <div
@@ -1887,13 +2533,14 @@
         currentCategory = null;
         homeView.classList.remove("hidden");
         categoryView.classList.add("hidden");
-        setEditMode(false);
+        setEditMode("none");
         renderHome();
         window.scrollTo(0, 0);
         return;
       }
 
       currentCategory = category;
+      editMode = "none";
       homeView.classList.add("hidden");
       categoryView.classList.remove("hidden");
       prepareCategoryFilters();
@@ -1919,8 +2566,23 @@
       };
 
       addOption(statusFilter, "all", "전체");
-      addOption(statusFilter, "owned", "보유");
-      addOption(statusFilter, "unowned", "미보유");
+      addOption(statusFilter, "owned", "획득");
+      addOption(statusFilter, "unowned", "미획득");
+
+      const config = secondaryConfig();
+
+      if (config) {
+        addOption(
+          statusFilter,
+          "secondary-complete",
+          config.doneLabel
+        );
+        addOption(
+          statusFilter,
+          "secondary-incomplete",
+          `${config.label} 미완료`
+        );
+      }
 
       const hasOrderable = currentCategory.items.some(
         (item) => item.orderable === true
@@ -2043,6 +2705,20 @@
         }
 
         if (status === "unowned" && owned) {
+          return false;
+        }
+
+        if (
+          status === "secondary-complete" &&
+          !isSecondaryComplete(currentCategory.id, item.id)
+        ) {
+          return false;
+        }
+
+        if (
+          status === "secondary-incomplete" &&
+          isSecondaryComplete(currentCategory.id, item.id)
+        ) {
           return false;
         }
 
@@ -2184,6 +2860,9 @@
     function createItemCard(item) {
       const button = document.createElement("button");
       const owned = isOwned(currentCategory.id, item.id);
+      const config = secondaryConfig();
+      const secondaryComplete =
+        isSecondaryComplete(currentCategory.id, item.id);
 
       button.type = "button";
       button.className = `item-card${owned ? " owned" : ""}`;
@@ -2219,6 +2898,13 @@
               ? '<span class="verified-badge">검수</span>'
               : ""
           }
+          ${
+            config && secondaryComplete
+              ? `<span class="secondary-progress-badge">${escapeHtml(
+                  config.badge
+                )}</span>`
+              : ""
+          }
         </div>
 
         <div class="item-name">
@@ -2236,8 +2922,13 @@
       }
 
       button.addEventListener("click", () => {
-        if (editMode) {
+        if (editMode === "owned") {
           toggleOwned(item);
+          return;
+        }
+
+        if (editMode === "secondary") {
+          toggleSecondary(item);
           return;
         }
 
@@ -2262,21 +2953,31 @@
       categoryProgressPercent.textContent = `${completion}%`;
       categoryProgressBar.style.width = `${completion}%`;
 
-      const orderableCount = currentCategory.items.filter(
-        (item) => item.orderable === true
-      ).length;
-      const dlcCount = currentCategory.items.filter(
-        (item) => item.dlc === true
+      const config = secondaryConfig();
+      const secondaryCompleted =
+        secondaryCompletedCount(currentCategory);
+      const verified = currentCategory.items.filter(
+        (item) => isNameVerified(item)
       ).length;
 
       statOwned.textContent = owned.toLocaleString("ko-KR");
-      statRemaining.textContent = (total - owned).toLocaleString("ko-KR");
-      statOrderable.textContent = orderableCount > 0
-        ? orderableCount.toLocaleString("ko-KR")
+      statRemaining.textContent =
+        (total - owned).toLocaleString("ko-KR");
+      statOrderable.textContent = config
+        ? secondaryCompleted.toLocaleString("ko-KR")
         : "-";
-      statDlc.textContent = dlcCount > 0
-        ? dlcCount.toLocaleString("ko-KR")
-        : "-";
+      statDlc.textContent = verified.toLocaleString("ko-KR");
+
+      statOwnedLabel.textContent = "획득";
+      statRemainingLabel.textContent = "미획득";
+      statSecondaryLabel.textContent =
+        config ? config.label : "추가 상태 없음";
+      statVerifiedLabel.textContent = "명칭 검수";
+
+      secondaryEditButton.classList.toggle("hidden", !config);
+      mainToolbar.classList.toggle("no-secondary", !config);
+      secondaryEditButton.textContent =
+        config ? config.editLabel : "추가 편집";
 
       const items = filteredItems();
       itemGrid.innerHTML = "";
@@ -2301,19 +3002,49 @@
       const willOwn = !isOwned(currentCategory.id, item.id);
       setOwned(currentCategory.id, item.id, willOwn);
       renderCategory();
+      renderHome();
 
       if (selectedItem && selectedItem.id === item.id) {
-        updateDetailButton();
+        updateDetailButtons();
       }
 
       showToast(
         willOwn
-          ? `${displayName(item)} 보유 체크`
-          : `${displayName(item)} 체크 해제`
+          ? `${displayName(item)} 획득 체크`
+          : `${displayName(item)} 획득 해제`
       );
     }
 
-    function bulkSetVisibleItems(owned) {
+    function toggleSecondary(item) {
+      const config = secondaryConfig();
+      if (!config) return;
+
+      const willComplete = !isSecondaryComplete(
+        currentCategory.id,
+        item.id
+      );
+
+      setSecondaryComplete(
+        currentCategory.id,
+        item.id,
+        willComplete
+      );
+
+      renderCategory();
+      renderHome();
+
+      if (selectedItem && selectedItem.id === item.id) {
+        updateDetailButtons();
+      }
+
+      showToast(
+        willComplete
+          ? `${displayName(item)} ${config.doneLabel} 체크`
+          : `${displayName(item)} ${config.label} 해제`
+      );
+    }
+
+    function bulkSetVisibleItems(completed) {
       if (!currentCategory) return;
 
       const visibleItems = filteredItems();
@@ -2323,40 +3054,96 @@
         return;
       }
 
-      const action = owned ? "보유 처리" : "체크 해제";
+      const config = secondaryConfig();
+      const targetLabel =
+        editMode === "secondary" && config
+          ? config.label
+          : "획득";
+      const action = completed ? "완료 처리" : "체크 해제";
+
       const accepted = confirm(
         `현재 표시된 ${visibleItems.length.toLocaleString(
           "ko-KR"
-        )}개 아이템을 모두 ${action}할까요?`
+        )}개 아이템의 ${targetLabel} 상태를 모두 ` +
+        `${action}할까요?`
       );
 
       if (!accepted) return;
 
-      const set = ownedSet(currentCategory.id);
+      if (editMode === "secondary" && config) {
+        visibleItems.forEach((item) => {
+          setSecondaryComplete(
+            currentCategory.id,
+            item.id,
+            completed
+          );
+        });
+      } else {
+        visibleItems.forEach((item) => {
+          setOwned(
+            currentCategory.id,
+            item.id,
+            completed
+          );
+        });
+      }
 
-      visibleItems.forEach((item) => {
-        if (owned) {
-          set.add(item.id);
-        } else {
-          set.delete(item.id);
-        }
-      });
-
-      state.owned[currentCategory.id] = [...set];
       saveState();
       renderCategory();
+      renderHome();
 
       showToast(
-        `${visibleItems.length.toLocaleString("ko-KR")}개 ${action} 완료`
+        `${visibleItems.length.toLocaleString("ko-KR")}개 ` +
+        `${targetLabel} ${action} 완료`
       );
     }
 
-    function setEditMode(enabled) {
-      editMode = enabled;
-      editButton.classList.toggle("active", editMode);
-      editGuide.classList.toggle("visible", editMode);
-      bulkEditBar.classList.toggle("visible", editMode);
-      editButton.textContent = editMode ? "✓ 편집 중" : "편집";
+    function setEditMode(mode) {
+      const config = secondaryConfig();
+
+      if (mode === "secondary" && !config) {
+        mode = "none";
+      }
+
+      editMode = editMode === mode ? "none" : mode;
+
+      editButton.classList.toggle(
+        "active",
+        editMode === "owned"
+      );
+      secondaryEditButton.classList.toggle(
+        "active",
+        editMode === "secondary"
+      );
+      editGuide.classList.toggle(
+        "visible",
+        editMode !== "none"
+      );
+      bulkEditBar.classList.toggle(
+        "visible",
+        editMode !== "none"
+      );
+
+      editButton.textContent =
+        editMode === "owned" ? "✓ 획득 중" : "획득 편집";
+
+      secondaryEditButton.textContent =
+        editMode === "secondary"
+          ? `✓ ${config?.label || "추가"} 중`
+          : config?.editLabel || "추가 편집";
+
+      editGuide.textContent =
+        editMode === "owned"
+          ? "획득 편집 중 · 아이템을 눌러 획득 여부를 변경하세요"
+          : editMode === "secondary"
+            ? `${config.label} 편집 중 · 아이템을 눌러 상태를 변경하세요`
+            : "";
+
+      bulkOwnButton.textContent =
+        editMode === "secondary" && config
+          ? `전부 ${config.label}`
+          : "전부 획득";
+      bulkClearButton.textContent = "전부 해제";
     }
 
     function createDetailRow(label, value) {
@@ -2413,7 +3200,7 @@
           ? "인게임 검수 완료"
           : "아직 인게임 검수 전");
 
-      updateDetailButton();
+      updateDetailButtons();
 
       detailOverlay.classList.add("visible");
       detailOverlay.setAttribute("aria-hidden", "false");
@@ -2485,14 +3272,44 @@
       selectedItem = null;
     }
 
-    function updateDetailButton() {
+    function updateDetailButtons() {
       if (!selectedItem || !currentCategory) return;
 
-      const owned = isOwned(currentCategory.id, selectedItem.id);
+      const owned = isOwned(
+        currentCategory.id,
+        selectedItem.id
+      );
+      const config = secondaryConfig();
+      const secondaryComplete = config
+        ? isSecondaryComplete(
+            currentCategory.id,
+            selectedItem.id
+          )
+        : false;
+
       detailOwnedButton.classList.toggle("active", owned);
       detailOwnedButton.textContent = owned
-        ? "✓ 보유 중"
-        : "보유로 체크";
+        ? "✓ 획득 완료"
+        : "획득으로 체크";
+
+      detailSecondaryButton.classList.toggle(
+        "hidden",
+        !config
+      );
+      detailProgressActions.classList.toggle(
+        "single",
+        !config
+      );
+
+      if (config) {
+        detailSecondaryButton.classList.toggle(
+          "active",
+          secondaryComplete
+        );
+        detailSecondaryButton.textContent = secondaryComplete
+          ? `✓ ${config.doneLabel}`
+          : `${config.doneLabel} 체크`;
+      }
     }
 
     function resetFilters(render = true) {
@@ -2517,6 +3334,15 @@
         toast.classList.remove("visible");
       }, 1200);
     }
+
+    document.querySelectorAll("[data-life-category]").forEach(
+      (button) => {
+        button.addEventListener("click", () => {
+          const categoryId = button.dataset.lifeCategory;
+          location.href = `./life.html#${categoryId}`;
+        });
+      }
+    );
 
     document.querySelectorAll("[data-creature-category]").forEach(
       (button) => {
@@ -2569,7 +3395,11 @@
     });
 
     editButton.addEventListener("click", () => {
-      setEditMode(!editMode);
+      setEditMode("owned");
+    });
+
+    secondaryEditButton.addEventListener("click", () => {
+      setEditMode("secondary");
     });
 
     bulkOwnButton.addEventListener("click", () => {
@@ -2595,6 +3425,12 @@
     detailOwnedButton.addEventListener("click", () => {
       if (selectedItem) {
         toggleOwned(selectedItem);
+      }
+    });
+
+    detailSecondaryButton.addEventListener("click", () => {
+      if (selectedItem) {
+        toggleSecondary(selectedItem);
       }
     });
 

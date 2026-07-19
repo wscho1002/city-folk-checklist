@@ -1,0 +1,3152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <meta name="theme-color" content="#eee8d6" />
+  <title>타동숲 생활도감</title>
+
+  <style>
+    :root {
+      --bg: #eee8d6;
+      --surface: #fffdf7;
+      --surface-2: #f7f3e8;
+      --text: #35332d;
+      --muted: #7d786b;
+      --line: #ddd5c2;
+      --green: #4f9660;
+      --green-dark: #357346;
+      --green-soft: #d5ecd6;
+      --blue: #4e7f9e;
+      --blue-soft: #d8e8f1;
+      --orange: #d48242;
+      --orange-soft: #f5e3d3;
+      --red: #a54c43;
+      --gold: #c49734;
+      --shadow: 0 7px 22px rgba(61,54,41,.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(
+          circle at 15% 0%,
+          rgba(255,255,255,.72),
+          transparent 28%
+        ),
+        var(--bg);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 760px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding-bottom:
+        calc(42px + env(safe-area-inset-bottom));
+    }
+
+    .top-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding:
+        calc(14px + env(safe-area-inset-top))
+        10px
+        10px;
+    }
+
+    .home-button {
+      width: 42px;
+      height: 42px;
+      flex: none;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+      font-size: 19px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .title-wrap {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .eyebrow {
+      margin: 0 0 2px;
+      color: var(--green-dark);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .1em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: -.045em;
+    }
+
+    .subtitle {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      padding: 0 8px 10px;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      min-width: 92px;
+      height: 42px;
+      flex: none;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      font-size: 10px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      color: white;
+      border-color: var(--green-dark);
+      background: var(--green-dark);
+    }
+
+    .summary-panel {
+      margin: 0 9px 9px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 8px 5px;
+      border-radius: 11px;
+      background: var(--surface-2);
+      text-align: center;
+    }
+
+    .metric-value {
+      overflow: hidden;
+      font-size: 15px;
+      font-weight: 950;
+      letter-spacing: -.035em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .metric-label {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .progress-track {
+      height: 9px;
+      margin-top: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #ded8c8;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+    }
+
+    .date-panel {
+      margin: 0 9px 9px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+    }
+
+    .date-panel-title {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .date-panel-description {
+      margin: 3px 0 8px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    .date-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 92px;
+      gap: 6px;
+    }
+
+    .date-input,
+    .today-button {
+      height: 39px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+    }
+
+    .date-input {
+      min-width: 0;
+      padding: 0 8px;
+      color: var(--text);
+      outline: none;
+      font-size: 10px;
+    }
+
+    .today-button {
+      font-size: 9px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .date-result {
+      margin-top: 8px;
+      padding: 8px;
+      border-radius: 9px;
+      color: #315d3b;
+      background: var(--green-soft);
+      font-size: 9px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .sticky-area {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding:
+        calc(7px + env(safe-area-inset-top))
+        7px
+        8px;
+      border-bottom: 1px solid rgba(221,213,194,.9);
+      background: rgba(238,232,214,.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1fr)
+        82px
+        69px
+        69px;
+      gap: 5px;
+    }
+
+    .toolbar.single-edit {
+      grid-template-columns:
+        minmax(0, 1fr)
+        86px
+        78px;
+    }
+
+    .toolbar.no-edit {
+      grid-template-columns:
+        minmax(0, 1fr)
+        105px;
+    }
+
+    .search-wrap {
+      position: relative;
+      min-width: 0;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 9px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-size: 12px;
+    }
+
+    .search-input,
+    .filter-select,
+    .edit-button {
+      width: 100%;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+    }
+
+    .search-input {
+      min-width: 0;
+      padding: 0 7px 0 29px;
+      outline: none;
+      font-size: 10px;
+    }
+
+    .filter-select {
+      padding: 0 4px;
+      color: var(--text);
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .edit-button {
+      color: var(--green-dark);
+      border-color: var(--green);
+      font-size: 8.5px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .edit-button.secondary {
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .edit-button.active {
+      color: white;
+      border-color: var(--green-dark);
+      background: var(--green-dark);
+    }
+
+    .edit-button.secondary.active {
+      color: white;
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
+    .secondary-toolbar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+      margin-top: 5px;
+    }
+
+    .edit-guide {
+      display: none;
+      margin-top: 6px;
+      padding: 7px 8px;
+      border-radius: 9px;
+      color: #315d3b;
+      background: var(--green-soft);
+      font-size: 9px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .edit-guide.visible {
+      display: block;
+    }
+
+    .result-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 9px 7px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .reset-button {
+      padding: 5px;
+      border: 0;
+      color: var(--green-dark);
+      background: transparent;
+      font-size: 9px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+      padding: 0 6px 22px;
+    }
+
+    .card-grid.list-mode {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 7px;
+      padding-right: 9px;
+      padding-left: 9px;
+    }
+
+    .card-grid.flower-mode {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+
+    .small-card {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      padding: 4px 3px 6px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+      box-shadow: 0 2px 6px rgba(60,53,39,.07);
+      cursor: pointer;
+      content-visibility: auto;
+      contain-intrinsic-size: 92px 116px;
+    }
+
+    .small-card.primary {
+      border-color: #68ae73;
+      background: var(--green-soft);
+    }
+
+    .small-card.secondary-state {
+      box-shadow:
+        inset 0 0 0 2px rgba(78,127,158,.27),
+        0 2px 6px rgba(60,53,39,.07);
+    }
+
+    .small-card:active,
+    .list-card:active,
+    .flower-card:active {
+      transform: scale(.98);
+    }
+
+    .avatar {
+      position: relative;
+      display: grid;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 8px;
+      background:
+        radial-gradient(
+          circle at 35% 27%,
+          #fff,
+          #ece5d4
+        );
+      place-items: center;
+    }
+
+    .avatar img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 3px;
+      object-fit: contain;
+    }
+
+    .avatar-emoji {
+      font-size: 27px;
+    }
+
+    .avatar-initial {
+      position: absolute;
+      right: 4px;
+      bottom: 3px;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 950;
+    }
+
+    .small-name {
+      display: -webkit-box;
+      min-height: 26px;
+      margin-top: 4px;
+      overflow: hidden;
+      font-size: 9.5px;
+      font-weight: 850;
+      line-height: 13px;
+      text-align: center;
+      word-break: keep-all;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .small-meta {
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 7.5px;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .badge {
+      position: absolute;
+      z-index: 3;
+      display: grid;
+      min-width: 24px;
+      height: 17px;
+      padding: 0 4px;
+      border: 1px solid white;
+      border-radius: 999px;
+      color: white;
+      box-shadow: 0 1px 4px rgba(0,0,0,.16);
+      place-items: center;
+      font-size: 6.5px;
+      font-weight: 950;
+    }
+
+    .badge.primary-badge {
+      top: 4px;
+      right: 4px;
+      background: var(--green-dark);
+    }
+
+    .badge.secondary-badge {
+      right: 4px;
+      bottom: 4px;
+      background: var(--blue);
+    }
+
+    .badge.former-badge {
+      left: 4px;
+      bottom: 4px;
+      background: var(--orange);
+    }
+
+    .badge.favorite-badge {
+      top: 4px;
+      left: 4px;
+      color: #5c4300;
+      background: #f2ca66;
+    }
+
+    .list-card {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      box-shadow: 0 2px 6px rgba(60,53,39,.07);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .list-card.primary {
+      border-color: #68ae73;
+      background: var(--green-soft);
+    }
+
+    .list-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .list-title {
+      min-width: 0;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .list-date {
+      flex: none;
+      color: var(--green-dark);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .list-subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.45;
+    }
+
+    .list-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      padding: 4px 6px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: var(--surface-2);
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .tag.active {
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .season-card.current {
+      border-color: var(--orange);
+      box-shadow: inset 0 0 0 2px rgba(212,130,66,.25);
+    }
+
+    .flower-card {
+      position: relative;
+      min-width: 0;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .flower-card.primary {
+      border-color: #68ae73;
+      background: var(--green-soft);
+    }
+
+    .flower-type {
+      color: var(--green-dark);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .flower-combo {
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 950;
+      line-height: 1.35;
+    }
+
+    .offspring-list {
+      display: grid;
+      gap: 3px;
+      margin-top: 8px;
+    }
+
+    .offspring-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+      padding: 4px 6px;
+      border-radius: 7px;
+      background: var(--surface-2);
+      font-size: 8px;
+    }
+
+    .color-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      margin-right: 4px;
+      border: 1px solid rgba(0,0,0,.18);
+      border-radius: 50%;
+      vertical-align: -1px;
+    }
+
+    .empty-state,
+    .error-state {
+      display: none;
+      padding: 44px 18px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty-state.visible,
+    .error-state.visible {
+      display: block;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding-top: 35px;
+      background: rgba(36,34,29,.48);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    .overlay.visible {
+      display: flex;
+    }
+
+    .detail-sheet {
+      width: 100%;
+      max-width: 760px;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding:
+        9px
+        14px
+        calc(20px + env(safe-area-inset-bottom));
+      border-radius: 24px 24px 0 0;
+      background: white;
+      box-shadow: 0 -12px 34px rgba(0,0,0,.2);
+    }
+
+    .sheet-handle {
+      width: 42px;
+      height: 5px;
+      margin: 0 auto 7px;
+      border-radius: 999px;
+      background: #d3cfc5;
+    }
+
+    .detail-close-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .close-button {
+      width: 35px;
+      height: 35px;
+      border: 0;
+      border-radius: 50%;
+      background: #efede7;
+      font-size: 18px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .detail-image {
+      display: grid;
+      width: 155px;
+      aspect-ratio: 1 / 1;
+      margin: -2px auto 0;
+      overflow: hidden;
+      border-radius: 22px;
+      background:
+        radial-gradient(
+          circle at 35% 27%,
+          #fff,
+          #ece5d4
+        );
+      place-items: center;
+      font-size: 58px;
+    }
+
+    .detail-image img {
+      width: 100%;
+      height: 100%;
+      padding: 8px;
+      object-fit: contain;
+    }
+
+    .detail-name {
+      margin: 12px 0 2px;
+      font-size: 22px;
+      font-weight: 950;
+      text-align: center;
+      letter-spacing: -.045em;
+    }
+
+    .detail-subname {
+      margin: 2px 0;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .detail-table {
+      margin-top: 13px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      min-height: 42px;
+      border-bottom: 1px solid #eae5d9;
+    }
+
+    .detail-row:last-child {
+      border-bottom: 0;
+    }
+
+    .detail-label,
+    .detail-value {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      font-size: 11px;
+    }
+
+    .detail-label {
+      color: var(--muted);
+      background: var(--surface-2);
+      font-weight: 750;
+    }
+
+    .detail-value {
+      overflow-wrap: anywhere;
+      font-weight: 750;
+      white-space: pre-line;
+    }
+
+    .detail-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .detail-action {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      font-size: 10px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .detail-action.primary-action {
+      color: var(--green-dark);
+      border-color: var(--green);
+    }
+
+    .detail-action.secondary-action {
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .detail-action.former-action {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .detail-action.favorite-action {
+      color: #8a6718;
+      border-color: #d1af59;
+    }
+
+    .detail-action.active.primary-action {
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .detail-action.active.secondary-action {
+      color: white;
+      background: var(--blue);
+    }
+
+    .detail-action.active.former-action {
+      color: white;
+      background: var(--orange);
+    }
+
+    .detail-action.active.favorite-action {
+      color: #4c3500;
+      background: #f2ca66;
+    }
+
+    .note-section {
+      margin-top: 12px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+
+    .note-title {
+      margin: 0 0 6px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .note-input {
+      width: 100%;
+      min-height: 84px;
+      padding: 9px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--text);
+      background: white;
+      outline: none;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .note-save {
+      width: 100%;
+      min-height: 40px;
+      margin-top: 7px;
+      border: 1px solid var(--green-dark);
+      border-radius: 10px;
+      color: white;
+      background: var(--green-dark);
+      font-size: 10px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      z-index: 130;
+      pointer-events: none;
+      transform: translate(-50%, 12px);
+      opacity: 0;
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(47,45,39,.94);
+      font-size: 10px;
+      font-weight: 800;
+      transition:
+        opacity 130ms ease,
+        transform 130ms ease;
+    }
+
+    .toast.visible {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    @media (min-width: 600px) {
+      .card-grid {
+        gap: 8px;
+        padding-right: 10px;
+        padding-left: 10px;
+      }
+
+      .small-name {
+        font-size: 12px;
+        line-height: 15px;
+      }
+
+      .card-grid.flower-mode {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header class="top-header">
+      <button id="homeButton" class="home-button" type="button">‹</button>
+
+      <div class="title-wrap">
+        <p class="eyebrow">CITY FOLK LIFE GUIDE</p>
+        <h1>타동숲 생활도감</h1>
+        <p class="subtitle">
+          주민·캐릭터·행사·계절·꽃 교배를 기록합니다.
+        </p>
+      </div>
+    </header>
+
+    <nav id="tabs" class="tabs"></nav>
+
+    <section class="summary-panel">
+      <div class="summary-grid">
+        <div class="metric">
+          <div id="metricOne" class="metric-value">0</div>
+          <div id="metricOneLabel" class="metric-label">완료</div>
+        </div>
+
+        <div class="metric">
+          <div id="metricTwo" class="metric-value">0</div>
+          <div id="metricTwoLabel" class="metric-label">추가 상태</div>
+        </div>
+
+        <div class="metric">
+          <div id="metricThree" class="metric-value">0</div>
+          <div id="metricThreeLabel" class="metric-label">즐겨찾기</div>
+        </div>
+      </div>
+
+      <div class="progress-track">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+    </section>
+
+    <section id="datePanel" class="date-panel">
+      <h2 id="datePanelTitle" class="date-panel-title">
+        날짜 조회
+      </h2>
+
+      <p id="datePanelDescription" class="date-panel-description">
+        선택한 날짜에 맞는 정보를 표시합니다.
+      </p>
+
+      <div class="date-row">
+        <input id="dateInput" class="date-input" type="date" />
+
+        <button id="todayButton" class="today-button" type="button">
+          오늘
+        </button>
+      </div>
+
+      <div id="dateResult" class="date-result"></div>
+    </section>
+
+    <section class="sticky-area">
+      <div id="mainToolbar" class="toolbar">
+        <label class="search-wrap">
+          <span class="search-icon">🔍</span>
+
+          <input
+            id="searchInput"
+            class="search-input"
+            type="search"
+            placeholder="이름·정보 검색"
+            autocomplete="off"
+          />
+        </label>
+
+        <select id="statusFilter" class="filter-select"></select>
+
+        <button
+          id="primaryEditButton"
+          class="edit-button"
+          type="button"
+        >
+          편집
+        </button>
+
+        <button
+          id="secondaryEditButton"
+          class="edit-button secondary"
+          type="button"
+        >
+          추가 편집
+        </button>
+      </div>
+
+      <div class="secondary-toolbar">
+        <select id="groupFilter" class="filter-select"></select>
+        <select id="detailFilter" class="filter-select"></select>
+        <select id="sortSelect" class="filter-select"></select>
+      </div>
+
+      <div id="editGuide" class="edit-guide"></div>
+    </section>
+
+    <div class="result-info">
+      <span id="resultCount">0개 표시</span>
+
+      <button id="resetButton" class="reset-button" type="button">
+        검색·필터 초기화
+      </button>
+    </div>
+
+    <section id="cardGrid" class="card-grid"></section>
+
+    <div id="emptyState" class="empty-state">
+      조건에 맞는 항목이 없습니다.
+    </div>
+
+    <div id="errorState" class="error-state">
+      생활도감 DB를 불러오지 못했습니다.
+    </div>
+  </main>
+
+  <div id="detailOverlay" class="overlay" aria-hidden="true">
+    <section class="detail-sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+
+      <div class="detail-close-row">
+        <button
+          id="closeDetailButton"
+          class="close-button"
+          type="button"
+        >
+          ×
+        </button>
+      </div>
+
+      <div id="detailImage" class="detail-image"></div>
+      <h2 id="detailName" class="detail-name"></h2>
+      <p id="detailEnglishName" class="detail-subname"></p>
+      <p id="detailJapaneseName" class="detail-subname"></p>
+
+      <div id="detailTable" class="detail-table"></div>
+      <div id="detailActions" class="detail-actions"></div>
+
+      <section id="noteSection" class="note-section">
+        <h3 class="note-title">개인 메모</h3>
+
+        <textarea
+          id="noteInput"
+          class="note-input"
+          placeholder="이 항목에 대한 메모를 입력하세요."
+        ></textarea>
+
+        <button id="saveNoteButton" class="note-save" type="button">
+          메모 저장
+        </button>
+      </section>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./data/life.js?v=1"></script>
+
+  <script>
+    const database = window.CITY_FOLK_LIFE;
+    const storageKey = "city-folk-collection-v1";
+
+    const categoryConfig = {
+      villagers: {
+        label: "주민",
+        icon: "🏡",
+        dataKey: "villagers",
+        primaryKey: "met",
+        primaryLabel: "만나봄",
+        secondaryKey: "current",
+        secondaryLabel: "현재 거주",
+        hasFormer: true,
+        hasFavorite: true,
+        dateMode: "birthday"
+      },
+      characters: {
+        label: "특수 캐릭터",
+        icon: "🎪",
+        dataKey: "characters",
+        primaryKey: "met",
+        primaryLabel: "만나봄",
+        secondaryKey: null,
+        secondaryLabel: "",
+        hasFormer: false,
+        hasFavorite: true,
+        dateMode: null
+      },
+      events: {
+        label: "이벤트",
+        icon: "🎉",
+        dataKey: "events",
+        primaryKey: "participated",
+        primaryLabel: "참가함",
+        secondaryKey: null,
+        secondaryLabel: "",
+        hasFormer: false,
+        hasFavorite: true,
+        dateMode: "event"
+      },
+      seasons: {
+        label: "계절",
+        icon: "🍂",
+        dataKey: "seasons",
+        primaryKey: null,
+        primaryLabel: "",
+        secondaryKey: null,
+        secondaryLabel: "",
+        hasFormer: false,
+        hasFavorite: false,
+        dateMode: "season"
+      },
+      flowers: {
+        label: "꽃 교배",
+        icon: "🌷",
+        dataKey: "flowers",
+        primaryKey: "completed",
+        primaryLabel: "교배 완료",
+        secondaryKey: null,
+        secondaryLabel: "",
+        hasFormer: false,
+        hasFavorite: true,
+        dateMode: null
+      }
+    };
+
+    let state = loadState();
+    let currentCategoryId = "villagers";
+    let selectedItem = null;
+    let editMode = "none";
+    let toastTimer = null;
+
+    const tabs = document.getElementById("tabs");
+    const homeButton = document.getElementById("homeButton");
+
+    const metricOne = document.getElementById("metricOne");
+    const metricTwo = document.getElementById("metricTwo");
+    const metricThree = document.getElementById("metricThree");
+    const metricOneLabel = document.getElementById("metricOneLabel");
+    const metricTwoLabel = document.getElementById("metricTwoLabel");
+    const metricThreeLabel = document.getElementById("metricThreeLabel");
+    const progressBar = document.getElementById("progressBar");
+
+    const datePanel = document.getElementById("datePanel");
+    const datePanelTitle = document.getElementById("datePanelTitle");
+    const datePanelDescription =
+      document.getElementById("datePanelDescription");
+    const dateInput = document.getElementById("dateInput");
+    const todayButton = document.getElementById("todayButton");
+    const dateResult = document.getElementById("dateResult");
+
+    const mainToolbar = document.getElementById("mainToolbar");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const primaryEditButton =
+      document.getElementById("primaryEditButton");
+    const secondaryEditButton =
+      document.getElementById("secondaryEditButton");
+    const groupFilter = document.getElementById("groupFilter");
+    const detailFilter = document.getElementById("detailFilter");
+    const sortSelect = document.getElementById("sortSelect");
+    const editGuide = document.getElementById("editGuide");
+    const resetButton = document.getElementById("resetButton");
+    const resultCount = document.getElementById("resultCount");
+    const cardGrid = document.getElementById("cardGrid");
+    const emptyState = document.getElementById("emptyState");
+    const errorState = document.getElementById("errorState");
+
+    const detailOverlay = document.getElementById("detailOverlay");
+    const closeDetailButton =
+      document.getElementById("closeDetailButton");
+    const detailImage = document.getElementById("detailImage");
+    const detailName = document.getElementById("detailName");
+    const detailEnglishName =
+      document.getElementById("detailEnglishName");
+    const detailJapaneseName =
+      document.getElementById("detailJapaneseName");
+    const detailTable = document.getElementById("detailTable");
+    const detailActions = document.getElementById("detailActions");
+    const noteSection = document.getElementById("noteSection");
+    const noteInput = document.getElementById("noteInput");
+    const saveNoteButton =
+      document.getElementById("saveNoteButton");
+    const toast = document.getElementById("toast");
+
+    function blankLifeState() {
+      return {
+        villagers: {
+          met: [],
+          current: [],
+          former: [],
+          favorite: [],
+          notes: {}
+        },
+        characters: {
+          met: [],
+          favorite: [],
+          notes: {}
+        },
+        events: {
+          participated: [],
+          favorite: [],
+          notes: {}
+        },
+        flowers: {
+          completed: [],
+          favorite: [],
+          notes: {}
+        }
+      };
+    }
+
+    function loadState() {
+      let loaded = {
+        owned: {},
+        itemProgress: {
+          cataloged: {},
+          donated: {}
+        },
+        nameOverrides: {},
+        creatures: {
+          caught: {},
+          donated: {}
+        },
+        life: blankLifeState()
+      };
+
+      try {
+        const saved = JSON.parse(
+          localStorage.getItem(storageKey)
+        );
+
+        if (saved && typeof saved === "object") {
+          loaded = saved;
+        }
+      } catch {}
+
+      if (!loaded.life || typeof loaded.life !== "object") {
+        loaded.life = blankLifeState();
+      }
+
+      const defaults = blankLifeState();
+
+      Object.entries(defaults).forEach(
+        ([categoryId, categoryDefaults]) => {
+          if (
+            !loaded.life[categoryId] ||
+            typeof loaded.life[categoryId] !== "object"
+          ) {
+            loaded.life[categoryId] = categoryDefaults;
+            return;
+          }
+
+          Object.entries(categoryDefaults).forEach(
+            ([key, defaultValue]) => {
+              const current = loaded.life[categoryId][key];
+
+              if (Array.isArray(defaultValue)) {
+                if (!Array.isArray(current)) {
+                  loaded.life[categoryId][key] = [];
+                }
+              } else if (
+                !current ||
+                typeof current !== "object" ||
+                Array.isArray(current)
+              ) {
+                loaded.life[categoryId][key] = {};
+              }
+            }
+          );
+        }
+      );
+
+      return loaded;
+    }
+
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    }
+
+    function currentConfig() {
+      return categoryConfig[currentCategoryId];
+    }
+
+    function currentItems() {
+      const config = currentConfig();
+      return database?.[config.dataKey] || [];
+    }
+
+    function stateArray(categoryId, key) {
+      const category = state.life[categoryId];
+
+      if (!Array.isArray(category[key])) {
+        category[key] = [];
+      }
+
+      return category[key];
+    }
+
+    function stateSet(categoryId, key) {
+      return new Set(stateArray(categoryId, key));
+    }
+
+    function hasState(categoryId, key, itemId) {
+      if (!key) return false;
+
+      return stateArray(categoryId, key).includes(itemId);
+    }
+
+    function setItemState(categoryId, key, itemId, enabled) {
+      if (!key) return;
+
+      const set = stateSet(categoryId, key);
+
+      if (enabled) {
+        set.add(itemId);
+      } else {
+        set.delete(itemId);
+      }
+
+      state.life[categoryId][key] = [...set];
+
+      if (categoryId === "villagers") {
+        if (key === "current" && enabled) {
+          const met = stateSet("villagers", "met");
+          met.add(itemId);
+          state.life.villagers.met = [...met];
+
+          const former = stateSet("villagers", "former");
+          former.delete(itemId);
+          state.life.villagers.former = [...former];
+        }
+
+        if (key === "former" && enabled) {
+          const met = stateSet("villagers", "met");
+          met.add(itemId);
+          state.life.villagers.met = [...met];
+
+          const current = stateSet("villagers", "current");
+          current.delete(itemId);
+          state.life.villagers.current = [...current];
+        }
+
+        if (key === "met" && !enabled) {
+          ["current", "former"].forEach((relatedKey) => {
+            const related = stateSet(
+              "villagers",
+              relatedKey
+            );
+            related.delete(itemId);
+            state.life.villagers[relatedKey] = [...related];
+          });
+        }
+      }
+
+      saveState();
+    }
+
+    function noteFor(itemId) {
+      const notes =
+        state.life[currentCategoryId]?.notes || {};
+      return notes[itemId] || "";
+    }
+
+    function setNote(itemId, value) {
+      if (!state.life[currentCategoryId].notes) {
+        state.life[currentCategoryId].notes = {};
+      }
+
+      const trimmed = value.trim();
+
+      if (trimmed) {
+        state.life[currentCategoryId].notes[itemId] = trimmed;
+      } else {
+        delete state.life[currentCategoryId].notes[itemId];
+      }
+
+      saveState();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function safeText(value, fallback = "정보 없음") {
+      if (
+        value === null ||
+        value === undefined ||
+        value === "" ||
+        value === "-"
+      ) {
+        return fallback;
+      }
+
+      return String(value);
+    }
+
+    function toDateValue(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+    function selectedDate() {
+      if (!dateInput.value) return new Date();
+
+      const [year, month, day] =
+        dateInput.value.split("-").map(Number);
+
+      return new Date(year, month - 1, day, 12, 0, 0, 0);
+    }
+
+    function dateLabel(date) {
+      return new Intl.DateTimeFormat("ko-KR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "short"
+      }).format(date);
+    }
+
+    function countState(key) {
+      if (!key) return 0;
+
+      return currentItems().reduce(
+        (count, item) =>
+          count +
+          Number(
+            hasState(currentCategoryId, key, item.id)
+          ),
+        0
+      );
+    }
+
+    function percentage(value, total) {
+      return total === 0 ? 0 : (value / total) * 100;
+    }
+
+    function nthWeekdayDate(year, month, weekday, nth) {
+      const first = new Date(year, month - 1, 1);
+      const shift =
+        (weekday - first.getDay() + 7) % 7;
+      const day = 1 + shift + (nth - 1) * 7;
+
+      return new Date(year, month - 1, day);
+    }
+
+    function eventOccursOn(event, date) {
+      const schedule = event.schedule;
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const weekday = date.getDay();
+
+      if (schedule.type === "fixed") {
+        return (
+          schedule.month === month &&
+          schedule.day === day
+        );
+      }
+
+      if (schedule.type === "monthly") {
+        return schedule.months.includes(month);
+      }
+
+      if (schedule.type === "everyWeekday") {
+        return (
+          schedule.month === month &&
+          schedule.weekday === weekday
+        );
+      }
+
+      if (schedule.type === "nthWeekday") {
+        const expected = nthWeekdayDate(
+          date.getFullYear(),
+          schedule.month,
+          schedule.weekday,
+          schedule.nth
+        );
+
+        return (
+          expected.getMonth() === date.getMonth() &&
+          expected.getDate() === day
+        );
+      }
+
+      return false;
+    }
+
+    function eventInMonth(event, date) {
+      const schedule = event.schedule;
+      const month = date.getMonth() + 1;
+
+      if (schedule.type === "fixed") {
+        return schedule.month === month;
+      }
+
+      if (schedule.type === "monthly") {
+        return schedule.months.includes(month);
+      }
+
+      if (
+        schedule.type === "everyWeekday" ||
+        schedule.type === "nthWeekday"
+      ) {
+        return schedule.month === month;
+      }
+
+      return false;
+    }
+
+    function nextExactEventDate(event, fromDate) {
+      const schedule = event.schedule;
+
+      if (
+        schedule.type === "varies" ||
+        schedule.type === "monthly"
+      ) {
+        return null;
+      }
+
+      for (let offset = 0; offset <= 370; offset += 1) {
+        const probe = new Date(
+          fromDate.getFullYear(),
+          fromDate.getMonth(),
+          fromDate.getDate() + offset,
+          12,
+          0,
+          0,
+          0
+        );
+
+        if (eventOccursOn(event, probe)) {
+          return probe;
+        }
+      }
+
+      return null;
+    }
+
+    function seasonContains(season, date) {
+      const current = (date.getMonth() + 1) * 100 + date.getDate();
+      const start =
+        season.startMonth * 100 + season.startDay;
+      const end =
+        season.endMonth * 100 + season.endDay;
+
+      return current >= start && current <= end;
+    }
+
+    function displayEventDate(event, year) {
+      const schedule = event.schedule;
+      const weekdays = [
+        "일요일",
+        "월요일",
+        "화요일",
+        "수요일",
+        "목요일",
+        "금요일",
+        "토요일"
+      ];
+
+      if (schedule.type === "fixed") {
+        return `${schedule.month}월 ${schedule.day}일`;
+      }
+
+      if (schedule.type === "monthly") {
+        if (schedule.months.length === 12) {
+          return "매월";
+        }
+
+        return (
+          `${schedule.months.join("·")}월 중 매월`
+        );
+      }
+
+      if (schedule.type === "everyWeekday") {
+        return (
+          `${schedule.month}월 매주 ` +
+          weekdays[schedule.weekday]
+        );
+      }
+
+      if (schedule.type === "nthWeekday") {
+        const date = nthWeekdayDate(
+          year,
+          schedule.month,
+          schedule.weekday,
+          schedule.nth
+        );
+
+        return (
+          `${schedule.month}월 ${schedule.nth}번째 ` +
+          `${weekdays[schedule.weekday]} · ` +
+          `${date.getMonth() + 1}월 ${date.getDate()}일`
+        );
+      }
+
+      return "해마다 날짜 변동";
+    }
+
+    function buildTabs() {
+      tabs.innerHTML = "";
+
+      Object.entries(categoryConfig).forEach(
+        ([categoryId, config]) => {
+          const count =
+            database?.[config.dataKey]?.length || 0;
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className =
+            `tab${
+              categoryId === currentCategoryId
+                ? " active"
+                : ""
+            }`;
+          button.textContent =
+            `${config.icon} ${config.label} ${count}`;
+
+          button.addEventListener("click", () => {
+            location.hash = categoryId;
+          });
+
+          tabs.appendChild(button);
+        }
+      );
+    }
+
+    function addOption(select, value, label) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      select.appendChild(option);
+    }
+
+    function buildControls() {
+      const config = currentConfig();
+
+      statusFilter.innerHTML = "";
+      groupFilter.innerHTML = "";
+      detailFilter.innerHTML = "";
+      sortSelect.innerHTML = "";
+
+      addOption(statusFilter, "all", "전체 상태");
+
+      if (config.primaryKey) {
+        addOption(
+          statusFilter,
+          "primary",
+          config.primaryLabel
+        );
+        addOption(
+          statusFilter,
+          "not-primary",
+          `${config.primaryLabel} 전`
+        );
+      }
+
+      if (config.secondaryKey) {
+        addOption(
+          statusFilter,
+          "secondary",
+          config.secondaryLabel
+        );
+      }
+
+      if (config.hasFormer) {
+        addOption(statusFilter, "former", "과거 거주");
+      }
+
+      if (config.hasFavorite) {
+        addOption(statusFilter, "favorite", "즐겨찾기");
+      }
+
+      addOption(groupFilter, "all", "모든 분류");
+      addOption(detailFilter, "all", "모든 세부 조건");
+      addOption(sortSelect, "number", "기본 순서");
+      addOption(sortSelect, "name", "한글 이름순");
+
+      if (currentCategoryId === "villagers") {
+        const species = [...new Set(
+          currentItems().map((item) => item.speciesKo)
+        )].sort((a, b) => a.localeCompare(b, "ko"));
+
+        species.forEach((value) => {
+          addOption(groupFilter, value, value);
+        });
+
+        const personalities = [...new Set(
+          currentItems().map(
+            (item) => item.personalityKo
+          )
+        )].sort((a, b) => a.localeCompare(b, "ko"));
+
+        personalities.forEach((value) => {
+          addOption(
+            detailFilter,
+            `personality:${value}`,
+            value
+          );
+        });
+
+        addOption(detailFilter, "gender:남성", "남성");
+        addOption(detailFilter, "gender:여성", "여성");
+        addOption(
+          detailFilter,
+          "birthday-today",
+          "선택 날짜 생일"
+        );
+        addOption(
+          detailFilter,
+          "birthday-month",
+          "선택한 달 생일"
+        );
+        addOption(sortSelect, "birthday", "생일순");
+      }
+
+      if (currentCategoryId === "characters") {
+        addOption(
+          groupFilter,
+          "identified",
+          "확인된 캐릭터"
+        );
+        addOption(
+          groupFilter,
+          "unidentified",
+          "미확인 캐릭터"
+        );
+      }
+
+      if (currentCategoryId === "events") {
+        ["KOR", "JP", "NA", "EU"].forEach((region) => {
+          addOption(
+            groupFilter,
+            region,
+            region === "KOR"
+              ? "한국 행사"
+              : region === "JP"
+                ? "일본 행사"
+                : region === "NA"
+                  ? "북미 행사"
+                  : "유럽 행사"
+          );
+        });
+
+        addOption(detailFilter, "today", "선택 날짜 행사");
+        addOption(
+          detailFilter,
+          "month",
+          "선택한 달 행사"
+        );
+        addOption(
+          detailFilter,
+          "variable",
+          "날짜 변동 행사"
+        );
+        addOption(
+          sortSelect,
+          "next-event",
+          "다음 행사순"
+        );
+      }
+
+      if (currentCategoryId === "seasons") {
+        ["겨울", "봄", "여름", "가을"].forEach(
+          (season) => {
+            addOption(groupFilter, season, season);
+          }
+        );
+
+        addOption(
+          detailFilter,
+          "selected-date",
+          "선택 날짜 구간"
+        );
+        addOption(
+          sortSelect,
+          "date",
+          "날짜 순서"
+        );
+      }
+
+      if (currentCategoryId === "flowers") {
+        const flowerTypes = [...new Set(
+          currentItems().map((item) => item.flowerKo)
+        )];
+
+        flowerTypes.forEach((flower) => {
+          addOption(groupFilter, flower, flower);
+        });
+
+        const outputColors = [...new Set(
+          currentItems().flatMap(
+            (item) =>
+              item.outputs.map(
+                (output) => output.colorKo
+              )
+          )
+        )];
+
+        outputColors.forEach((color) => {
+          addOption(
+            detailFilter,
+            `output:${color}`,
+            `결과: ${color}`
+          );
+        });
+
+        addOption(
+          sortSelect,
+          "probability",
+          "희귀 결과 우선"
+        );
+      }
+
+      const hasPrimary = Boolean(config.primaryKey);
+      const hasSecondary = Boolean(config.secondaryKey);
+
+      primaryEditButton.classList.toggle(
+        "hidden",
+        !hasPrimary
+      );
+      secondaryEditButton.classList.toggle(
+        "hidden",
+        !hasSecondary
+      );
+
+      mainToolbar.classList.toggle(
+        "no-edit",
+        !hasPrimary
+      );
+      mainToolbar.classList.toggle(
+        "single-edit",
+        hasPrimary && !hasSecondary
+      );
+
+      primaryEditButton.textContent =
+        hasPrimary
+          ? `${config.primaryLabel} 편집`
+          : "편집";
+      secondaryEditButton.textContent =
+        hasSecondary
+          ? `${config.secondaryLabel} 편집`
+          : "추가 편집";
+
+      datePanel.classList.toggle(
+        "hidden",
+        !config.dateMode
+      );
+
+      if (config.dateMode === "birthday") {
+        datePanelTitle.textContent = "주민 생일 조회";
+        datePanelDescription.textContent =
+          "선택한 날짜에 생일인 주민과 그 달의 생일 주민을 찾습니다.";
+      } else if (config.dateMode === "event") {
+        datePanelTitle.textContent = "행사 날짜 조회";
+        datePanelDescription.textContent =
+          "고정 날짜 행사와 지역별 행사를 선택한 날짜 기준으로 확인합니다.";
+      } else if (config.dateMode === "season") {
+        datePanelTitle.textContent = "계절 변화 조회";
+        datePanelDescription.textContent =
+          "선택한 날짜의 계절과 풀·나무 팔레트 구간을 확인합니다.";
+      }
+
+      cardGrid.className = "card-grid";
+
+      if (
+        currentCategoryId === "events" ||
+        currentCategoryId === "seasons"
+      ) {
+        cardGrid.classList.add("list-mode");
+      }
+
+      if (currentCategoryId === "flowers") {
+        cardGrid.classList.add("flower-mode");
+      }
+    }
+
+    function updateDateResult() {
+      const date = selectedDate();
+      const label = dateLabel(date);
+
+      if (currentCategoryId === "villagers") {
+        const birthdays = currentItems().filter(
+          (item) =>
+            item.birthdayMonth === date.getMonth() + 1 &&
+            item.birthdayDay === date.getDate()
+        );
+
+        dateResult.textContent =
+          birthdays.length > 0
+            ? `${label} 생일: ${birthdays
+                .map((item) => item.nameKo)
+                .join(", ")}`
+            : `${label}에 생일인 주민이 없습니다.`;
+      } else if (currentCategoryId === "events") {
+        const todayEvents = currentItems().filter(
+          (event) => eventOccursOn(event, date)
+        );
+
+        dateResult.textContent =
+          todayEvents.length > 0
+            ? `${label}: ${todayEvents
+                .map((event) => event.nameKo)
+                .join(", ")}`
+            : `${label}에 자동 계산되는 고정 행사가 없습니다.`;
+      } else if (currentCategoryId === "seasons") {
+        const current = currentItems().find(
+          (season) => seasonContains(season, date)
+        );
+
+        dateResult.textContent = current
+          ? `${label}: ${current.seasonKo} · 풀 ${current.grassPalette} · 나무 ${current.treePalette}`
+          : `${label}의 계절 구간을 찾지 못했습니다.`;
+      }
+    }
+
+    function renderSummary() {
+      const config = currentConfig();
+      const total = currentItems().length;
+      const primary = countState(config.primaryKey);
+      const secondary = countState(config.secondaryKey);
+      const favorite = config.hasFavorite
+        ? countState("favorite")
+        : 0;
+
+      if (currentCategoryId === "villagers") {
+        const former = countState("former");
+
+        metricOne.textContent = `${primary} / ${total}`;
+        metricOneLabel.textContent = "만나봄";
+        metricTwo.textContent = secondary;
+        metricTwoLabel.textContent = "현재 거주";
+        metricThree.textContent = former;
+        metricThreeLabel.textContent = "과거 거주";
+      } else if (currentCategoryId === "characters") {
+        metricOne.textContent = `${primary} / ${total}`;
+        metricOneLabel.textContent = "만나봄";
+        metricTwo.textContent = favorite;
+        metricTwoLabel.textContent = "즐겨찾기";
+        metricThree.textContent =
+          Object.keys(
+            state.life.characters.notes || {}
+          ).length;
+        metricThreeLabel.textContent = "메모";
+      } else if (currentCategoryId === "events") {
+        metricOne.textContent = `${primary} / ${total}`;
+        metricOneLabel.textContent = "참가";
+        metricTwo.textContent = favorite;
+        metricTwoLabel.textContent = "즐겨찾기";
+        metricThree.textContent = currentItems().filter(
+          (event) => event.regions.includes("KOR")
+        ).length;
+        metricThreeLabel.textContent = "한국 행사";
+      } else if (currentCategoryId === "seasons") {
+        const current = currentItems().find(
+          (season) =>
+            seasonContains(season, selectedDate())
+        );
+
+        metricOne.textContent = total;
+        metricOneLabel.textContent = "계절 구간";
+        metricTwo.textContent =
+          current?.seasonKo || "-";
+        metricTwoLabel.textContent = "선택 날짜";
+        metricThree.textContent =
+          current?.treePalette ?? "-";
+        metricThreeLabel.textContent = "나무 팔레트";
+      } else if (currentCategoryId === "flowers") {
+        metricOne.textContent = `${primary} / ${total}`;
+        metricOneLabel.textContent = "교배 완료";
+        metricTwo.textContent = favorite;
+        metricTwoLabel.textContent = "즐겨찾기";
+        metricThree.textContent = [...new Set(
+          currentItems().map((item) => item.flowerKo)
+        )].length;
+        metricThreeLabel.textContent = "꽃 종류";
+      }
+
+      progressBar.style.width =
+        `${percentage(primary, total)}%`;
+    }
+
+    function matchesSearch(item, keyword) {
+      const values = Object.values(item).flatMap(
+        (value) => {
+          if (Array.isArray(value)) {
+            return value.map((entry) =>
+              typeof entry === "object"
+                ? JSON.stringify(entry)
+                : entry
+            );
+          }
+
+          if (
+            value &&
+            typeof value === "object"
+          ) {
+            return JSON.stringify(value);
+          }
+
+          return value;
+        }
+      );
+
+      return values
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+        .includes(keyword);
+    }
+
+    function filteredItems() {
+      const config = currentConfig();
+      const keyword =
+        searchInput.value.trim().toLowerCase();
+      const status = statusFilter.value;
+      const group = groupFilter.value;
+      const detail = detailFilter.value;
+      const date = selectedDate();
+
+      const items = currentItems().filter((item) => {
+        if (keyword && !matchesSearch(item, keyword)) {
+          return false;
+        }
+
+        const primary = config.primaryKey
+          ? hasState(
+              currentCategoryId,
+              config.primaryKey,
+              item.id
+            )
+          : false;
+        const secondary = config.secondaryKey
+          ? hasState(
+              currentCategoryId,
+              config.secondaryKey,
+              item.id
+            )
+          : false;
+        const former = config.hasFormer
+          ? hasState(
+              currentCategoryId,
+              "former",
+              item.id
+            )
+          : false;
+        const favorite = config.hasFavorite
+          ? hasState(
+              currentCategoryId,
+              "favorite",
+              item.id
+            )
+          : false;
+
+        if (status === "primary" && !primary) {
+          return false;
+        }
+
+        if (status === "not-primary" && primary) {
+          return false;
+        }
+
+        if (status === "secondary" && !secondary) {
+          return false;
+        }
+
+        if (status === "former" && !former) {
+          return false;
+        }
+
+        if (status === "favorite" && !favorite) {
+          return false;
+        }
+
+        if (currentCategoryId === "villagers") {
+          if (
+            group !== "all" &&
+            item.speciesKo !== group
+          ) {
+            return false;
+          }
+
+          if (
+            detail.startsWith("personality:") &&
+            item.personalityKo !==
+              detail.split(":")[1]
+          ) {
+            return false;
+          }
+
+          if (
+            detail.startsWith("gender:") &&
+            item.genderKo !== detail.split(":")[1]
+          ) {
+            return false;
+          }
+
+          if (
+            detail === "birthday-today" &&
+            !(
+              item.birthdayMonth === date.getMonth() + 1 &&
+              item.birthdayDay === date.getDate()
+            )
+          ) {
+            return false;
+          }
+
+          if (
+            detail === "birthday-month" &&
+            item.birthdayMonth !== date.getMonth() + 1
+          ) {
+            return false;
+          }
+        }
+
+        if (currentCategoryId === "characters") {
+          if (
+            group === "identified" &&
+            item.unidentified
+          ) {
+            return false;
+          }
+
+          if (
+            group === "unidentified" &&
+            !item.unidentified
+          ) {
+            return false;
+          }
+        }
+
+        if (currentCategoryId === "events") {
+          if (
+            group !== "all" &&
+            !item.regions.includes(group)
+          ) {
+            return false;
+          }
+
+          if (
+            detail === "today" &&
+            !eventOccursOn(item, date)
+          ) {
+            return false;
+          }
+
+          if (
+            detail === "month" &&
+            !eventInMonth(item, date)
+          ) {
+            return false;
+          }
+
+          if (
+            detail === "variable" &&
+            item.schedule.type !== "varies"
+          ) {
+            return false;
+          }
+        }
+
+        if (currentCategoryId === "seasons") {
+          if (
+            group !== "all" &&
+            item.seasonKo !== group
+          ) {
+            return false;
+          }
+
+          if (
+            detail === "selected-date" &&
+            !seasonContains(item, date)
+          ) {
+            return false;
+          }
+        }
+
+        if (currentCategoryId === "flowers") {
+          if (
+            group !== "all" &&
+            item.flowerKo !== group
+          ) {
+            return false;
+          }
+
+          if (
+            detail.startsWith("output:") &&
+            !item.outputs.some(
+              (output) =>
+                output.colorKo === detail.split(":")[1]
+            )
+          ) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+
+      const sort = sortSelect.value;
+
+      items.sort((a, b) => {
+        if (sort === "name") {
+          const aName =
+            a.nameKo || a.flowerKo || a.dateText;
+          const bName =
+            b.nameKo || b.flowerKo || b.dateText;
+
+          return String(aName).localeCompare(
+            String(bName),
+            "ko"
+          );
+        }
+
+        if (sort === "birthday") {
+          return (
+            (a.birthdayMonth * 100 + a.birthdayDay) -
+            (b.birthdayMonth * 100 + b.birthdayDay)
+          );
+        }
+
+        if (sort === "next-event") {
+          const aNext = nextExactEventDate(a, date);
+          const bNext = nextExactEventDate(b, date);
+          const aTime = aNext
+            ? aNext.getTime()
+            : Number.MAX_SAFE_INTEGER;
+          const bTime = bNext
+            ? bNext.getTime()
+            : Number.MAX_SAFE_INTEGER;
+
+          return aTime - bTime;
+        }
+
+        if (sort === "date") {
+          return (
+            a.startMonth * 100 + a.startDay -
+            (b.startMonth * 100 + b.startDay)
+          );
+        }
+
+        if (sort === "probability") {
+          const aRare = Math.min(
+            ...a.outputs.map(
+              (output) => output.probability
+            )
+          );
+          const bRare = Math.min(
+            ...b.outputs.map(
+              (output) => output.probability
+            )
+          );
+
+          return aRare - bRare;
+        }
+
+        return (a.number || 0) - (b.number || 0);
+      });
+
+      return items;
+    }
+
+    function avatarMarkup(item, detailed = false) {
+      if (item.image) {
+        return `<img
+          src="${escapeHtml(item.image)}"
+          alt="${escapeHtml(item.nameKo)}"
+        />`;
+      }
+
+      if (item.speciesEmoji) {
+        return `
+          <span class="avatar-emoji">
+            ${item.speciesEmoji}
+          </span>
+          <span class="avatar-initial">
+            ${escapeHtml(item.nameKo.slice(0, 1))}
+          </span>
+        `;
+      }
+
+      return detailed
+        ? "🎪"
+        : `<span class="avatar-emoji">🎪</span>`;
+    }
+
+    function createSmallCard(item) {
+      const config = currentConfig();
+      const primary = hasState(
+        currentCategoryId,
+        config.primaryKey,
+        item.id
+      );
+      const secondary = config.secondaryKey
+        ? hasState(
+            currentCategoryId,
+            config.secondaryKey,
+            item.id
+          )
+        : false;
+      const former = config.hasFormer
+        ? hasState(
+            currentCategoryId,
+            "former",
+            item.id
+          )
+        : false;
+      const favorite = config.hasFavorite
+        ? hasState(
+            currentCategoryId,
+            "favorite",
+            item.id
+          )
+        : false;
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className =
+        `small-card${primary ? " primary" : ""}` +
+        `${secondary ? " secondary-state" : ""}`;
+
+      button.innerHTML = `
+        <div class="avatar">
+          ${avatarMarkup(item)}
+          ${
+            favorite
+              ? '<span class="badge favorite-badge">★</span>'
+              : ""
+          }
+          ${
+            primary
+              ? `<span class="badge primary-badge">${
+                  currentCategoryId === "villagers"
+                    ? "만남"
+                    : "완료"
+                }</span>`
+              : ""
+          }
+          ${
+            secondary
+              ? '<span class="badge secondary-badge">거주</span>'
+              : ""
+          }
+          ${
+            former
+              ? '<span class="badge former-badge">과거</span>'
+              : ""
+          }
+        </div>
+
+        <div class="small-name">
+          ${escapeHtml(item.nameKo)}
+        </div>
+
+        <div class="small-meta">
+          ${
+            currentCategoryId === "villagers"
+              ? `${escapeHtml(item.speciesKo)} · ` +
+                `${escapeHtml(item.personalityKo)}`
+              : escapeHtml(item.nameEn)
+          }
+        </div>
+      `;
+
+      button.addEventListener("click", () => {
+        handleCardClick(item);
+      });
+
+      return button;
+    }
+
+    function createEventCard(item) {
+      const participated = hasState(
+        "events",
+        "participated",
+        item.id
+      );
+      const favorite = hasState(
+        "events",
+        "favorite",
+        item.id
+      );
+      const date = selectedDate();
+      const occurs = eventOccursOn(item, date);
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className =
+        `list-card${participated ? " primary" : ""}`;
+
+      button.innerHTML = `
+        <div class="list-heading">
+          <div class="list-title">
+            ${favorite ? "★ " : ""}
+            ${escapeHtml(item.nameKo)}
+          </div>
+
+          <div class="list-date">
+            ${
+              occurs
+                ? "선택 날짜 행사"
+                : escapeHtml(
+                    displayEventDate(
+                      item,
+                      date.getFullYear()
+                    )
+                  )
+            }
+          </div>
+        </div>
+
+        <div class="list-subtitle">
+          ${escapeHtml(item.nameEn)} ·
+          보상/아이템:
+          ${escapeHtml(safeText(item.rewardItem))}
+        </div>
+
+        <div class="list-tags">
+          ${item.regionsKo
+            .map(
+              (region) =>
+                `<span class="tag">${escapeHtml(region)}</span>`
+            )
+            .join("")}
+          ${
+            participated
+              ? '<span class="tag active">참가 완료</span>'
+              : ""
+          }
+        </div>
+      `;
+
+      button.addEventListener("click", () => {
+        handleCardClick(item);
+      });
+
+      return button;
+    }
+
+    function createSeasonCard(item) {
+      const current = seasonContains(
+        item,
+        selectedDate()
+      );
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className =
+        `list-card season-card${current ? " current" : ""}`;
+
+      button.innerHTML = `
+        <div class="list-heading">
+          <div class="list-title">
+            ${escapeHtml(item.seasonKo)}
+          </div>
+
+          <div class="list-date">
+            ${current ? "선택 날짜" : escapeHtml(item.dateText)}
+          </div>
+        </div>
+
+        <div class="list-subtitle">
+          ${escapeHtml(item.dateText)} ·
+          풀 팔레트 ${escapeHtml(item.grassPalette)} ·
+          나무 팔레트 ${escapeHtml(item.treePalette)}
+        </div>
+      `;
+
+      button.addEventListener("click", () => {
+        openDetail(item);
+      });
+
+      return button;
+    }
+
+    const flowerColorCss = {
+      "빨강": "#d84a44",
+      "흰색": "#fffdf7",
+      "노랑": "#e2c348",
+      "분홍": "#e9a3b3",
+      "보라": "#8a67a8",
+      "검정": "#35332d",
+      "주황": "#df8841",
+      "파랑": "#547fa8"
+    };
+
+    function createFlowerCard(item) {
+      const completed = hasState(
+        "flowers",
+        "completed",
+        item.id
+      );
+      const favorite = hasState(
+        "flowers",
+        "favorite",
+        item.id
+      );
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className =
+        `flower-card${completed ? " primary" : ""}`;
+
+      button.innerHTML = `
+        <div class="flower-type">
+          ${favorite ? "★ " : ""}
+          ${escapeHtml(item.flowerKo)}
+        </div>
+
+        <div class="flower-combo">
+          ${escapeHtml(item.comboKo)}
+        </div>
+
+        <div class="offspring-list">
+          ${item.outputs
+            .map(
+              (output) => `
+                <div class="offspring-row">
+                  <span>
+                    <span
+                      class="color-dot"
+                      style="background:${
+                        flowerColorCss[output.colorKo] ||
+                        "#cccccc"
+                      }"
+                    ></span>
+                    ${escapeHtml(output.colorKo)}
+                  </span>
+
+                  <strong>${output.probability}%</strong>
+                </div>
+              `
+            )
+            .join("")}
+        </div>
+      `;
+
+      button.addEventListener("click", () => {
+        handleCardClick(item);
+      });
+
+      return button;
+    }
+
+    function handleCardClick(item) {
+      const config = currentConfig();
+
+      if (editMode === "primary" && config.primaryKey) {
+        toggleItemState(config.primaryKey, item);
+        return;
+      }
+
+      if (
+        editMode === "secondary" &&
+        config.secondaryKey
+      ) {
+        toggleItemState(config.secondaryKey, item);
+        return;
+      }
+
+      openDetail(item);
+    }
+
+    function renderCards() {
+      const items = filteredItems();
+      cardGrid.innerHTML = "";
+
+      const fragment = document.createDocumentFragment();
+
+      items.forEach((item) => {
+        if (
+          currentCategoryId === "villagers" ||
+          currentCategoryId === "characters"
+        ) {
+          fragment.appendChild(createSmallCard(item));
+        } else if (currentCategoryId === "events") {
+          fragment.appendChild(createEventCard(item));
+        } else if (currentCategoryId === "seasons") {
+          fragment.appendChild(createSeasonCard(item));
+        } else if (currentCategoryId === "flowers") {
+          fragment.appendChild(createFlowerCard(item));
+        }
+      });
+
+      cardGrid.appendChild(fragment);
+
+      resultCount.textContent =
+        `전체 ${currentItems().length}개 중 ` +
+        `${items.length}개 표시`;
+      emptyState.classList.toggle(
+        "visible",
+        items.length === 0
+      );
+    }
+
+    function render() {
+      if (!database) {
+        errorState.classList.add("visible");
+        return;
+      }
+
+      errorState.classList.remove("visible");
+      buildTabs();
+      renderSummary();
+      updateDateResult();
+      renderCards();
+
+      if (selectedItem) {
+        openDetail(selectedItem, true);
+      }
+    }
+
+    function setEditMode(mode) {
+      const config = currentConfig();
+
+      if (
+        mode === "primary" &&
+        !config.primaryKey
+      ) {
+        mode = "none";
+      }
+
+      if (
+        mode === "secondary" &&
+        !config.secondaryKey
+      ) {
+        mode = "none";
+      }
+
+      editMode = editMode === mode ? "none" : mode;
+
+      primaryEditButton.classList.toggle(
+        "active",
+        editMode === "primary"
+      );
+      secondaryEditButton.classList.toggle(
+        "active",
+        editMode === "secondary"
+      );
+      editGuide.classList.toggle(
+        "visible",
+        editMode !== "none"
+      );
+
+      primaryEditButton.textContent =
+        editMode === "primary"
+          ? `✓ ${config.primaryLabel} 중`
+          : `${config.primaryLabel} 편집`;
+
+      secondaryEditButton.textContent =
+        editMode === "secondary"
+          ? `✓ ${config.secondaryLabel} 중`
+          : `${config.secondaryLabel} 편집`;
+
+      editGuide.textContent =
+        editMode === "primary"
+          ? `${config.primaryLabel} 편집 중 · 카드를 눌러 상태를 변경하세요`
+          : editMode === "secondary"
+            ? `${config.secondaryLabel} 편집 중 · 카드를 눌러 상태를 변경하세요`
+            : "";
+    }
+
+    function toggleItemState(key, item) {
+      const willEnable = !hasState(
+        currentCategoryId,
+        key,
+        item.id
+      );
+
+      setItemState(
+        currentCategoryId,
+        key,
+        item.id,
+        willEnable
+      );
+
+      renderSummary();
+      renderCards();
+      updateDetailActions();
+
+      showToast(
+        `${item.nameKo || item.flowerKo} ` +
+        `${willEnable ? "체크" : "해제"}`
+      );
+    }
+
+    function createDetailRow(label, value) {
+      return `
+        <div class="detail-row">
+          <div class="detail-label">
+            ${escapeHtml(label)}
+          </div>
+
+          <div class="detail-value">
+            ${escapeHtml(safeText(value))}
+          </div>
+        </div>
+      `;
+    }
+
+    function detailRowsFor(item) {
+      if (currentCategoryId === "villagers") {
+        return [
+          ["종족", `${item.speciesKo} (${item.species})`],
+          [
+            "성격",
+            `${item.personalityKo} (${item.personality})`
+          ],
+          ["성별", item.genderKo],
+          ["생일", item.birthday],
+          [
+            "말버릇",
+            item.catchphraseKo ||
+              item.catchphraseEn
+          ],
+          ["기본 옷", item.defaultClothing],
+          ["기본 우산", item.defaultUmbrella],
+          ["좋아하는 분위기", item.likedLookKo],
+          ["싫어하는 분위기", item.dislikedLookKo],
+          ["좋아하는 색", item.favoriteColorKo],
+          ["좋아하는 시리즈", item.favoriteSeries],
+          ["집 음악", item.houseSong],
+          ["벽지", item.wallpaper],
+          ["바닥", item.carpet],
+          [
+            "초기 주민 가능",
+            item.startingVillager ? "예" : "아니요"
+          ],
+          [
+            "이번 작품 신규 주민",
+            item.newToSeries ? "예" : "아니요"
+          ],
+          ["집 가구", item.furniture]
+        ];
+      }
+
+      if (currentCategoryId === "characters") {
+        return [
+          ["내부 ID", item.internalId],
+          ["모델 파일", item.modelFilename],
+          [
+            "DB 상태",
+            item.unidentified
+              ? "원본 DB에서 이름 미확인"
+              : "이름 확인됨"
+          ]
+        ];
+      }
+
+      if (currentCategoryId === "events") {
+        return [
+          [
+            "행사 날짜",
+            displayEventDate(
+              item,
+              selectedDate().getFullYear()
+            )
+          ],
+          ["원본 날짜 표기", item.dateText],
+          ["지역", item.regionsKo.join(", ")],
+          ["보상·아이템", item.rewardItem],
+          [
+            "선택 날짜 개최",
+            eventOccursOn(item, selectedDate())
+              ? "예"
+              : "아니요"
+          ]
+        ];
+      }
+
+      if (currentCategoryId === "seasons") {
+        return [
+          ["기간", item.dateText],
+          ["계절", item.seasonKo],
+          ["풀 팔레트", item.grassPalette],
+          ["나무 팔레트", item.treePalette],
+          [
+            "선택 날짜 구간",
+            seasonContains(item, selectedDate())
+              ? "예"
+              : "아니요"
+          ]
+        ];
+      }
+
+      if (currentCategoryId === "flowers") {
+        return [
+          ["꽃 종류", item.flowerKo],
+          ["부모 꽃", item.comboKo],
+          [
+            "가능한 결과",
+            item.outputs
+              .map(
+                (output) =>
+                  `${output.colorKo} ${output.probability}%`
+              )
+              .join("\n")
+          ]
+        ];
+      }
+
+      return [];
+    }
+
+    function openDetail(item, preserveScroll = false) {
+      selectedItem = item;
+
+      if (
+        currentCategoryId === "villagers" ||
+        currentCategoryId === "characters"
+      ) {
+        detailImage.innerHTML = avatarMarkup(item, true);
+      } else if (currentCategoryId === "events") {
+        detailImage.textContent = "🎉";
+      } else if (currentCategoryId === "seasons") {
+        detailImage.textContent =
+          item.seasonKo === "겨울"
+            ? "❄️"
+            : item.seasonKo === "봄"
+              ? "🌸"
+              : item.seasonKo === "여름"
+                ? "🌳"
+                : "🍂";
+      } else {
+        detailImage.textContent = "🌷";
+      }
+
+      detailName.textContent =
+        item.nameKo ||
+        `${item.flowerKo} ${item.comboKo}` ||
+        item.seasonKo;
+      detailEnglishName.textContent =
+        item.nameEn ||
+        item.comboEn ||
+        item.season ||
+        "";
+      detailJapaneseName.textContent =
+        item.nameJa || "";
+
+      detailTable.innerHTML = detailRowsFor(item)
+        .map(([label, value]) =>
+          createDetailRow(label, value)
+        )
+        .join("");
+
+      noteSection.classList.toggle(
+        "hidden",
+        currentCategoryId === "seasons"
+      );
+
+      noteInput.value =
+        currentCategoryId === "seasons"
+          ? ""
+          : noteFor(item.id);
+
+      updateDetailActions();
+
+      if (!preserveScroll) {
+        detailOverlay.classList.add("visible");
+        detailOverlay.setAttribute(
+          "aria-hidden",
+          "false"
+        );
+        document.body.style.overflow = "hidden";
+      }
+    }
+
+    function actionButton(key, label, className) {
+      const active = hasState(
+        currentCategoryId,
+        key,
+        selectedItem.id
+      );
+
+      return `
+        <button
+          type="button"
+          class="detail-action ${className}${
+            active ? " active" : ""
+          }"
+          data-action-key="${escapeHtml(key)}"
+        >
+          ${active ? "✓ " : ""}${escapeHtml(label)}
+        </button>
+      `;
+    }
+
+    function updateDetailActions() {
+      if (!selectedItem) return;
+
+      const config = currentConfig();
+      const actions = [];
+
+      if (config.primaryKey) {
+        actions.push(
+          actionButton(
+            config.primaryKey,
+            config.primaryLabel,
+            "primary-action"
+          )
+        );
+      }
+
+      if (config.secondaryKey) {
+        actions.push(
+          actionButton(
+            config.secondaryKey,
+            config.secondaryLabel,
+            "secondary-action"
+          )
+        );
+      }
+
+      if (config.hasFormer) {
+        actions.push(
+          actionButton(
+            "former",
+            "과거 거주",
+            "former-action"
+          )
+        );
+      }
+
+      if (config.hasFavorite) {
+        actions.push(
+          actionButton(
+            "favorite",
+            "즐겨찾기",
+            "favorite-action"
+          )
+        );
+      }
+
+      detailActions.innerHTML = actions.join("");
+      detailActions.classList.toggle(
+        "hidden",
+        actions.length === 0
+      );
+
+      detailActions
+        .querySelectorAll("[data-action-key]")
+        .forEach((button) => {
+          button.addEventListener("click", () => {
+            toggleItemState(
+              button.dataset.actionKey,
+              selectedItem
+            );
+          });
+        });
+    }
+
+    function closeDetail() {
+      detailOverlay.classList.remove("visible");
+      detailOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+      document.body.style.overflow = "";
+      selectedItem = null;
+    }
+
+    function resetFilters(renderAfter = true) {
+      searchInput.value = "";
+      statusFilter.value = "all";
+      groupFilter.value = "all";
+      detailFilter.value = "all";
+      sortSelect.value = "number";
+
+      if (renderAfter) render();
+    }
+
+    function initializeCategory() {
+      const requested = decodeURIComponent(
+        location.hash.replace(/^#/, "")
+      );
+
+      currentCategoryId =
+        categoryConfig[requested]
+          ? requested
+          : "villagers";
+
+      selectedItem = null;
+      editMode = "none";
+
+      buildControls();
+      resetFilters(false);
+      setEditMode("none");
+      render();
+      window.scrollTo(0, 0);
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("visible");
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("visible");
+      }, 1200);
+    }
+
+    homeButton.addEventListener("click", () => {
+      location.href = "./index.html";
+    });
+
+    todayButton.addEventListener("click", () => {
+      dateInput.value = toDateValue(new Date());
+      render();
+    });
+
+    dateInput.addEventListener("change", render);
+    searchInput.addEventListener("input", renderCards);
+    statusFilter.addEventListener("change", renderCards);
+    groupFilter.addEventListener("change", renderCards);
+    detailFilter.addEventListener("change", renderCards);
+    sortSelect.addEventListener("change", renderCards);
+
+    primaryEditButton.addEventListener("click", () => {
+      setEditMode("primary");
+    });
+
+    secondaryEditButton.addEventListener("click", () => {
+      setEditMode("secondary");
+    });
+
+    resetButton.addEventListener("click", () => {
+      resetFilters(true);
+    });
+
+    closeDetailButton.addEventListener("click", closeDetail);
+
+    detailOverlay.addEventListener("click", (event) => {
+      if (event.target === detailOverlay) {
+        closeDetail();
+      }
+    });
+
+    saveNoteButton.addEventListener("click", () => {
+      if (!selectedItem) return;
+
+      setNote(selectedItem.id, noteInput.value);
+      showToast("메모 저장 완료");
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeDetail();
+      }
+    });
+
+    window.addEventListener(
+      "hashchange",
+      initializeCategory
+    );
+
+    dateInput.value = toDateValue(new Date());
+    initializeCategory();
+  </script>
+</body>
+</html>
