@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <meta name="theme-color" content="#dbead8" />
+  <title>타동숲 생물 도감</title>
+
+  <style>
+    :root {
+      --bg: #e8eadb;
+      --surface: #fffdf7;
+      --surface-2: #f4f3e8;
+      --text: #35332d;
+      --muted: #777367;
+      --line: #d7d3c3;
+      --green: #4f9660;
+      --green-dark: #357346;
+      --green-soft: #d5ecd6;
+      --blue: #4e7f9e;
+      --blue-soft: #d8e8f1;
+      --orange: #d48242;
+      --orange-soft: #f5e3d3;
+      --red: #a54c43;
+      --shadow: 0 7px 22px rgba(61,54,41,.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255,255,255,.72), transparent 28%),
+        var(--bg);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 760px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding-bottom: calc(42px + env(safe-area-inset-bottom));
+    }
+
+    .top-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding:
+        calc(14px + env(safe-area-inset-top))
+        10px
+        10px;
+    }
+
+    .home-button {
+      width: 42px;
+      height: 42px;
+      flex: none;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+      font-size: 19px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .title-wrap {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .eyebrow {
+      margin: 0 0 2px;
+      color: var(--green-dark);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .1em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: -.045em;
+    }
+
+    .subtitle {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .category-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      padding: 0 9px 10px;
+    }
+
+    .category-tab {
+      min-height: 45px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .category-tab.active {
+      color: white;
+      border-color: var(--green-dark);
+      background: var(--green-dark);
+    }
+
+    .progress-panel {
+      margin: 0 9px 9px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .progress-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 8px 5px;
+      border-radius: 11px;
+      background: var(--surface-2);
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 16px;
+      font-weight: 950;
+      letter-spacing: -.035em;
+    }
+
+    .metric-label {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .progress-track {
+      height: 9px;
+      margin-top: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #dedbcd;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+    }
+
+    .time-panel {
+      margin: 0 9px 9px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .panel-description {
+      margin: 3px 0 9px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.45;
+    }
+
+    .date-time-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+      gap: 6px;
+    }
+
+    .input-wrap {
+      min-width: 0;
+    }
+
+    .input-label {
+      display: block;
+      margin: 0 0 4px 2px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .date-input-shell {
+      display: flex;
+      width: 100%;
+      min-width: 0;
+      height: 40px;
+      padding: 0 8px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: white;
+      align-items: center;
+    }
+
+    .date-input {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      color: var(--text);
+      background: transparent;
+      outline: none;
+      font-size: 11px;
+    }
+
+    .time-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 7px;
+    }
+
+    .time-button {
+      min-height: 37px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      font-size: 9px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .time-button.active {
+      color: white;
+      border-color: var(--green-dark);
+      background: var(--green-dark);
+    }
+
+    .weather-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 6px;
+      margin-top: 7px;
+    }
+
+    .panel-select {
+      width: 100%;
+      height: 37px;
+      min-width: 0;
+      padding: 0 7px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--text);
+      background: white;
+      outline: none;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .selected-time-summary {
+      margin-top: 8px;
+      padding: 8px 9px;
+      border-radius: 10px;
+      color: #315d3b;
+      background: var(--green-soft);
+      font-size: 9px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .sticky-area {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding:
+        calc(7px + env(safe-area-inset-top))
+        7px
+        8px;
+      border-bottom: 1px solid rgba(215,211,195,.9);
+      background: rgba(232,234,219,.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 84px 74px 74px;
+      gap: 5px;
+    }
+
+    .search-wrap {
+      position: relative;
+      min-width: 0;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 9px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-size: 12px;
+    }
+
+    .search-input,
+    .filter-select,
+    .mode-button {
+      width: 100%;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+    }
+
+    .search-input {
+      min-width: 0;
+      padding: 0 7px 0 29px;
+      outline: none;
+      font-size: 10px;
+    }
+
+    .filter-select {
+      padding: 0 4px;
+      color: var(--text);
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .mode-button {
+      color: var(--green-dark);
+      border-color: var(--green);
+      font-size: 8.5px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .mode-button.caught.active {
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .mode-button.donated {
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .mode-button.donated.active {
+      color: white;
+      background: var(--blue);
+    }
+
+    .secondary-toolbar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+      margin-top: 5px;
+    }
+
+    .edit-guide {
+      display: none;
+      margin-top: 6px;
+      padding: 7px 8px;
+      border-radius: 9px;
+      color: #315d3b;
+      background: var(--green-soft);
+      font-size: 9px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .edit-guide.visible {
+      display: block;
+    }
+
+    .result-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 9px 7px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .reset-button {
+      padding: 5px;
+      border: 0;
+      color: var(--green-dark);
+      background: transparent;
+      font-size: 9px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+      padding: 0 6px 22px;
+    }
+
+    .item-card {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      padding: 4px 3px 6px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+      box-shadow: 0 2px 6px rgba(60,53,39,.07);
+      cursor: pointer;
+      content-visibility: auto;
+      contain-intrinsic-size: 92px 116px;
+    }
+
+    .item-card:active {
+      transform: scale(.96);
+    }
+
+    .item-card.caught {
+      border-color: #68ae73;
+      background: var(--green-soft);
+    }
+
+    .item-card.donated {
+      border-color: #6d9bb5;
+      box-shadow: inset 0 0 0 2px rgba(78,127,158,.25);
+    }
+
+    .item-image {
+      position: relative;
+      display: grid;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      place-items: center;
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 35% 27%, #fff, #ece5d4);
+    }
+
+    .item-photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 3px;
+      object-fit: contain;
+    }
+
+    .item-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      color: var(--muted);
+      font-size: 25px;
+    }
+
+    .item-fallback.visible {
+      display: grid;
+    }
+
+    .item-name {
+      display: -webkit-box;
+      min-height: 26px;
+      margin-top: 4px;
+      overflow: hidden;
+      font-size: 9.5px;
+      font-weight: 850;
+      line-height: 13px;
+      text-align: center;
+      word-break: keep-all;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .caught-badge,
+    .donated-badge,
+    .available-badge,
+    .weather-badge {
+      position: absolute;
+      z-index: 3;
+      display: grid;
+      border: 1px solid white;
+      color: white;
+      box-shadow: 0 1px 4px rgba(0,0,0,.16);
+      place-items: center;
+      font-weight: 950;
+    }
+
+    .caught-badge {
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--green-dark);
+      font-size: 10px;
+    }
+
+    .donated-badge {
+      right: 4px;
+      bottom: 4px;
+      min-width: 27px;
+      height: 17px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--blue);
+      font-size: 6.5px;
+    }
+
+    .available-badge {
+      top: 4px;
+      left: 4px;
+      min-width: 25px;
+      height: 17px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--orange);
+      font-size: 6.5px;
+    }
+
+    .weather-badge {
+      left: 4px;
+      bottom: 4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #6e7e91;
+      font-size: 9px;
+    }
+
+    .empty-state,
+    .error-state {
+      display: none;
+      padding: 44px 18px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty-state.visible,
+    .error-state.visible {
+      display: block;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding-top: 35px;
+      background: rgba(36,34,29,.48);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    .overlay.visible {
+      display: flex;
+    }
+
+    .detail-sheet {
+      width: 100%;
+      max-width: 760px;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding:
+        9px
+        14px
+        calc(20px + env(safe-area-inset-bottom));
+      border-radius: 24px 24px 0 0;
+      background: white;
+      box-shadow: 0 -12px 34px rgba(0,0,0,.2);
+    }
+
+    .sheet-handle {
+      width: 42px;
+      height: 5px;
+      margin: 0 auto 7px;
+      border-radius: 999px;
+      background: #d3cfc5;
+    }
+
+    .detail-close-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .close-button {
+      width: 35px;
+      height: 35px;
+      border: 0;
+      border-radius: 50%;
+      background: #efede7;
+      font-size: 18px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .detail-image {
+      display: grid;
+      width: 165px;
+      aspect-ratio: 1 / 1;
+      margin: -2px auto 0;
+      overflow: hidden;
+      place-items: center;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 35% 27%, #fff, #ece5d4);
+    }
+
+    .detail-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 9px;
+      object-fit: contain;
+    }
+
+    .detail-name {
+      margin: 12px 0 2px;
+      font-size: 22px;
+      font-weight: 950;
+      text-align: center;
+      letter-spacing: -.045em;
+    }
+
+    .detail-subname {
+      margin: 2px 0;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .availability-status {
+      margin: 11px 0;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .availability-status.yes {
+      color: #315d3b;
+      background: var(--green-soft);
+    }
+
+    .availability-status.no {
+      color: #774438;
+      background: var(--orange-soft);
+    }
+
+    .detail-table {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 105px minmax(0, 1fr);
+      min-height: 42px;
+      border-bottom: 1px solid #eae5d9;
+    }
+
+    .detail-row:last-child {
+      border-bottom: 0;
+    }
+
+    .detail-label,
+    .detail-value {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      font-size: 11px;
+    }
+
+    .detail-label {
+      color: var(--muted);
+      background: var(--surface-2);
+      font-weight: 750;
+    }
+
+    .detail-value {
+      overflow-wrap: anywhere;
+      font-weight: 750;
+      white-space: pre-line;
+    }
+
+    .detail-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .detail-action {
+      min-height: 47px;
+      border-radius: 13px;
+      background: white;
+      font-size: 11px;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .detail-action.caught {
+      color: var(--green-dark);
+      border: 1px solid var(--green);
+    }
+
+    .detail-action.caught.active {
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .detail-action.donated {
+      color: var(--blue);
+      border: 1px solid var(--blue);
+    }
+
+    .detail-action.donated.active {
+      color: white;
+      background: var(--blue);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      z-index: 130;
+      pointer-events: none;
+      transform: translate(-50%, 12px);
+      opacity: 0;
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(47,45,39,.94);
+      font-size: 10px;
+      font-weight: 800;
+      transition:
+        opacity 130ms ease,
+        transform 130ms ease;
+    }
+
+    .toast.visible {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    @media (min-width: 600px) {
+      .item-grid {
+        gap: 8px;
+        padding-right: 10px;
+        padding-left: 10px;
+      }
+
+      .item-name {
+        font-size: 12px;
+        line-height: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header class="top-header">
+      <button id="homeButton" class="home-button" type="button">‹</button>
+
+      <div class="title-wrap">
+        <p class="eyebrow">CITY FOLK CREATURE GUIDE</p>
+        <h1>타동숲 생물 도감</h1>
+        <p class="subtitle">날짜와 시각에 맞춰 지금 잡을 수 있는 생물을 찾습니다.</p>
+      </div>
+    </header>
+
+    <nav id="categoryTabs" class="category-tabs"></nav>
+
+    <section class="progress-panel">
+      <div class="progress-grid">
+        <div class="metric">
+          <div id="caughtMetric" class="metric-value">0 / 0</div>
+          <div class="metric-label">잡아봄</div>
+        </div>
+
+        <div class="metric">
+          <div id="donatedMetric" class="metric-value">0 / 0</div>
+          <div class="metric-label">박물관 기증</div>
+        </div>
+
+        <div class="metric">
+          <div id="availableMetric" class="metric-value">0</div>
+          <div class="metric-label">선택 시각 출현</div>
+        </div>
+      </div>
+
+      <div class="progress-track">
+        <div id="donationProgressBar" class="progress-bar"></div>
+      </div>
+    </section>
+
+    <section class="time-panel">
+      <h2 class="panel-title">출현 날짜·시각</h2>
+      <p class="panel-description">
+        Wii 본체에서 맞출 날짜와 시간을 입력하면 그 시각에 출현 가능한 생물만 판정합니다.
+      </p>
+
+      <div class="date-time-grid">
+        <label class="input-wrap">
+          <span class="input-label">날짜</span>
+          <span class="date-input-shell">
+            <input id="dateInput" class="date-input" type="date" />
+          </span>
+        </label>
+
+        <label class="input-wrap">
+          <span class="input-label">시각</span>
+          <span class="date-input-shell">
+            <input id="timeInput" class="date-input" type="time" step="60" />
+          </span>
+        </label>
+      </div>
+
+      <div class="time-actions">
+        <button id="useNowButton" class="time-button" type="button">
+          현재 날짜·시각
+        </button>
+
+        <button id="liveModeButton" class="time-button" type="button">
+          실시간 자동 갱신
+        </button>
+      </div>
+
+      <div class="weather-row">
+        <select id="availabilityFilter" class="panel-select">
+          <option value="all">출현 여부 모두</option>
+          <option value="available">이 시각에 출현</option>
+          <option value="unavailable">이 시각에 미출현</option>
+          <option value="leaving">이번 달이 마지막</option>
+          <option value="next-month">다음 달 등장</option>
+        </select>
+
+        <select id="weatherSelect" class="panel-select">
+          <option value="ignore">날씨 조건 무시</option>
+          <option value="clear">맑음</option>
+          <option value="rain">비·눈</option>
+          <option value="snow">눈·눈덩이</option>
+        </select>
+      </div>
+
+      <div id="selectedTimeSummary" class="selected-time-summary"></div>
+    </section>
+
+    <section class="sticky-area">
+      <div class="toolbar">
+        <label class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input
+            id="searchInput"
+            class="search-input"
+            type="search"
+            placeholder="생물 이름 검색"
+            autocomplete="off"
+          />
+        </label>
+
+        <select id="stateFilter" class="filter-select">
+          <option value="all">전체 상태</option>
+          <option value="uncaught">미획득</option>
+          <option value="caught">잡음</option>
+          <option value="undonated">미기증</option>
+          <option value="donated">기증 완료</option>
+        </select>
+
+        <button id="caughtModeButton" class="mode-button caught" type="button">
+          잡기 편집
+        </button>
+
+        <button id="donatedModeButton" class="mode-button donated" type="button">
+          기증 편집
+        </button>
+      </div>
+
+      <div class="secondary-toolbar">
+        <select id="locationFilter" class="filter-select">
+          <option value="all">모든 장소</option>
+        </select>
+
+        <select id="detailFilter" class="filter-select">
+          <option value="all">모든 세부 조건</option>
+        </select>
+
+        <select id="sortSelect" class="filter-select">
+          <option value="number">도감 순서</option>
+          <option value="available-first">출현 우선</option>
+          <option value="uncaught-first">미획득 우선</option>
+          <option value="price-high">가격 높은순</option>
+          <option value="name">한글 이름순</option>
+        </select>
+      </div>
+
+      <div id="editGuide" class="edit-guide"></div>
+    </section>
+
+    <div class="result-info">
+      <span id="resultCount">0개 표시</span>
+      <button id="resetButton" class="reset-button" type="button">
+        검색·필터 초기화
+      </button>
+    </div>
+
+    <section id="itemGrid" class="item-grid"></section>
+
+    <div id="emptyState" class="empty-state">
+      조건에 맞는 생물이 없습니다.
+    </div>
+
+    <div id="errorState" class="error-state">
+      생물 DB를 불러오지 못했습니다.
+    </div>
+  </main>
+
+  <div id="detailOverlay" class="overlay" aria-hidden="true">
+    <section class="detail-sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+
+      <div class="detail-close-row">
+        <button id="closeDetailButton" class="close-button" type="button">×</button>
+      </div>
+
+      <div id="detailImage" class="detail-image"></div>
+
+      <h2 id="detailName" class="detail-name"></h2>
+      <p id="detailEnglishName" class="detail-subname"></p>
+      <p id="detailJapaneseName" class="detail-subname"></p>
+
+      <div id="detailAvailability" class="availability-status"></div>
+      <div id="detailTable" class="detail-table"></div>
+
+      <div class="detail-actions">
+        <button id="detailCaughtButton" class="detail-action caught" type="button">
+          잡아봄
+        </button>
+
+        <button id="detailDonatedButton" class="detail-action donated" type="button">
+          박물관 기증
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./data/creatures.js?v=1"></script>
+
+  <script>
+    const creatureCatalog = window.CITY_FOLK_CREATURES;
+    const categories = Array.isArray(creatureCatalog?.categories)
+      ? creatureCatalog.categories
+      : [];
+
+    const storageKey = "city-folk-collection-v1";
+
+    let state = loadState();
+    let currentCategory = null;
+    let selectedItem = null;
+    let editMode = "none";
+    let liveMode = false;
+    let liveTimer = null;
+    let toastTimer = null;
+
+    const homeButton = document.getElementById("homeButton");
+    const categoryTabs = document.getElementById("categoryTabs");
+    const caughtMetric = document.getElementById("caughtMetric");
+    const donatedMetric = document.getElementById("donatedMetric");
+    const availableMetric = document.getElementById("availableMetric");
+    const donationProgressBar = document.getElementById("donationProgressBar");
+
+    const dateInput = document.getElementById("dateInput");
+    const timeInput = document.getElementById("timeInput");
+    const useNowButton = document.getElementById("useNowButton");
+    const liveModeButton = document.getElementById("liveModeButton");
+    const availabilityFilter = document.getElementById("availabilityFilter");
+    const weatherSelect = document.getElementById("weatherSelect");
+    const selectedTimeSummary = document.getElementById("selectedTimeSummary");
+
+    const searchInput = document.getElementById("searchInput");
+    const stateFilter = document.getElementById("stateFilter");
+    const caughtModeButton = document.getElementById("caughtModeButton");
+    const donatedModeButton = document.getElementById("donatedModeButton");
+    const locationFilter = document.getElementById("locationFilter");
+    const detailFilter = document.getElementById("detailFilter");
+    const sortSelect = document.getElementById("sortSelect");
+    const editGuide = document.getElementById("editGuide");
+    const resetButton = document.getElementById("resetButton");
+    const resultCount = document.getElementById("resultCount");
+    const itemGrid = document.getElementById("itemGrid");
+    const emptyState = document.getElementById("emptyState");
+    const errorState = document.getElementById("errorState");
+
+    const detailOverlay = document.getElementById("detailOverlay");
+    const closeDetailButton = document.getElementById("closeDetailButton");
+    const detailImage = document.getElementById("detailImage");
+    const detailName = document.getElementById("detailName");
+    const detailEnglishName = document.getElementById("detailEnglishName");
+    const detailJapaneseName = document.getElementById("detailJapaneseName");
+    const detailAvailability = document.getElementById("detailAvailability");
+    const detailTable = document.getElementById("detailTable");
+    const detailCaughtButton = document.getElementById("detailCaughtButton");
+    const detailDonatedButton = document.getElementById("detailDonatedButton");
+    const toast = document.getElementById("toast");
+
+    function loadState() {
+      let loaded = {
+        owned: {},
+        nameOverrides: {},
+        creatures: {
+          caught: {},
+          donated: {}
+        }
+      };
+
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        if (saved && typeof saved === "object") {
+          loaded = saved;
+        }
+      } catch {}
+
+      if (!loaded.owned || typeof loaded.owned !== "object") {
+        loaded.owned = {};
+      }
+
+      if (
+        !loaded.nameOverrides ||
+        typeof loaded.nameOverrides !== "object"
+      ) {
+        loaded.nameOverrides = {};
+      }
+
+      if (
+        !loaded.creatures ||
+        typeof loaded.creatures !== "object"
+      ) {
+        loaded.creatures = {};
+      }
+
+      if (
+        !loaded.creatures.caught ||
+        typeof loaded.creatures.caught !== "object"
+      ) {
+        loaded.creatures.caught = {};
+      }
+
+      if (
+        !loaded.creatures.donated ||
+        typeof loaded.creatures.donated !== "object"
+      ) {
+        loaded.creatures.donated = {};
+      }
+
+      return loaded;
+    }
+
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    }
+
+    function stateSet(type, categoryId) {
+      if (!Array.isArray(state.creatures[type][categoryId])) {
+        state.creatures[type][categoryId] = [];
+      }
+
+      return new Set(state.creatures[type][categoryId]);
+    }
+
+    function hasState(type, itemId) {
+      return Array.isArray(state.creatures[type][currentCategory.id]) &&
+        state.creatures[type][currentCategory.id].includes(itemId);
+    }
+
+    function setCreatureState(type, item, enabled) {
+      const set = stateSet(type, currentCategory.id);
+
+      if (enabled) {
+        set.add(item.id);
+      } else {
+        set.delete(item.id);
+      }
+
+      state.creatures[type][currentCategory.id] = [...set];
+
+      if (type === "donated" && enabled) {
+        const caught = stateSet("caught", currentCategory.id);
+        caught.add(item.id);
+        state.creatures.caught[currentCategory.id] = [...caught];
+      }
+
+      if (type === "caught" && !enabled) {
+        const donated = stateSet("donated", currentCategory.id);
+        donated.delete(item.id);
+        state.creatures.donated[currentCategory.id] = [...donated];
+      }
+
+      saveState();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function safeText(value, fallback = "정보 없음") {
+      if (
+        value === null ||
+        value === undefined ||
+        value === "" ||
+        value === "-"
+      ) {
+        return fallback;
+      }
+
+      return String(value);
+    }
+
+    function toLocalDateValue(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function toLocalTimeValue(date) {
+      const hour = String(date.getHours()).padStart(2, "0");
+      const minute = String(date.getMinutes()).padStart(2, "0");
+      return `${hour}:${minute}`;
+    }
+
+    function useCurrentTime() {
+      const now = new Date();
+      dateInput.value = toLocalDateValue(now);
+      timeInput.value = toLocalTimeValue(now);
+      render();
+    }
+
+    function selectedDate() {
+      const dateValue = dateInput.value;
+      const timeValue = timeInput.value || "00:00";
+
+      if (!dateValue) {
+        return new Date();
+      }
+
+      const [year, month, day] = dateValue.split("-").map(Number);
+      const [hour, minute] = timeValue.split(":").map(Number);
+
+      return new Date(year, month - 1, day, hour, minute, 0, 0);
+    }
+
+    function intervalContains(interval, minuteOfDay) {
+      const [start, end] = interval;
+
+      if (start === 0 && end === 1440) {
+        return true;
+      }
+
+      if (start < end) {
+        return minuteOfDay >= start && minuteOfDay < end;
+      }
+
+      return minuteOfDay >= start || minuteOfDay < end;
+    }
+
+    function weatherAllows(item) {
+      const selected = weatherSelect.value;
+
+      if (selected === "ignore" || !item.weather) {
+        return true;
+      }
+
+      if (item.weather === "rain") {
+        return selected === "rain";
+      }
+
+      if (item.weather === "snow") {
+        return selected === "snow";
+      }
+
+      if (item.weather === "rainOrSnow") {
+        return selected === "rain" || selected === "snow";
+      }
+
+      return true;
+    }
+
+    function isAvailable(item, date = selectedDate()) {
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const minuteOfDay = date.getHours() * 60 + date.getMinutes();
+
+      if (!weatherAllows(item)) {
+        return false;
+      }
+
+      return item.rules.some((rule) => {
+        if (!rule.months.includes(month)) {
+          return false;
+        }
+
+        if (day < rule.startDay || day > rule.endDay) {
+          return false;
+        }
+
+        return rule.times.some(
+          (interval) => intervalContains(interval, minuteOfDay)
+        );
+      });
+    }
+
+    function availableInMonth(item, month, day = 15) {
+      return item.rules.some(
+        (rule) =>
+          rule.months.includes(month) &&
+          day >= rule.startDay &&
+          day <= rule.endDay
+      );
+    }
+
+    function isLeavingThisMonth(item, date = selectedDate()) {
+      const month = date.getMonth() + 1;
+      const nextMonth = month === 12 ? 1 : month + 1;
+
+      return availableInMonth(item, month, date.getDate()) &&
+        !availableInMonth(item, nextMonth, 15);
+    }
+
+    function isNewNextMonth(item, date = selectedDate()) {
+      const month = date.getMonth() + 1;
+      const nextMonth = month === 12 ? 1 : month + 1;
+
+      return !availableInMonth(item, month, date.getDate()) &&
+        availableInMonth(item, nextMonth, 15);
+    }
+
+    function formatPrice(value) {
+      return Number.isFinite(value)
+        ? `${value.toLocaleString("ko-KR")}벨`
+        : "정보 없음";
+    }
+
+    function selectedDateText() {
+      const date = selectedDate();
+
+      return new Intl.DateTimeFormat("ko-KR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }).format(date);
+    }
+
+    function initializeCategory() {
+      const requested = decodeURIComponent(
+        location.hash.replace(/^#/, "")
+      );
+
+      currentCategory =
+        categories.find((category) => category.id === requested) ||
+        categories[0];
+
+      if (!currentCategory) {
+        errorState.classList.add("visible");
+        return;
+      }
+
+      errorState.classList.remove("visible");
+      buildTabs();
+      buildFilters();
+      resetFilters(false);
+      render();
+    }
+
+    function buildTabs() {
+      categoryTabs.innerHTML = "";
+
+      categories.forEach((category) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className =
+          `category-tab${category.id === currentCategory.id ? " active" : ""}`;
+        button.textContent =
+          `${category.icon} ${category.nameKo} ${category.items.length}종`;
+
+        button.addEventListener("click", () => {
+          location.hash = category.id;
+        });
+
+        categoryTabs.appendChild(button);
+      });
+    }
+
+    function addOption(select, value, label) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      select.appendChild(option);
+    }
+
+    function buildFilters() {
+      locationFilter.innerHTML =
+        '<option value="all">모든 장소</option>';
+      detailFilter.innerHTML =
+        '<option value="all">모든 세부 조건</option>';
+
+      const locations = [...new Set(
+        currentCategory.items
+          .map((item) => item.locationKo)
+          .filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b, "ko"));
+
+      locations.forEach((location) => {
+        addOption(locationFilter, location, location);
+      });
+
+      if (currentCategory.id === "fish") {
+        const shadows = [...new Set(
+          currentCategory.items
+            .map((item) => item.shadowKo)
+            .filter(Boolean)
+        )];
+
+        shadows.forEach((shadow) => {
+          addOption(detailFilter, shadow, `그림자: ${shadow}`);
+        });
+      } else {
+        addOption(detailFilter, "weather", "날씨 조건 있음");
+        addOption(detailFilter, "palm", "야자나무 생물");
+        addOption(detailFilter, "tree", "나무 생물");
+        addOption(detailFilter, "ground", "지면 생물");
+      }
+    }
+
+    function counts() {
+      const total = currentCategory.items.length;
+      const caught = currentCategory.items.filter(
+        (item) => hasState("caught", item.id)
+      ).length;
+      const donated = currentCategory.items.filter(
+        (item) => hasState("donated", item.id)
+      ).length;
+      const available = currentCategory.items.filter(
+        (item) => isAvailable(item)
+      ).length;
+
+      return { total, caught, donated, available };
+    }
+
+    function matchesDetailFilter(item) {
+      const filter = detailFilter.value;
+
+      if (filter === "all") return true;
+
+      if (currentCategory.id === "fish") {
+        return item.shadowKo === filter;
+      }
+
+      if (filter === "weather") {
+        return Boolean(item.weather);
+      }
+
+      if (filter === "palm") {
+        return item.locationKo.includes("야자나무");
+      }
+
+      if (filter === "tree") {
+        return item.locationKo.includes("나무");
+      }
+
+      if (filter === "ground") {
+        return item.locationKo.includes("지면");
+      }
+
+      return true;
+    }
+
+    function filteredItems() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const stateValue = stateFilter.value;
+      const availability = availabilityFilter.value;
+      const location = locationFilter.value;
+      const date = selectedDate();
+
+      const items = currentCategory.items.filter((item) => {
+        const searchText = [
+          item.nameKo,
+          item.nameEn,
+          item.nameJa,
+          item.locationKo,
+          item.monthsTextKo,
+          item.timeTextKo,
+          item.shadowKo
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+        if (keyword && !searchText.includes(keyword)) {
+          return false;
+        }
+
+        const caught = hasState("caught", item.id);
+        const donated = hasState("donated", item.id);
+
+        if (stateValue === "uncaught" && caught) return false;
+        if (stateValue === "caught" && !caught) return false;
+        if (stateValue === "undonated" && donated) return false;
+        if (stateValue === "donated" && !donated) return false;
+
+        const available = isAvailable(item, date);
+
+        if (availability === "available" && !available) {
+          return false;
+        }
+
+        if (availability === "unavailable" && available) {
+          return false;
+        }
+
+        if (
+          availability === "leaving" &&
+          !isLeavingThisMonth(item, date)
+        ) {
+          return false;
+        }
+
+        if (
+          availability === "next-month" &&
+          !isNewNextMonth(item, date)
+        ) {
+          return false;
+        }
+
+        if (location !== "all" && item.locationKo !== location) {
+          return false;
+        }
+
+        return matchesDetailFilter(item);
+      });
+
+      const sort = sortSelect.value;
+
+      items.sort((a, b) => {
+        if (sort === "available-first") {
+          const difference =
+            Number(isAvailable(b, date)) -
+            Number(isAvailable(a, date));
+
+          if (difference !== 0) return difference;
+        }
+
+        if (sort === "uncaught-first") {
+          const difference =
+            Number(hasState("caught", a.id)) -
+            Number(hasState("caught", b.id));
+
+          if (difference !== 0) return difference;
+        }
+
+        if (sort === "price-high") {
+          return (b.sellPrice ?? -1) - (a.sellPrice ?? -1);
+        }
+
+        if (sort === "name") {
+          return a.nameKo.localeCompare(b.nameKo, "ko");
+        }
+
+        return a.number - b.number;
+      });
+
+      return items;
+    }
+
+    function createCard(item) {
+      const caught = hasState("caught", item.id);
+      const donated = hasState("donated", item.id);
+      const available = isAvailable(item);
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className =
+        `item-card${caught ? " caught" : ""}${donated ? " donated" : ""}`;
+
+      const imageSource = item.icon || item.image;
+      const weatherIcon =
+        item.weather === "snow"
+          ? "❄"
+          : item.weather
+            ? "☂"
+            : "";
+
+      button.innerHTML = `
+        <div class="item-image">
+          ${
+            imageSource
+              ? `
+                <img
+                  class="item-photo"
+                  src="${escapeHtml(imageSource)}"
+                  alt="${escapeHtml(item.nameKo)}"
+                  loading="lazy"
+                />
+                <span class="item-fallback">${currentCategory.icon}</span>
+              `
+              : `
+                <span class="item-fallback visible">
+                  ${currentCategory.icon}
+                </span>
+              `
+          }
+
+          ${available ? '<span class="available-badge">출현</span>' : ""}
+          ${caught ? '<span class="caught-badge">✓</span>' : ""}
+          ${donated ? '<span class="donated-badge">기증</span>' : ""}
+          ${
+            weatherIcon
+              ? `<span class="weather-badge">${weatherIcon}</span>`
+              : ""
+          }
+        </div>
+
+        <div class="item-name">${escapeHtml(item.nameKo)}</div>
+      `;
+
+      const image = button.querySelector(".item-photo");
+      if (image) {
+        image.addEventListener("error", () => {
+          image.style.display = "none";
+          button
+            .querySelector(".item-fallback")
+            ?.classList.add("visible");
+        });
+      }
+
+      button.addEventListener("click", () => {
+        if (editMode === "caught") {
+          toggleState("caught", item);
+          return;
+        }
+
+        if (editMode === "donated") {
+          toggleState("donated", item);
+          return;
+        }
+
+        openDetail(item);
+      });
+
+      return button;
+    }
+
+    function render() {
+      if (!currentCategory) return;
+
+      const currentCounts = counts();
+      const donationPercent =
+        currentCounts.total === 0
+          ? 0
+          : (currentCounts.donated / currentCounts.total) * 100;
+
+      caughtMetric.textContent =
+        `${currentCounts.caught} / ${currentCounts.total}`;
+      donatedMetric.textContent =
+        `${currentCounts.donated} / ${currentCounts.total}`;
+      availableMetric.textContent = currentCounts.available;
+      donationProgressBar.style.width = `${donationPercent}%`;
+
+      selectedTimeSummary.textContent =
+        `${selectedDateText()} · 출현 가능 ${currentCounts.available}종`;
+
+      const items = filteredItems();
+      itemGrid.innerHTML = "";
+
+      const fragment = document.createDocumentFragment();
+
+      items.forEach((item) => {
+        fragment.appendChild(createCard(item));
+      });
+
+      itemGrid.appendChild(fragment);
+
+      resultCount.textContent =
+        `전체 ${currentCounts.total}종 중 ${items.length}종 표시`;
+      emptyState.classList.toggle("visible", items.length === 0);
+
+      if (selectedItem) {
+        updateDetailAvailability(selectedItem);
+        updateDetailButtons();
+      }
+    }
+
+    function toggleState(type, item) {
+      const willEnable = !hasState(type, item.id);
+      setCreatureState(type, item, willEnable);
+      render();
+
+      const action =
+        type === "caught"
+          ? willEnable ? "잡음 체크" : "잡음 해제"
+          : willEnable ? "기증 체크" : "기증 해제";
+
+      showToast(`${item.nameKo} ${action}`);
+    }
+
+    function setEditMode(nextMode) {
+      editMode = editMode === nextMode ? "none" : nextMode;
+
+      caughtModeButton.classList.toggle(
+        "active",
+        editMode === "caught"
+      );
+      donatedModeButton.classList.toggle(
+        "active",
+        editMode === "donated"
+      );
+
+      editGuide.classList.toggle(
+        "visible",
+        editMode !== "none"
+      );
+
+      editGuide.textContent =
+        editMode === "caught"
+          ? "잡기 편집 중 · 카드를 눌러 잡음 상태를 변경하세요"
+          : editMode === "donated"
+            ? "기증 편집 중 · 카드를 눌러 기증 상태를 변경하세요"
+            : "";
+    }
+
+    function createDetailRow(label, value) {
+      return `
+        <div class="detail-row">
+          <div class="detail-label">${escapeHtml(label)}</div>
+          <div class="detail-value">${escapeHtml(safeText(value))}</div>
+        </div>
+      `;
+    }
+
+    function openDetail(item) {
+      selectedItem = item;
+
+      const source = item.image || item.icon;
+
+      detailImage.innerHTML = source
+        ? `<img src="${escapeHtml(source)}" alt="${escapeHtml(item.nameKo)}" />`
+        : `<span class="item-fallback visible">${currentCategory.icon}</span>`;
+
+      detailName.textContent = item.nameKo;
+      detailEnglishName.textContent = item.nameEn;
+      detailJapaneseName.textContent = item.nameJa;
+
+      const details = [
+        ["도감 번호", item.number],
+        ["출현 기간", item.monthsTextKo],
+        ["출현 시간", item.timeTextKo],
+        ["출현 장소", item.locationKo],
+        ["판매 가격", formatPrice(item.sellPrice)],
+      ];
+
+      if (item.shadowKo) {
+        details.push(["그림자 크기", item.shadowKo]);
+      }
+
+      if (item.weatherTextKo) {
+        details.push(["날씨 조건", item.weatherTextKo]);
+      }
+
+      if (item.menuSeason) {
+        details.push(["게임 내 계절 표기", item.menuSeason]);
+      }
+
+      if (item.menuTime) {
+        details.push(["게임 내 시간 표기", item.menuTime]);
+      }
+
+      if (item.menuSize) {
+        details.push(["게임 내 크기 표기", item.menuSize]);
+      }
+
+      if (item.description) {
+        details.push(["도감 설명", item.description]);
+      }
+
+      if (item.catchQuote) {
+        details.push(["잡았을 때 대사", item.catchQuote]);
+      }
+
+      detailTable.innerHTML = details
+        .map(([label, value]) => createDetailRow(label, value))
+        .join("");
+
+      updateDetailAvailability(item);
+      updateDetailButtons();
+
+      detailOverlay.classList.add("visible");
+      detailOverlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function updateDetailAvailability(item) {
+      const available = isAvailable(item);
+
+      detailAvailability.className =
+        `availability-status ${available ? "yes" : "no"}`;
+
+      detailAvailability.textContent = available
+        ? `${selectedDateText()}에 출현 가능`
+        : `${selectedDateText()}에는 출현하지 않음`;
+    }
+
+    function updateDetailButtons() {
+      if (!selectedItem) return;
+
+      const caught = hasState("caught", selectedItem.id);
+      const donated = hasState("donated", selectedItem.id);
+
+      detailCaughtButton.classList.toggle("active", caught);
+      detailCaughtButton.textContent = caught ? "✓ 잡아봄" : "잡아봄";
+
+      detailDonatedButton.classList.toggle("active", donated);
+      detailDonatedButton.textContent =
+        donated ? "✓ 박물관 기증" : "박물관 기증";
+    }
+
+    function closeDetail() {
+      detailOverlay.classList.remove("visible");
+      detailOverlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      selectedItem = null;
+    }
+
+    function resetFilters(renderAfter = true) {
+      searchInput.value = "";
+      stateFilter.value = "all";
+      availabilityFilter.value = "all";
+      weatherSelect.value = "ignore";
+      locationFilter.value = "all";
+      detailFilter.value = "all";
+      sortSelect.value = "number";
+
+      if (renderAfter) render();
+    }
+
+    function setLiveMode(enabled) {
+      liveMode = enabled;
+      liveModeButton.classList.toggle("active", liveMode);
+      liveModeButton.textContent =
+        liveMode ? "✓ 실시간 갱신 중" : "실시간 자동 갱신";
+
+      clearInterval(liveTimer);
+      liveTimer = null;
+
+      if (liveMode) {
+        useCurrentTime();
+
+        liveTimer = setInterval(() => {
+          useCurrentTime();
+        }, 60000);
+      }
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("visible");
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("visible");
+      }, 1200);
+    }
+
+    homeButton.addEventListener("click", () => {
+      location.href = "./index.html";
+    });
+
+    useNowButton.addEventListener("click", () => {
+      setLiveMode(false);
+      useCurrentTime();
+    });
+
+    liveModeButton.addEventListener("click", () => {
+      setLiveMode(!liveMode);
+    });
+
+    dateInput.addEventListener("change", () => {
+      setLiveMode(false);
+      render();
+    });
+
+    timeInput.addEventListener("change", () => {
+      setLiveMode(false);
+      render();
+    });
+
+    availabilityFilter.addEventListener("change", render);
+    weatherSelect.addEventListener("change", render);
+    searchInput.addEventListener("input", render);
+    stateFilter.addEventListener("change", render);
+    locationFilter.addEventListener("change", render);
+    detailFilter.addEventListener("change", render);
+    sortSelect.addEventListener("change", render);
+
+    caughtModeButton.addEventListener("click", () => {
+      setEditMode("caught");
+    });
+
+    donatedModeButton.addEventListener("click", () => {
+      setEditMode("donated");
+    });
+
+    resetButton.addEventListener("click", () => {
+      resetFilters(true);
+    });
+
+    closeDetailButton.addEventListener("click", closeDetail);
+
+    detailOverlay.addEventListener("click", (event) => {
+      if (event.target === detailOverlay) closeDetail();
+    });
+
+    detailCaughtButton.addEventListener("click", () => {
+      if (selectedItem) toggleState("caught", selectedItem);
+    });
+
+    detailDonatedButton.addEventListener("click", () => {
+      if (selectedItem) toggleState("donated", selectedItem);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeDetail();
+    });
+
+    window.addEventListener("hashchange", initializeCategory);
+
+    useCurrentTime();
+    initializeCategory();
+  </script>
+</body>
+</html>
