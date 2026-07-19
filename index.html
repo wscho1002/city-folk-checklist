@@ -2,29 +2,27 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1, viewport-fit=cover"
   />
-
-  <meta name="theme-color" content="#f4efdf" />
-
+  <meta name="theme-color" content="#eee8d6" />
   <title>타동숲 컬렉션</title>
 
   <style>
     :root {
-      --background: #f4efdf;
-      --surface: #fffdf6;
-      --surface-strong: #ffffff;
-      --text: #37352f;
-      --muted: #817d70;
-      --line: #ded7c5;
-      --green: #59a86b;
-      --green-dark: #3d7d4d;
-      --green-light: #d7efd8;
-      --yellow: #f4ca64;
-      --shadow: 0 6px 22px rgba(75, 66, 48, 0.12);
+      --bg: #eee8d6;
+      --surface: #fffdf7;
+      --surface-2: #f7f3e8;
+      --text: #35332d;
+      --muted: #7d786b;
+      --line: #ddd5c2;
+      --green: #4f9660;
+      --green-dark: #357346;
+      --green-soft: #d5ecd6;
+      --yellow: #f2ca66;
+      --red-soft: #f4d8d2;
+      --shadow: 0 7px 22px rgba(61, 54, 41, 0.12);
     }
 
     * {
@@ -32,7 +30,8 @@
     }
 
     html {
-      background: var(--background);
+      background: var(--bg);
+      scroll-behavior: smooth;
     }
 
     body {
@@ -40,8 +39,8 @@
       min-height: 100vh;
       color: var(--text);
       background:
-        radial-gradient(circle at 15% 4%, rgba(255, 255, 255, 0.8), transparent 26%),
-        var(--background);
+        radial-gradient(circle at 15% 0%, rgba(255,255,255,.72), transparent 28%),
+        var(--bg);
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -63,46 +62,46 @@
 
     .app {
       width: 100%;
-      max-width: 720px;
+      max-width: 760px;
       min-height: 100vh;
       margin: 0 auto;
-      padding-bottom: calc(36px + env(safe-area-inset-bottom));
+      padding-bottom: calc(42px + env(safe-area-inset-bottom));
     }
 
     .hero {
       padding:
-        calc(22px + env(safe-area-inset-top))
-        16px
-        14px;
+        calc(21px + env(safe-area-inset-top))
+        14px
+        13px;
     }
 
     .eyebrow {
-      margin: 0 0 5px;
+      margin: 0 0 4px;
       color: var(--green-dark);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
     }
 
-    .hero h1 {
+    h1 {
       margin: 0;
       font-size: 25px;
-      line-height: 1.25;
-      letter-spacing: -0.04em;
+      line-height: 1.2;
+      letter-spacing: -.045em;
     }
 
-    .hero-description {
-      margin: 8px 0 0;
+    .hero p:last-child {
+      margin: 7px 0 0;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .progress-panel {
-      margin: 0 12px 12px;
-      padding: 14px;
-      border: 1px solid rgba(222, 215, 197, 0.8);
-      border-radius: 18px;
-      background: rgba(255, 253, 246, 0.94);
+      margin: 0 10px 11px;
+      padding: 13px;
+      border: 1px solid rgba(221,213,194,.9);
+      border-radius: 17px;
+      background: rgba(255,253,247,.95);
       box-shadow: var(--shadow);
     }
 
@@ -115,60 +114,60 @@
 
     .progress-title {
       margin: 0;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
     }
 
     .progress-count {
       margin-top: 3px;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: -0.04em;
+      font-size: 21px;
+      font-weight: 950;
+      letter-spacing: -.04em;
     }
 
     .progress-percent {
       color: var(--green-dark);
       font-size: 19px;
-      font-weight: 900;
+      font-weight: 950;
     }
 
     .progress-track {
       height: 10px;
-      margin-top: 11px;
+      margin-top: 10px;
       overflow: hidden;
       border-radius: 999px;
-      background: #e8e2d3;
+      background: #e6dfcf;
     }
 
     .progress-bar {
       width: 0;
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg, #70bb7c, #4a985d);
-      transition: width 220ms ease;
+      background: var(--green);
+      transition: width 180ms ease;
     }
 
     .sticky-area {
       position: sticky;
       top: 0;
-      z-index: 30;
+      z-index: 40;
       padding:
+        calc(7px + env(safe-area-inset-top))
         8px
-        10px
-        9px;
-      border-bottom: 1px solid rgba(222, 215, 197, 0.88);
-      background: rgba(244, 239, 223, 0.92);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+        8px;
+      border-bottom: 1px solid rgba(221,213,194,.9);
+      background: rgba(238,232,214,.93);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
     .toolbar {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 88px 82px;
-      gap: 6px;
+      grid-template-columns: minmax(0, 1fr) 86px 80px;
+      gap: 5px;
     }
 
-    .search-box {
+    .search-wrap {
       position: relative;
       min-width: 0;
     }
@@ -176,66 +175,87 @@
     .search-icon {
       position: absolute;
       top: 50%;
-      left: 11px;
-      z-index: 1;
+      left: 10px;
       transform: translateY(-50%);
       pointer-events: none;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .search-input,
     .filter-select,
     .edit-button {
       width: 100%;
-      height: 42px;
+      height: 41px;
       border: 1px solid var(--line);
-      border-radius: 13px;
-      background: rgba(255, 253, 246, 0.98);
+      border-radius: 12px;
+      background: rgba(255,253,247,.98);
     }
 
     .search-input {
       min-width: 0;
-      padding: 0 10px 0 33px;
+      padding: 0 9px 0 31px;
       outline: none;
-      font-size: 13px;
+      font-size: 12px;
     }
 
-    .search-input:focus {
+    .search-input:focus,
+    .filter-select:focus {
       border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(89, 168, 107, 0.15);
+      outline: 3px solid rgba(79,150,96,.14);
     }
 
     .filter-select {
-      padding: 0 7px;
+      padding: 0 5px;
       outline: none;
-      font-size: 12px;
-      font-weight: 750;
+      font-size: 11px;
+      font-weight: 800;
     }
 
     .edit-button {
       border-color: var(--green);
       color: var(--green-dark);
-      font-size: 13px;
-      font-weight: 900;
+      font-size: 12px;
+      font-weight: 950;
       cursor: pointer;
     }
 
     .edit-button.active {
-      border-color: var(--green-dark);
       color: white;
+      border-color: var(--green-dark);
       background: var(--green-dark);
-      box-shadow: 0 4px 13px rgba(61, 125, 77, 0.27);
+    }
+
+    .secondary-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 96px;
+      gap: 5px;
+      margin-top: 5px;
+    }
+
+    .sort-select,
+    .source-select {
+      width: 100%;
+      height: 36px;
+      min-width: 0;
+      padding: 0 7px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: var(--text);
+      background: rgba(255,253,247,.98);
+      outline: none;
+      font-size: 11px;
+      font-weight: 750;
     }
 
     .edit-guide {
       display: none;
-      margin: 7px 2px 0;
+      margin-top: 6px;
       padding: 7px 9px;
-      border-radius: 10px;
-      color: #376243;
-      background: var(--green-light);
-      font-size: 11px;
-      font-weight: 750;
+      border-radius: 9px;
+      color: #315d3b;
+      background: var(--green-soft);
+      font-size: 10px;
+      font-weight: 800;
       text-align: center;
     }
 
@@ -247,76 +267,101 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 13px 7px;
+      gap: 10px;
+      padding: 11px 10px 7px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .reset-button {
+      flex: none;
+      padding: 5px 7px;
       border: 0;
       color: var(--green-dark);
       background: transparent;
-      font-size: 12px;
-      font-weight: 800;
+      font-size: 11px;
+      font-weight: 850;
       cursor: pointer;
     }
 
     .item-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 6px;
-      padding: 0 8px 20px;
+      gap: 5px;
+      padding: 0 6px 22px;
     }
 
     .item-card {
       position: relative;
       min-width: 0;
       overflow: hidden;
-      padding: 5px 4px 7px;
+      padding: 4px 3px 6px;
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 11px;
       background: var(--surface);
-      box-shadow: 0 2px 7px rgba(77, 68, 48, 0.07);
+      box-shadow: 0 2px 6px rgba(60,53,39,.07);
       cursor: pointer;
       transition:
-        transform 100ms ease,
-        background 150ms ease,
-        border-color 150ms ease;
+        transform 90ms ease,
+        background 130ms ease,
+        border-color 130ms ease;
     }
 
     .item-card:active {
-      transform: scale(0.96);
+      transform: scale(.96);
     }
 
     .item-card.owned {
-      border-color: #6eb77a;
-      background: var(--green-light);
+      border-color: #68ae73;
+      background: var(--green-soft);
     }
 
     .item-image {
+      position: relative;
       display: grid;
       width: 100%;
       aspect-ratio: 1 / 1;
+      overflow: hidden;
       place-items: center;
-      border-radius: 9px;
+      border-radius: 8px;
       background:
-        radial-gradient(circle at 35% 30%, #ffffff, #eee8d8);
-      font-size: clamp(28px, 10vw, 44px);
+        radial-gradient(circle at 35% 27%, #fff, #ece5d4);
     }
 
     .item-card.owned .item-image {
       background:
-        radial-gradient(circle at 35% 30%, #f9fff9, #c3e5c6);
+        radial-gradient(circle at 35% 27%, #fbfffb, #c7e4c9);
+    }
+
+    .item-photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 3px;
+      object-fit: contain;
+    }
+
+    .item-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      color: var(--muted);
+      font-size: 25px;
+    }
+
+    .item-fallback.visible {
+      display: grid;
     }
 
     .item-name {
       display: -webkit-box;
-      min-height: 28px;
-      margin-top: 5px;
+      min-height: 26px;
+      margin-top: 4px;
       overflow: hidden;
-      font-size: 10.5px;
-      font-weight: 800;
-      line-height: 14px;
+      font-size: 9.5px;
+      font-weight: 850;
+      line-height: 13px;
       text-align: center;
       word-break: keep-all;
       -webkit-box-orient: vertical;
@@ -325,57 +370,67 @@
 
     .check-mark {
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: 4px;
+      right: 4px;
+      z-index: 3;
       display: none;
-      width: 21px;
-      height: 21px;
+      width: 20px;
+      height: 20px;
       border: 2px solid white;
       border-radius: 50%;
       color: white;
       background: var(--green-dark);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 2px 5px rgba(0,0,0,.18);
       place-items: center;
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 11px;
+      font-weight: 950;
     }
 
     .item-card.owned .check-mark {
       display: grid;
     }
 
-    .limited-badge {
+    .badge {
       position: absolute;
-      top: 5px;
-      left: 5px;
-      padding: 3px 5px;
-      border-radius: 7px;
-      color: #624a00;
+      top: 4px;
+      left: 4px;
+      z-index: 3;
+      padding: 2px 4px;
+      border-radius: 6px;
+      color: #564100;
       background: var(--yellow);
-      font-size: 8px;
-      font-weight: 900;
+      font-size: 7px;
+      font-weight: 950;
     }
 
-    .empty-state {
+    .empty-state,
+    .loading-state,
+    .error-state {
       display: none;
-      padding: 45px 20px;
+      padding: 44px 18px;
       color: var(--muted);
       text-align: center;
     }
 
-    .empty-state.visible {
+    .empty-state.visible,
+    .loading-state.visible,
+    .error-state.visible {
       display: block;
+    }
+
+    .error-state {
+      color: #8a4036;
     }
 
     .overlay {
       position: fixed;
       inset: 0;
-      z-index: 90;
+      z-index: 100;
       display: none;
       align-items: flex-end;
       justify-content: center;
-      padding-top: 40px;
-      background: rgba(39, 37, 31, 0.46);
+      padding-top: 35px;
+      background: rgba(36,34,29,.48);
       backdrop-filter: blur(3px);
       -webkit-backdrop-filter: blur(3px);
     }
@@ -386,25 +441,24 @@
 
     .detail-sheet {
       width: 100%;
-      max-width: 720px;
-      max-height: 88vh;
+      max-width: 760px;
+      max-height: 91vh;
       overflow-y: auto;
       padding:
-        10px
-        16px
-        calc(22px + env(safe-area-inset-bottom));
-      border-radius: 25px 25px 0 0;
-      background: var(--surface-strong);
-      box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.19);
-      animation: sheetUp 180ms ease-out;
+        9px
+        14px
+        calc(20px + env(safe-area-inset-bottom));
+      border-radius: 24px 24px 0 0;
+      background: white;
+      box-shadow: 0 -12px 34px rgba(0,0,0,.2);
+      animation: sheet-up 170ms ease-out;
     }
 
-    @keyframes sheetUp {
+    @keyframes sheet-up {
       from {
-        transform: translateY(35px);
+        transform: translateY(30px);
         opacity: 0;
       }
-
       to {
         transform: translateY(0);
         opacity: 1;
@@ -414,9 +468,9 @@
     .sheet-handle {
       width: 42px;
       height: 5px;
-      margin: 0 auto 9px;
+      margin: 0 auto 7px;
       border-radius: 999px;
-      background: #d5d1c8;
+      background: #d3cfc5;
     }
 
     .detail-close-row {
@@ -431,48 +485,76 @@
       border-radius: 50%;
       background: #efede7;
       font-size: 18px;
-      font-weight: 800;
+      font-weight: 850;
       cursor: pointer;
     }
 
     .detail-image {
       display: grid;
-      width: 145px;
+      width: 155px;
       aspect-ratio: 1 / 1;
-      margin: 0 auto;
+      margin: -2px auto 0;
+      overflow: hidden;
       place-items: center;
-      border-radius: 23px;
+      border-radius: 22px;
       background:
-        radial-gradient(circle at 35% 30%, #ffffff, #eee8d8);
-      font-size: 75px;
+        radial-gradient(circle at 35% 27%, #fff, #ece5d4);
+    }
+
+    .detail-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      object-fit: contain;
+    }
+
+    .detail-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      color: var(--muted);
+      font-size: 58px;
+    }
+
+    .detail-fallback.visible {
+      display: grid;
     }
 
     .detail-name {
-      margin: 14px 0 2px;
-      font-size: 23px;
+      margin: 12px 0 2px;
+      font-size: 22px;
       font-weight: 950;
       text-align: center;
-      letter-spacing: -0.04em;
+      letter-spacing: -.045em;
     }
 
-    .detail-en {
-      margin: 0 0 17px;
+    .detail-subname {
+      margin: 0;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .detail-japanese {
+      margin: 3px 0 15px;
+      color: var(--muted);
+      font-size: 11px;
       text-align: center;
     }
 
     .detail-table {
       overflow: hidden;
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 15px;
     }
 
     .detail-row {
       display: grid;
       grid-template-columns: 105px minmax(0, 1fr);
-      min-height: 43px;
-      border-bottom: 1px solid #ebe7dd;
+      min-height: 42px;
+      border-bottom: 1px solid #eae5d9;
     }
 
     .detail-row:last-child {
@@ -483,29 +565,30 @@
     .detail-value {
       display: flex;
       align-items: center;
-      padding: 9px 11px;
-      font-size: 13px;
+      padding: 8px 10px;
+      font-size: 12px;
     }
 
     .detail-label {
       color: var(--muted);
-      background: #faf8f2;
+      background: var(--surface-2);
       font-weight: 750;
     }
 
     .detail-value {
+      overflow-wrap: anywhere;
       font-weight: 750;
     }
 
     .detail-owned-button {
       width: 100%;
       height: 48px;
-      margin-top: 13px;
+      margin-top: 12px;
       border: 1px solid var(--green);
-      border-radius: 15px;
+      border-radius: 14px;
       color: var(--green-dark);
       background: white;
-      font-weight: 900;
+      font-weight: 950;
       cursor: pointer;
     }
 
@@ -517,20 +600,20 @@
     .toast {
       position: fixed;
       left: 50%;
-      bottom: calc(20px + env(safe-area-inset-bottom));
-      z-index: 120;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      z-index: 130;
       pointer-events: none;
-      transform: translate(-50%, 15px);
+      transform: translate(-50%, 12px);
       opacity: 0;
-      padding: 10px 14px;
+      padding: 9px 13px;
       border-radius: 999px;
       color: white;
-      background: rgba(50, 48, 42, 0.92);
-      font-size: 12px;
+      background: rgba(47,45,39,.94);
+      font-size: 11px;
       font-weight: 800;
       transition:
-        opacity 150ms ease,
-        transform 150ms ease;
+        opacity 130ms ease,
+        transform 130ms ease;
     }
 
     .toast.visible {
@@ -538,20 +621,20 @@
       opacity: 1;
     }
 
-    @media (min-width: 560px) {
+    @media (min-width: 600px) {
       .item-grid {
-        gap: 9px;
-        padding-right: 12px;
-        padding-left: 12px;
+        gap: 8px;
+        padding-right: 10px;
+        padding-left: 10px;
       }
 
       .item-card {
-        padding: 8px;
+        padding: 7px;
       }
 
       .item-name {
         font-size: 12px;
-        line-height: 16px;
+        line-height: 15px;
       }
     }
   </style>
@@ -562,9 +645,7 @@
     <header class="hero">
       <p class="eyebrow">CITY FOLK COLLECTION</p>
       <h1>타동숲 컬렉션</h1>
-      <p class="hero-description">
-        타운으로 놀러가요 동물의 숲 모든 아이템 수집 기록
-      </p>
+      <p>타운으로 놀러가요 동물의 숲 모든 가구 수집 기록</p>
     </header>
 
     <section class="progress-panel">
@@ -577,36 +658,34 @@
             <span id="totalCount">0</span>
           </div>
         </div>
-
-        <div class="progress-percent" id="progressPercent">0%</div>
+        <div id="progressPercent" class="progress-percent">0%</div>
       </div>
 
       <div class="progress-track">
-        <div class="progress-bar" id="progressBar"></div>
+        <div id="progressBar" class="progress-bar"></div>
       </div>
     </section>
 
     <section class="sticky-area">
       <div class="toolbar">
-        <label class="search-box">
+        <label class="search-wrap">
           <span class="search-icon">🔍</span>
-
           <input
             id="searchInput"
             class="search-input"
             type="search"
-            placeholder="이름 검색"
+            placeholder="한글·영어·일본어 검색"
             autocomplete="off"
           />
         </label>
 
-        <select id="filterSelect" class="filter-select" aria-label="필터">
+        <select id="filterSelect" class="filter-select" aria-label="보유 필터">
           <option value="all">전체</option>
           <option value="owned">보유</option>
           <option value="unowned">미보유</option>
           <option value="orderable">주문 가능</option>
           <option value="not-orderable">주문 불가</option>
-          <option value="limited">한정품</option>
+          <option value="dlc">DLC</option>
         </select>
 
         <button id="editButton" class="edit-button" type="button">
@@ -614,23 +693,44 @@
         </button>
       </div>
 
+      <div class="secondary-toolbar">
+        <select id="sourceSelect" class="source-select" aria-label="입수처 필터">
+          <option value="all">모든 입수처</option>
+        </select>
+
+        <select id="sortSelect" class="sort-select" aria-label="정렬">
+          <option value="number">도감 순서</option>
+          <option value="ko">한글 이름순</option>
+          <option value="price-low">가격 낮은순</option>
+          <option value="price-high">가격 높은순</option>
+          <option value="unowned-first">미보유 우선</option>
+        </select>
+      </div>
+
       <div id="editGuide" class="edit-guide">
-        편집 중 · 아이템을 눌러 보유 상태를 변경하세요
+        편집 중 · 가구를 눌러 보유 여부를 변경하세요
       </div>
     </section>
 
     <div class="result-info">
-      <span id="resultCount">전체 0개</span>
-
+      <span id="resultCount">데이터 불러오는 중</span>
       <button id="resetButton" class="reset-button" type="button">
-        필터 초기화
+        검색·필터 초기화
       </button>
+    </div>
+
+    <div id="loadingState" class="loading-state visible">
+      가구 데이터와 이미지를 준비하고 있습니다.
+    </div>
+
+    <div id="errorState" class="error-state">
+      가구 DB를 불러오지 못했습니다. data/furniture.js 파일 위치를 확인하세요.
     </div>
 
     <section id="itemGrid" class="item-grid"></section>
 
     <div id="emptyState" class="empty-state">
-      조건에 맞는 아이템이 없습니다.
+      조건에 맞는 가구가 없습니다.
     </div>
   </main>
 
@@ -643,48 +743,19 @@
           id="closeDetailButton"
           class="close-button"
           type="button"
-          aria-label="닫기"
+          aria-label="상세정보 닫기"
         >
           ×
         </button>
       </div>
 
-      <div id="detailImage" class="detail-image">🪑</div>
+      <div id="detailImage" class="detail-image"></div>
 
       <h2 id="detailName" class="detail-name"></h2>
-      <p id="detailEnglishName" class="detail-en"></p>
+      <p id="detailEnglishName" class="detail-subname"></p>
+      <p id="detailJapaneseName" class="detail-japanese"></p>
 
-      <div class="detail-table">
-        <div class="detail-row">
-          <div class="detail-label">구입 가격</div>
-          <div id="detailBuyPrice" class="detail-value"></div>
-        </div>
-
-        <div class="detail-row">
-          <div class="detail-label">판매 가격</div>
-          <div id="detailSellPrice" class="detail-value"></div>
-        </div>
-
-        <div class="detail-row">
-          <div class="detail-label">입수 방법</div>
-          <div id="detailSource" class="detail-value"></div>
-        </div>
-
-        <div class="detail-row">
-          <div class="detail-label">카탈로그</div>
-          <div id="detailOrderable" class="detail-value"></div>
-        </div>
-
-        <div class="detail-row">
-          <div class="detail-label">시리즈</div>
-          <div id="detailSeries" class="detail-value"></div>
-        </div>
-
-        <div class="detail-row">
-          <div class="detail-label">크기</div>
-          <div id="detailSize" class="detail-value"></div>
-        </div>
-      </div>
+      <div id="detailTable" class="detail-table"></div>
 
       <button
         id="detailOwnedButton"
@@ -698,15 +769,15 @@
 
   <div id="toast" class="toast"></div>
 
- <script src="./data/furniture.js"></script>
+  <!-- 숫자를 올리면 브라우저 캐시를 강제로 갱신할 수 있습니다. -->
+  <script src="./data/furniture.js?v=2"></script>
 
-<script>
-    /*
-      현재 데이터는 기능 확인용 샘플입니다.
-      실제 타동숲 한국판 DB는 이후 단계에서 교체합니다.
-    */
+  <script>
+    const items = Array.isArray(window.CITY_FOLK_DB?.furniture)
+      ? window.CITY_FOLK_DB.furniture
+      : [];
 
-    const storageKey = "city-folk-owned-items-v1";
+    const storageKey = "city-folk-owned-items-v3";
 
     let ownedIds = new Set(loadOwnedIds());
     let editMode = false;
@@ -716,10 +787,14 @@
     const itemGrid = document.getElementById("itemGrid");
     const searchInput = document.getElementById("searchInput");
     const filterSelect = document.getElementById("filterSelect");
+    const sourceSelect = document.getElementById("sourceSelect");
+    const sortSelect = document.getElementById("sortSelect");
     const editButton = document.getElementById("editButton");
     const editGuide = document.getElementById("editGuide");
     const resetButton = document.getElementById("resetButton");
     const resultCount = document.getElementById("resultCount");
+    const loadingState = document.getElementById("loadingState");
+    const errorState = document.getElementById("errorState");
     const emptyState = document.getElementById("emptyState");
 
     const ownedCount = document.getElementById("ownedCount");
@@ -732,25 +807,17 @@
     const detailImage = document.getElementById("detailImage");
     const detailName = document.getElementById("detailName");
     const detailEnglishName = document.getElementById("detailEnglishName");
-    const detailBuyPrice = document.getElementById("detailBuyPrice");
-    const detailSellPrice = document.getElementById("detailSellPrice");
-    const detailSource = document.getElementById("detailSource");
-    const detailOrderable = document.getElementById("detailOrderable");
-    const detailSeries = document.getElementById("detailSeries");
-    const detailSize = document.getElementById("detailSize");
+    const detailJapaneseName = document.getElementById("detailJapaneseName");
+    const detailTable = document.getElementById("detailTable");
     const detailOwnedButton = document.getElementById("detailOwnedButton");
     const toast = document.getElementById("toast");
 
     function loadOwnedIds() {
       try {
         const saved = localStorage.getItem(storageKey);
-
-        if (!saved) {
-          return [];
-        }
+        if (!saved) return [];
 
         const parsed = JSON.parse(saved);
-
         return Array.isArray(parsed) ? parsed : [];
       } catch {
         return [];
@@ -758,55 +825,158 @@
     }
 
     function saveOwnedIds() {
-      localStorage.setItem(
-        storageKey,
-        JSON.stringify([...ownedIds])
-      );
+      localStorage.setItem(storageKey, JSON.stringify([...ownedIds]));
+    }
+
+    function safeText(value, fallback = "정보 없음") {
+      if (
+        value === null ||
+        value === undefined ||
+        value === "" ||
+        value === "-"
+      ) {
+        return fallback;
+      }
+      return String(value);
     }
 
     function formatBells(price) {
-      if (price === null || price === undefined) {
+      if (
+        price === null ||
+        price === undefined ||
+        price === "" ||
+        price === "-"
+      ) {
         return "구입 불가";
       }
 
-      return `${price.toLocaleString("ko-KR")}벨`;
+      if (typeof price === "number") {
+        return `${price.toLocaleString("ko-KR")}벨`;
+      }
+
+      return String(price);
+    }
+
+    function formatYesNo(value) {
+      if (value === true) return "가능";
+      if (value === false) return "불가능";
+      return safeText(value);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function isDlc(item) {
+      return item.dlc === true;
+    }
+
+    function populateSourceFilter() {
+      const sources = [...new Set(
+        items
+          .map((item) => safeText(item.source, ""))
+          .filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b, "en"));
+
+      sources.forEach((source) => {
+        const option = document.createElement("option");
+        option.value = source;
+        option.textContent = source;
+        sourceSelect.appendChild(option);
+      });
+    }
+
+    function matchesSearch(item, keyword) {
+      const text = [
+        item.nameKo,
+        item.nameEn,
+        item.nameEnEu,
+        item.nameJa,
+        item.collection,
+        item.source,
+        item.type
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return text.includes(keyword);
     }
 
     function getFilteredItems() {
       const keyword = searchInput.value.trim().toLowerCase();
       const filter = filterSelect.value;
+      const selectedSource = sourceSelect.value;
 
-      return items.filter((item) => {
-        const matchesKeyword =
-          item.nameKo.toLowerCase().includes(keyword) ||
-          item.nameEn.toLowerCase().includes(keyword);
-
-        if (!matchesKeyword) {
+      let result = items.filter((item) => {
+        if (keyword && !matchesSearch(item, keyword)) {
           return false;
         }
 
-        if (filter === "owned") {
-          return ownedIds.has(item.id);
+        if (selectedSource !== "all" && item.source !== selectedSource) {
+          return false;
         }
 
-        if (filter === "unowned") {
-          return !ownedIds.has(item.id);
+        if (filter === "owned" && !ownedIds.has(item.id)) {
+          return false;
         }
 
-        if (filter === "orderable") {
-          return item.orderable;
+        if (filter === "unowned" && ownedIds.has(item.id)) {
+          return false;
         }
 
-        if (filter === "not-orderable") {
-          return !item.orderable;
+        if (filter === "orderable" && item.reorderable !== true) {
+          return false;
         }
 
-        if (filter === "limited") {
-          return item.limited;
+        if (filter === "not-orderable" && item.reorderable !== false) {
+          return false;
+        }
+
+        if (filter === "dlc" && !isDlc(item)) {
+          return false;
         }
 
         return true;
       });
+
+      const sort = sortSelect.value;
+
+      result.sort((a, b) => {
+        if (sort === "ko") {
+          return safeText(a.nameKo).localeCompare(
+            safeText(b.nameKo),
+            "ko"
+          );
+        }
+
+        if (sort === "price-low") {
+          return (a.buyPrice ?? Number.MAX_SAFE_INTEGER) -
+            (b.buyPrice ?? Number.MAX_SAFE_INTEGER);
+        }
+
+        if (sort === "price-high") {
+          return (b.buyPrice ?? -1) - (a.buyPrice ?? -1);
+        }
+
+        if (sort === "unowned-first") {
+          const ownedDifference =
+            Number(ownedIds.has(a.id)) - Number(ownedIds.has(b.id));
+
+          if (ownedDifference !== 0) {
+            return ownedDifference;
+          }
+        }
+
+        return Number(a.number || 0) - Number(b.number || 0);
+      });
+
+      return result;
     }
 
     function createItemCard(item) {
@@ -815,14 +985,41 @@
 
       button.type = "button";
       button.className = `item-card${isOwned ? " owned" : ""}`;
-      button.setAttribute("aria-label", item.nameKo);
+      button.setAttribute("aria-label", safeText(item.nameKo, item.nameEn));
+
+      const imageHtml = item.image
+        ? `
+          <img
+            class="item-photo"
+            src="${escapeHtml(item.image)}"
+            alt="${escapeHtml(safeText(item.nameKo, item.nameEn))}"
+            loading="lazy"
+          />
+          <span class="item-fallback">📦</span>
+        `
+        : `<span class="item-fallback visible">📦</span>`;
 
       button.innerHTML = `
-        ${item.limited ? '<span class="limited-badge">한정</span>' : ""}
+        ${isDlc(item) ? '<span class="badge">DLC</span>' : ""}
         <span class="check-mark">✓</span>
-        <div class="item-image">${item.icon}</div>
-        <div class="item-name">${item.nameKo}</div>
+
+        <div class="item-image">
+          ${imageHtml}
+        </div>
+
+        <div class="item-name">
+          ${escapeHtml(safeText(item.nameKo, item.nameEn))}
+        </div>
       `;
+
+      const image = button.querySelector(".item-photo");
+      if (image) {
+        image.addEventListener("error", () => {
+          image.style.display = "none";
+          const fallback = button.querySelector(".item-fallback");
+          if (fallback) fallback.classList.add("visible");
+        });
+      }
 
       button.addEventListener("click", () => {
         if (editMode) {
@@ -837,16 +1034,32 @@
     }
 
     function renderItems() {
-      const filteredItems = getFilteredItems();
+      loadingState.classList.remove("visible");
 
+      if (items.length === 0) {
+        errorState.classList.add("visible");
+        itemGrid.innerHTML = "";
+        resultCount.textContent = "DB 연결 실패";
+        updateProgress();
+        return;
+      }
+
+      errorState.classList.remove("visible");
+
+      const filteredItems = getFilteredItems();
       itemGrid.innerHTML = "";
 
+      const fragment = document.createDocumentFragment();
+
       filteredItems.forEach((item) => {
-        itemGrid.appendChild(createItemCard(item));
+        fragment.appendChild(createItemCard(item));
       });
 
+      itemGrid.appendChild(fragment);
+
       resultCount.textContent =
-        `전체 ${items.length}개 중 ${filteredItems.length}개 표시`;
+        `전체 ${items.length.toLocaleString("ko-KR")}개 중 ` +
+        `${filteredItems.length.toLocaleString("ko-KR")}개 표시`;
 
       emptyState.classList.toggle(
         "visible",
@@ -857,17 +1070,18 @@
     }
 
     function updateProgress() {
-      const collected = items.filter((item) =>
-        ownedIds.has(item.id)
-      ).length;
+      const collected = items.reduce(
+        (count, item) => count + Number(ownedIds.has(item.id)),
+        0
+      );
 
       const percent =
         items.length === 0
           ? 0
-          : Math.round((collected / items.length) * 100);
+          : Math.round((collected / items.length) * 1000) / 10;
 
-      ownedCount.textContent = collected;
-      totalCount.textContent = items.length;
+      ownedCount.textContent = collected.toLocaleString("ko-KR");
+      totalCount.textContent = items.length.toLocaleString("ko-KR");
       progressPercent.textContent = `${percent}%`;
       progressBar.style.width = `${percent}%`;
     }
@@ -890,36 +1104,86 @@
 
       showToast(
         willOwn
-          ? `${item.nameKo} 보유 체크`
-          : `${item.nameKo} 체크 해제`
+          ? `${safeText(item.nameKo, item.nameEn)} 보유 체크`
+          : `${safeText(item.nameKo, item.nameEn)} 체크 해제`
       );
     }
 
     function setEditMode(enabled) {
       editMode = enabled;
-
       editButton.classList.toggle("active", editMode);
       editGuide.classList.toggle("visible", editMode);
+      editButton.textContent = editMode ? "✓ 편집 중" : "편집";
+    }
 
-      editButton.textContent = editMode
-        ? "✓ 편집 중"
-        : "편집";
+    function createDetailRow(label, value) {
+      return `
+        <div class="detail-row">
+          <div class="detail-label">${escapeHtml(label)}</div>
+          <div class="detail-value">${escapeHtml(safeText(value))}</div>
+        </div>
+      `;
     }
 
     function openDetail(item) {
       selectedItem = item;
 
-      detailImage.textContent = item.icon;
-      detailName.textContent = item.nameKo;
-      detailEnglishName.textContent = item.nameEn;
-      detailBuyPrice.textContent = formatBells(item.buyPrice);
-      detailSellPrice.textContent = formatBells(item.sellPrice);
-      detailSource.textContent = item.source;
-      detailOrderable.textContent = item.orderable
-        ? "주문 가능"
-        : "주문 불가";
-      detailSeries.textContent = item.series;
-      detailSize.textContent = item.size;
+      detailImage.innerHTML = item.image
+        ? `
+          <img
+            id="detailPhoto"
+            src="${escapeHtml(item.image)}"
+            alt="${escapeHtml(safeText(item.nameKo, item.nameEn))}"
+          />
+          <span class="detail-fallback">📦</span>
+        `
+        : `<span class="detail-fallback visible">📦</span>`;
+
+      const detailPhoto = document.getElementById("detailPhoto");
+      if (detailPhoto) {
+        detailPhoto.addEventListener("error", () => {
+          detailPhoto.style.display = "none";
+          const fallback = detailImage.querySelector(".detail-fallback");
+          if (fallback) fallback.classList.add("visible");
+        });
+      }
+
+      detailName.textContent = safeText(item.nameKo, item.nameEn);
+      detailEnglishName.textContent = safeText(item.nameEn, "");
+      detailJapaneseName.textContent = safeText(item.nameJa, "");
+
+      const details = [
+        ["도감 번호", item.number],
+        ["구입 가격", formatBells(item.buyPrice)],
+        ["포인트 가격", item.buyPricePoints == null
+          ? "해당 없음"
+          : `${Number(item.buyPricePoints).toLocaleString("ko-KR")}포인트`
+        ],
+        ["판매 가격", formatBells(item.sellPrice)],
+        ["입수 방법", item.source],
+        ["입수 분류", item.sourceGroup],
+        ["카탈로그 주문", formatYesNo(item.reorderable)],
+        ["크기", item.size],
+        ["종류", item.type],
+        ["상호작용", item.interactivity],
+        ["색상 1", item.color1],
+        ["색상 2", item.color2],
+        ["분위기 1", item.genre1],
+        ["분위기 2", item.genre2],
+        ["HRA 기본 점수", item.hraBasePoints == null
+          ? "정보 없음"
+          : `${Number(item.hraBasePoints).toLocaleString("ko-KR")}점`
+        ],
+        ["가구 컬렉션", item.collection],
+        ["컬렉션 종류", item.collectionType],
+        ["DLC", item.dlc === true ? "예" : "아니요"],
+        ["한국 배포 기간", item.dlcDates?.kor],
+        ["비고", item.notes || item.sourceNotes]
+      ];
+
+      detailTable.innerHTML = details
+        .map(([label, value]) => createDetailRow(label, value))
+        .join("");
 
       updateDetailOwnedButton();
 
@@ -936,12 +1200,9 @@
     }
 
     function updateDetailOwnedButton() {
-      if (!selectedItem) {
-        return;
-      }
+      if (!selectedItem) return;
 
       const isOwned = ownedIds.has(selectedItem.id);
-
       detailOwnedButton.classList.toggle("active", isOwned);
       detailOwnedButton.textContent = isOwned
         ? "✓ 보유 중"
@@ -956,22 +1217,27 @@
 
       toastTimer = setTimeout(() => {
         toast.classList.remove("visible");
-      }, 1300);
+      }, 1200);
+    }
+
+    function resetFilters() {
+      searchInput.value = "";
+      filterSelect.value = "all";
+      sourceSelect.value = "all";
+      sortSelect.value = "number";
+      renderItems();
     }
 
     searchInput.addEventListener("input", renderItems);
     filterSelect.addEventListener("change", renderItems);
+    sourceSelect.addEventListener("change", renderItems);
+    sortSelect.addEventListener("change", renderItems);
 
     editButton.addEventListener("click", () => {
       setEditMode(!editMode);
     });
 
-    resetButton.addEventListener("click", () => {
-      searchInput.value = "";
-      filterSelect.value = "all";
-      renderItems();
-    });
-
+    resetButton.addEventListener("click", resetFilters);
     closeDetailButton.addEventListener("click", closeDetail);
 
     detailOverlay.addEventListener("click", (event) => {
@@ -992,6 +1258,7 @@
       }
     });
 
+    populateSourceFilter();
     renderItems();
   </script>
 </body>
